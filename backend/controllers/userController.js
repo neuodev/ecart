@@ -1,6 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const User = require('../models/User');
-const ErrorResponse = require('../utils/errorResponse');
+const ErrorResponse = require('../utils/ErrorResponse');
 const sendEmail = require('../utils/sendEmail');
 // @desc    Auth user & get token
 // @route   POST /api/users/login

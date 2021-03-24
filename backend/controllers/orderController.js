@@ -1,6 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const Order = require('../models/Order');
-const ErrorResponse = require('../utils/errorResponse');
+const ErrorResponse = require('../utils/ErrorResponse');
 
 // @desc    Create new order
 // @route   POST /api/orders
