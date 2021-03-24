@@ -1,0 +1,395 @@
+[{
+  "_id": {
+    "$oid": "604ee590e625e09550ef993a"
+  },
+  "images": [
+    "/images/product1.jpg"
+  ],
+  "brand": "Cambridge Soundworks Store",
+  "category": [
+    "audio & video"
+  ],
+  "rating": 5,
+  "numReviews": 0,
+  "discount": 10,
+  "price": 34.99,
+  "countInStock": 200,
+  "name": "Cambridge Soundworks OontZ Angle 3",
+  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi...",
+  "user": {
+    "$oid": "602e9c64a1928204646ee681"
+  },
+  "reviews": [],
+  "createdAt": {
+    "$date": "2021-03-15T04:41:52.696Z"
+  },
+  "updatedAt": {
+    "$date": "2021-03-15T04:41:52.696Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "604ee655e625e09550ef993b"
+  },
+  "images": [
+    "/images/product2.jpg"
+  ],
+  "brand": "Canon",
+  "category": [
+    "Electronics"
+  ],
+  "rating": 2,
+  "numReviews": 0,
+  "discount": 5,
+  "price": 999,
+  "countInStock": 200,
+  "name": "Evolution Digital Camera",
+  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi...",
+  "user": {
+    "$oid": "602e9c64a1928204646ee681"
+  },
+  "reviews": [],
+  "createdAt": {
+    "$date": "2021-03-15T04:45:09.381Z"
+  },
+  "updatedAt": {
+    "$date": "2021-03-15T04:45:09.381Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "604ee6b3e625e09550ef993c"
+  },
+  "images": [
+    "/images/product3.jpg"
+  ],
+  "brand": "Samsung",
+  "category": [
+    "Electronics",
+    "headphones"
+  ],
+  "rating": 5,
+  "numReviews": 1,
+  "discount": 20,
+  "price": 50,
+  "countInStock": 200,
+  "name": "Evolution Headphone ",
+  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi...",
+  "user": {
+    "$oid": "602e9c64a1928204646ee681"
+  },
+  "reviews": [
+    {
+      "_id": {
+        "$oid": "6057234e52da4f25a4042381"
+      },
+      "name": "undefined undefined",
+      "rating": 5,
+      "comment": "Great",
+      "user": {
+        "$oid": "602e9c64a1928204646ee681"
+      },
+      "createdAt": {
+        "$date": "2021-03-21T10:43:26.158Z"
+      },
+      "updatedAt": {
+        "$date": "2021-03-21T10:43:26.158Z"
+      }
+    }
+  ],
+  "createdAt": {
+    "$date": "2021-03-15T04:46:43.953Z"
+  },
+  "updatedAt": {
+    "$date": "2021-03-21T10:43:26.158Z"
+  },
+  "__v": 1
+},{
+  "_id": {
+    "$oid": "604ee6cee625e09550ef993d"
+  },
+  "images": [
+    "/images/product4.jpg"
+  ],
+  "brand": "Samsung",
+  "category": [
+    "Electronics",
+    "headphones"
+  ],
+  "rating": 0,
+  "numReviews": 0,
+  "discount": 25,
+  "price": 70,
+  "countInStock": 200,
+  "name": "Evolution Headphone ",
+  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi...",
+  "user": {
+    "$oid": "602e9c64a1928204646ee681"
+  },
+  "reviews": [],
+  "createdAt": {
+    "$date": "2021-03-15T04:47:10.389Z"
+  },
+  "updatedAt": {
+    "$date": "2021-03-15T04:47:10.389Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "604ee74de625e09550ef993e"
+  },
+  "images": [
+    "/images/product5.jpg"
+  ],
+  "brand": "Apple",
+  "category": [
+    "Electronics",
+    "headphones"
+  ],
+  "rating": 0,
+  "numReviews": 0,
+  "discount": 0,
+  "price": 100,
+  "countInStock": 0,
+  "name": "Apple AirPods Pro",
+  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi...",
+  "user": {
+    "$oid": "602e9c64a1928204646ee681"
+  },
+  "reviews": [],
+  "createdAt": {
+    "$date": "2021-03-15T04:49:17.735Z"
+  },
+  "updatedAt": {
+    "$date": "2021-03-15T04:49:17.735Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "604ee76ee625e09550ef993f"
+  },
+  "images": [
+    "/images/product6.jpg"
+  ],
+  "brand": "Apple",
+  "category": [
+    "Electronics",
+    "headphones"
+  ],
+  "rating": 0,
+  "numReviews": 0,
+  "discount": 0,
+  "price": 100,
+  "countInStock": 0,
+  "name": "Evolution headphone",
+  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi...",
+  "user": {
+    "$oid": "602e9c64a1928204646ee681"
+  },
+  "reviews": [],
+  "createdAt": {
+    "$date": "2021-03-15T04:49:50.351Z"
+  },
+  "updatedAt": {
+    "$date": "2021-03-15T04:49:50.351Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "604ee7b1e625e09550ef9940"
+  },
+  "images": [
+    "/images/product6.jpg"
+  ],
+  "brand": "Apple",
+  "category": [
+    "Electronics",
+    "phones"
+  ],
+  "rating": 0,
+  "numReviews": 0,
+  "discount": 0,
+  "price": 237,
+  "countInStock": 0,
+  "name": "samsung galaxy s10",
+  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi...",
+  "user": {
+    "$oid": "602e9c64a1928204646ee681"
+  },
+  "reviews": [],
+  "createdAt": {
+    "$date": "2021-03-15T04:50:57.820Z"
+  },
+  "updatedAt": {
+    "$date": "2021-03-15T04:50:57.820Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "604ee821e625e09550ef9942"
+  },
+  "images": [
+    "/images/product7.jpg"
+  ],
+  "brand": "TUINYO",
+  "category": [
+    "Electronics",
+    "headphones"
+  ],
+  "rating": 0,
+  "numReviews": 0,
+  "discount": 5,
+  "price": 25.99,
+  "countInStock": 100,
+  "name": "Bluetooth Headphones",
+  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi...",
+  "user": {
+    "$oid": "602e9c64a1928204646ee681"
+  },
+  "reviews": [],
+  "createdAt": {
+    "$date": "2021-03-15T04:52:49.669Z"
+  },
+  "updatedAt": {
+    "$date": "2021-03-15T04:52:49.669Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "604ee8a5e625e09550ef9943"
+  },
+  "images": [
+    "/images/product9.jpg"
+  ],
+  "brand": "TUINYO",
+  "category": [
+    "Electronics",
+    "audio & video"
+  ],
+  "rating": 0,
+  "numReviews": 0,
+  "discount": 5,
+  "price": 25.99,
+  "countInStock": 100,
+  "name": "Evolution Sound Bar",
+  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi...",
+  "user": {
+    "$oid": "602e9c64a1928204646ee681"
+  },
+  "reviews": [],
+  "createdAt": {
+    "$date": "2021-03-15T04:55:01.617Z"
+  },
+  "updatedAt": {
+    "$date": "2021-03-15T04:55:01.617Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "604ee8cae625e09550ef9944"
+  },
+  "images": [
+    "/images/product8.jpg"
+  ],
+  "brand": "TUINYO",
+  "category": [
+    "Electronics",
+    "audio & video"
+  ],
+  "rating": 0,
+  "numReviews": 0,
+  "discount": 50,
+  "price": 59.99,
+  "countInStock": 100,
+  "name": "Evolution Headphone",
+  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi...",
+  "user": {
+    "$oid": "602e9c64a1928204646ee681"
+  },
+  "reviews": [],
+  "createdAt": {
+    "$date": "2021-03-15T04:55:38.841Z"
+  },
+  "updatedAt": {
+    "$date": "2021-03-15T04:55:38.841Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "604ee959e625e09550ef9945"
+  },
+  "images": [
+    "/images/product11.jpg"
+  ],
+  "brand": "Willful",
+  "category": [
+    "Electronics",
+    "watches"
+  ],
+  "rating": 0,
+  "numReviews": 0,
+  "discount": 50,
+  "price": 59.99,
+  "countInStock": 100,
+  "name": "Willfull Smart Watch",
+  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi...",
+  "user": {
+    "$oid": "602e9c64a1928204646ee681"
+  },
+  "reviews": [],
+  "createdAt": {
+    "$date": "2021-03-15T04:58:01.005Z"
+  },
+  "updatedAt": {
+    "$date": "2021-03-15T04:58:01.005Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "604ee986e625e09550ef9946"
+  },
+  "images": [
+    "/images/product12.jpg"
+  ],
+  "brand": "Samsung",
+  "category": [
+    "Electronics",
+    "headphones"
+  ],
+  "rating": 5,
+  "numReviews": 1,
+  "discount": 50,
+  "price": 200.99,
+  "countInStock": 100,
+  "name": "Evolution Headphone",
+  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi...",
+  "user": {
+    "$oid": "602e9c64a1928204646ee681"
+  },
+  "reviews": [
+    {
+      "_id": {
+        "$oid": "6056f00f5ac2894ba061179c"
+      },
+      "name": "Ahmed Ibrahim",
+      "rating": 5,
+      "comment": "hello world\n",
+      "user": {
+        "$oid": "6056e9b662f17429acee55de"
+      },
+      "createdAt": {
+        "$date": "2021-03-21T07:04:48.007Z"
+      },
+      "updatedAt": {
+        "$date": "2021-03-21T07:04:48.007Z"
+      }
+    }
+  ],
+  "createdAt": {
+    "$date": "2021-03-15T04:58:46.801Z"
+  },
+  "updatedAt": {
+    "$date": "2021-03-21T08:27:19.850Z"
+  },
+  "__v": 13
+}]
