@@ -7,13 +7,13 @@
 
 
 
-![alt text](https://walletecommerce.herokuapp.com/images/e-commerce-1.png)
+![Home Page](/client/public/images/e-commerce-1.png)
 
 
 
-![alt text](https://walletecommerce.herokuapp.com/images/e-commerce-2.png)
+![alt text](/client/public/images/e-commerce-2.png)
 
 
-![alt text](https://walletecommerce.herokuapp.com/images/e-commerce-3.png)
+![alt text](/client/public/images/e-commerce-3.png)
 
 
