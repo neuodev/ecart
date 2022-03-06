@@ -14,6 +14,6 @@
 ![alt text](/client/public/images/e-commerce-2.png)
 
 
-![alt text](/client/public/images/e-commerce-3.png)
+<!-- ![alt text](/client/public/images/e-commerce-3.png) -->
 
 
