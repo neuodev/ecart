@@ -7,7 +7,7 @@
 
 
 
-![alt text](https://walletecommerce.herokuapp.com/images/e-commerce-1.png)
+![alt text](./client/build/images/e-commerce-1.png)
 
 
 
