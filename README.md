@@ -7,7 +7,7 @@
 
 
 
-![alt text](/client/build/images/e-commerce-1.png)
+![alt text](/client/public/images/e-commerce-1.png)
 
 
 
