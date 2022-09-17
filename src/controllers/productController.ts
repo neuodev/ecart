@@ -1,10 +1,10 @@
-const asyncHandler = require('express-async-handler');
-const Product = require('../models/Product');
-const ErrorResponse = require('../utils/ErrorResponse');
+import asyncHandler from "express-async-handler";
+import Product from "../models/Product";
+import ErrorResponse from "../utils/ErrorResponse";
 
-// @desc    Fetch all products
-// @route   GET /api/products
-// @access  Public
+// @Desc    Fetch all products
+// @Route   GET /api/products
+// @Access  Public
 const getProducts = asyncHandler(async (req, res, next) => {
   const count = await Product.count();
   // search by price and category
@@ -12,33 +12,36 @@ const getProducts = asyncHandler(async (req, res, next) => {
   let query;
   let reqQuery = { ...req.query };
 
-  const removeFields = ['select', 'sort', 'limit', 'page', 'q'];
+  const removeFields = ["select", "sort", "limit", "page", "q"];
 
   // filter product by reqEx
   if (req.query.q) {
     reqQuery.name = {
       $regex: req.query.q,
-      $options: 'i',
+      $options: "i",
     };
   }
-  removeFields.forEach(param => delete reqQuery[param]);
+  removeFields.forEach((param) => delete reqQuery[param]);
   let queryStr = JSON.stringify(reqQuery);
 
   // Replace Invalid Oparator
-  queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, match => `$${match}`);
+  queryStr = queryStr.replace(
+    /\b(gt|gte|lt|lte|in)\b/g,
+    (match) => `$${match}`
+  );
   query = Product.find(JSON.parse(queryStr));
   // Select Fields
   if (req.query.select) {
-    const fields = req.query.select.split(',').join(' ');
+    const fields = req.query.select.split(",").join(" ");
     query = query.select(fields);
   }
 
   // Sort
   if (req.query.sort) {
     const { sort } = req.query;
-    query = query.sort(sort.split(',').join(' '));
+    query = query.sort(sort.split(",").join(" "));
   } else {
-    query = query.sort('-createdAt');
+    query = query.sort("-createdAt");
   }
 
   // Pagination
@@ -56,14 +59,14 @@ const getProducts = asyncHandler(async (req, res, next) => {
   });
 });
 
-// @desc    Fetch single product
-// @route   GET /api/products/:id
-// @access  Public
+// @Desc    Fetch single product
+// @Route   GET /api/products/:id
+// @Access  Public
 const getProductById = asyncHandler(async (req, res, next) => {
   const id = req.params.id;
   const product = await Product.findById(id).populate({
-    path: 'reviews.user',
-    select: 'email',
+    path: "reviews.user",
+    select: "email",
   });
   if (!product) {
     return next(new ErrorResponse(`Product with Id ${id} Not Found`, 404));
@@ -71,9 +74,9 @@ const getProductById = asyncHandler(async (req, res, next) => {
 
   res.status(200).json(product);
 });
-// @desc    Delete a product
-// @route   DELETE /api/products/:id
-// @access  Private/Admin
+// @Desc    Delete a product
+// @Route   DELETE /api/products/:id
+// @Access  Private/Admin
 const deleteProduct = asyncHandler(async (req, res, next) => {
   const id = req.params.id;
   const product = await Product.findById(id);
@@ -83,12 +86,12 @@ const deleteProduct = asyncHandler(async (req, res, next) => {
   }
 
   await product.remove();
-  res.status(200).json({ messages: 'Product Removed' });
+  res.status(200).json({ messages: "Product Removed" });
 });
 
-// @desc    Create a product
-// @route   POST /api/products
-// @access  Private/Admin
+// @Desc    Create a product
+// @Route   POST /api/products
+// @Access  Private/Admin
 const createProduct = asyncHandler(async (req, res, next) => {
   const user = req.user._id;
   const product = await Product.create({ ...req.body, user });
@@ -96,20 +99,13 @@ const createProduct = asyncHandler(async (req, res, next) => {
   res.status(201).json(product);
 });
 
-// @desc    Update a product
-// @route   PUT /api/products/:id
-// @access  Private/Admin
+// @Desc    Update a product
+// @Route   PUT /api/products/:id
+// @Access  Private/Admin
 const updateProduct = asyncHandler(async (req, res, next) => {
   const id = req.params.id;
-  const {
-    name,
-    price,
-    description,
-    images,
-    brand,
-    category,
-    countInStock,
-  } = req.body;
+  const { name, price, description, images, brand, category, countInStock } =
+    req.body;
 
   const product = await Product.findById(id);
 
@@ -124,7 +120,7 @@ const updateProduct = asyncHandler(async (req, res, next) => {
   product.category = category || product.category;
   product.countInStock = countInStock || product.countInStock;
 
-  if (typeof images === 'string') {
+  if (typeof images === "string") {
     product.images = product.images.push(images);
   }
 
@@ -133,28 +129,28 @@ const updateProduct = asyncHandler(async (req, res, next) => {
   res.status(200).json(product);
 });
 
-// @desc    Create new review
-// @route   POST /api/products/:id/reviews
-// @access  Private
+// @Desc    Create new review
+// @Route   POST /api/products/:id/reviews
+// @Access  Private
 const createProductReview = asyncHandler(async (req, res, next) => {
   const { rating, comment } = req.body;
   if (!rating || !comment) {
-    return next(new ErrorResponse('Rating and comment are required', 400));
+    return next(new ErrorResponse("Rating and comment are required", 400));
   }
 
-  const name = req.user.firstName + ' ' + req.user.lastName;
+  const name = req.user.firstName + " " + req.user.lastName;
   const user = req.user._id;
   const product = await Product.findById(req.params.id);
 
   if (!product) {
-    return next(new ErrorResponse('Product Not Found', 404));
+    return next(new ErrorResponse("Product Not Found", 404));
   }
 
   const alreadyReviewed = product.reviews.find(
-    r => r.user.toString() === req.user._id.toString()
+    (r) => r.user.toString() === req.user._id.toString()
   );
   if (alreadyReviewed) {
-    return next(new ErrorResponse('Product already reviewed', 400));
+    return next(new ErrorResponse("Product already reviewed", 400));
   }
 
   const review = {
@@ -173,16 +169,17 @@ const createProductReview = asyncHandler(async (req, res, next) => {
     product.reviews.length;
 
   await product.save();
-  res.status(201).json({ message: 'Review added' });
+  res.status(201).json({ message: "Review added" });
 });
-// @desc    Update  review
-// @route   PUT /api/products/:id/reviews
-// @access  Private
+
+// @Desc    Update  review
+// @Route   PUT /api/products/:id/reviews
+// @Access  Private
 const updateProductReview = asyncHandler(async (req, res, next) => {
   let { rating, comment } = req.body;
   if (!rating && !comment) {
     return next(
-      new ErrorResponse('Rating or comment are required for update ', 400)
+      new ErrorResponse("Rating or comment are required for update ", 400)
     );
   }
   const productId = req.params.id;
@@ -190,42 +187,42 @@ const updateProductReview = asyncHandler(async (req, res, next) => {
   const product = await Product.findById(productId);
 
   if (!product) {
-    return next(new ErrorResponse('Product Not Found', 404));
+    return next(new ErrorResponse("Product Not Found", 404));
   }
   let review = product.reviews.find(
-    review => review.user.toString() === user.toString()
+    (review) => review.user.toString() === user.toString()
   );
   if (!review) {
-    return next(new ErrorResponse('Review not found', 400));
+    return next(new ErrorResponse("Review not found", 400));
   }
 
   review.rating = rating || review.rating;
   review.comment = comment || review.comment;
 
   await product.save();
-  res.status(201).json({ message: 'Review Updated' });
+  res.status(201).json({ message: "Review Updated" });
 });
 
-// @desc    delete  review
-// @route   DELETE /api/products/:id/reviews
-// @access  Private
+// @Desc    delete  review
+// @Route   DELETE /api/products/:id/reviews
+// @Access  Private
 const deleteProductReview = asyncHandler(async (req, res, next) => {
   const productId = req.params.id;
   const user = req.user._id;
   const product = await Product.findById(productId);
 
   if (!product) {
-    return next(new ErrorResponse('Product Not Found', 404));
+    return next(new ErrorResponse("Product Not Found", 404));
   }
   let review = product.reviews.find(
-    review => review.user.toString() === user.toString()
+    (review) => review.user.toString() === user.toString()
   );
   if (!review) {
-    return next(new ErrorResponse('Review not found', 400));
+    return next(new ErrorResponse("Review not found", 400));
   }
 
   product.reviews = product.reviews.filter(
-    review => review.user.toString() !== user.toString()
+    (review) => review.user.toString() !== user.toString()
   );
   product.numReviews = product.reviews.length;
 
@@ -238,28 +235,29 @@ const deleteProductReview = asyncHandler(async (req, res, next) => {
   }
 
   await product.save();
-  res.status(201).json({ message: 'Review Deleted' });
+  res.status(201).json({ message: "Review Deleted" });
 });
-// @desc    Create new review
-// @route   POST /api/products/:id/reviews/:reviewId
-// @access  Private
+
+// @Desc    Create new review
+// @Route   POST /api/products/:id/reviews/:reviewId
+// @Access  Private
 const deleteProductReviewAdmin = asyncHandler(async (req, res, next) => {
   const reviewId = req.params.reviewId;
   const product = await Product.findById(req.params.id);
   if (!product) {
-    return next(new ErrorResponse('Product Not Found', 404));
+    return next(new ErrorResponse("Product Not Found", 404));
   }
 
   const review = product.reviews.find(
-    r => r._id.toString() === reviewId.toString()
+    (r) => r._id.toString() === reviewId.toString()
   );
 
   if (!review) {
-    return next(new ErrorResponse('Review Not Found', 400));
+    return next(new ErrorResponse("Review Not Found", 400));
   }
 
   product.reviews = product.reviews.filter(
-    review => review._id.toString() !== reviewId.toString()
+    (review) => review._id.toString() !== reviewId.toString()
   );
 
   product.numReviews = product.reviews.length;
@@ -273,27 +271,28 @@ const deleteProductReviewAdmin = asyncHandler(async (req, res, next) => {
   }
 
   await product.save();
-  res.status(201).json({ message: 'Review Removed' });
+  res.status(201).json({ message: "Review Removed" });
 });
 
-// @desc    Get top rated products
-// @route   GET /api/products/top
-// @access  Public
+// @Desc    Get top rated products
+// @Route   GET /api/products/top
+// @Access  Public
 const getTopProducts = asyncHandler(async (req, res, next) => {
   const products = await Product.find({}).sort({ rating: -1 }).limit(4);
 
   res.json(products);
 });
-// @desc    Get top rated products
-// @route   GET /api/products/top
-// @access  Public
+
+// @Desc    Get top rated products
+// @Route   GET /api/products/top
+// @Access  Public
 const getNewProducts = asyncHandler(async (req, res, next) => {
   const products = await Product.find({}).sort({ createdAt: -1 }).limit(4);
 
   res.json(products);
 });
 
-module.exports = {
+export {
   getProducts,
   getProductById,
   deleteProduct,

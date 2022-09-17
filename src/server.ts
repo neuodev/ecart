@@ -1,18 +1,19 @@
-const path = require("path");
-const express = require("express");
-const colors = require("colors");
-const dotenv = require("dotenv");
-const morgan = require("morgan");
-const connectDB = require("./config/db");
-const errorHandler = require("./middleware/error");
-const productRouter = require("./routes/product");
-const userRouter = require("./routes/user");
-const orderRouter = require("./routes/order");
-const mongoSanitize = require("express-mongo-sanitize");
-const helmet = require("helmet");
-const cors = require("cors");
-// const xss = require('xss');
-const hpp = require("hpp");
+import path from "path";
+import express from "express";
+import dotenv from "dotenv";
+import "colors";
+import morgan from "morgan";
+import connectDB from "./config/db";
+import errorHandler from "./middleware/error";
+import productRouter from "./routes/product";
+import userRouter from "./routes/user";
+import orderRouter from "./routes/order";
+import mongoSanitize from "express-mongo-sanitize";
+import helmet from "helmet";
+import cors from "cors";
+import xss from "xss";
+import hpp from "hpp";
+
 // Load env vars
 dotenv.config({ path: "./config/config.env" });
 connectDB();

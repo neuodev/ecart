@@ -1,17 +1,17 @@
-const mongoose = require('mongoose');
+import { Schema } from "mongoose";
 
-const reviewSchema = mongoose.Schema(
+const reviewSchema = new Schema(
   {
     name: { type: String, required: true },
-    rating: { type: Number, required: [true, 'Rating is required '] },
+    rating: { type: Number, required: [true, "Rating is required "] },
     comment: {
       type: String,
-      required: [true, 'Comment is requied to add a review'],
+      required: [true, "Comment is requied to add a review"],
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      ref: 'User',
+      ref: "User",
     },
   },
   {
@@ -19,12 +19,12 @@ const reviewSchema = mongoose.Schema(
   }
 );
 
-const productSchema = mongoose.Schema(
+const productSchema = new Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
       required: [true, `User is required`],
-      ref: 'User',
+      ref: "User",
     },
     name: {
       type: String,
@@ -39,13 +39,13 @@ const productSchema = mongoose.Schema(
     brand: {
       type: String,
       required: [true, `brand is required`],
-      default: 'NO-BRAND',
+      default: "NO-BRAND",
     },
     category: [
       {
         type: String,
         required: true,
-        default: 'NO CATEGORY',
+        default: "NO CATEGORY",
       },
     ],
     description: {
@@ -87,6 +87,5 @@ const productSchema = mongoose.Schema(
   }
 );
 
-const Product = mongoose.model('Product', productSchema);
-
-module.exports = Product;
+const Product = mongoose.model("Product", productSchema);
+export default Product;

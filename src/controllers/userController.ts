@@ -1,19 +1,20 @@
-const asyncHandler = require('express-async-handler');
-const User = require('../models/User');
-const ErrorResponse = require('../utils/ErrorResponse');
-const sendEmail = require('../utils/sendEmail');
-// @desc    Auth user & get token
-// @route   POST /api/users/login
-// @access  Public
+import asyncHandler from "express-async-handler";
+import User from "../models/User";
+import ErrorResponse from "../utils/ErrorResponse";
+import sendEmail from "../utils/sendEmail";
+
+// @Desc    Auth user & get token
+// @Route   POST /api/users/login
+// @Access  Public
 const authUser = asyncHandler(async (req, res, next) => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email });
 
   if (!password) {
-    return next(new ErrorResponse('Password is required', 400));
+    return next(new ErrorResponse("Password is required", 400));
   }
-  
+
   if (user && (await user.matchPassword(password))) {
     const token = user.getSignedJwtToken();
     res.status(200).json({
@@ -24,20 +25,20 @@ const authUser = asyncHandler(async (req, res, next) => {
       token,
     });
   } else {
-    next(new ErrorResponse('Invalid email or password', 401));
+    next(new ErrorResponse("Invalid email or password", 401));
   }
 });
 
-// @desc    Register a new user
-// @route   POST /api/users
-// @access  Public
+// @Desc    Register a new user
+// @Route   POST /api/users
+// @Access  Public
 const registerUser = asyncHandler(async (req, res, next) => {
   const { firstName, lastName, email, password } = req.body;
 
   const userExists = await User.findOne({ email });
 
   if (userExists) {
-    return next(new ErrorResponse('User already exist', 401));
+    return next(new ErrorResponse("User already exist", 401));
   }
 
   const user = await User.create({
@@ -59,9 +60,9 @@ const registerUser = asyncHandler(async (req, res, next) => {
     next(new ErrorResponse(`Invalid User Data`, 400));
   }
 });
-// @desc    Get user account
-// @route   GET /api/users/account
-// @access  Private
+// @Desc    Get user account
+// @Route   GET /api/users/account
+// @Access  Private
 const getUserAccount = asyncHandler(async (req, res, next) => {
   const id = req.user._id;
   const user = await User.findById(id);
@@ -74,22 +75,22 @@ const getUserAccount = asyncHandler(async (req, res, next) => {
       isAdmin: user.isAdmin,
     });
   } else {
-    next(new ErrorResponse('User Not Found'));
+    next(new ErrorResponse("User Not Found"));
   }
 });
 
-// @desc    Get all users
-// @route   GET /api/users
-// @access  Private/Admin
+// @Desc    Get all users
+// @Route   GET /api/users
+// @Access  Private/Admin
 const getUsers = asyncHandler(async (req, res, next) => {
   const count = await User.countDocuments();
   const users = await User.find({});
   res.json({ users, count });
 });
 
-// @desc    Delete user
-// @route   DELETE /api/users/:id
-// @access  Private/Admin
+// @Desc    Delete user
+// @Route   DELETE /api/users/:id
+// @Access  Private/Admin
 const deleteUser = asyncHandler(async (req, res, next) => {
   const id = req.params.id;
   const user = await User.findById(id);
@@ -98,12 +99,12 @@ const deleteUser = asyncHandler(async (req, res, next) => {
   }
 
   await user.remove();
-  res.json({ message: 'User removed' });
+  res.json({ message: "User removed" });
 });
 
-// @desc    Delete Account form user it self
-// @route   DELETE /api/users/account
-// @access  Private User
+// @Desc    Delete Account form user it self
+// @Route   DELETE /api/users/account
+// @Access  Private User
 const deleteUserAccount = asyncHandler(async (req, res, next) => {
   const id = req.user._id;
   const user = await User.findById(id);
@@ -112,15 +113,15 @@ const deleteUserAccount = asyncHandler(async (req, res, next) => {
   }
 
   await user.remove();
-  res.json({ message: 'User removed' });
+  res.json({ message: "User removed" });
 });
 
-// @desc    Get user by ID
-// @route   GET /api/users/:id
-// @access  Private/Admin
+// @Desc    Get user by ID
+// @Route   GET /api/users/:id
+// @Access  Private/Admin
 const getUserById = asyncHandler(async (req, res, next) => {
   const id = req.params.id;
-  const user = await User.findById(id).select('-password');
+  const user = await User.findById(id).select("-password");
 
   if (user) {
     res.json(user);
@@ -129,9 +130,9 @@ const getUserById = asyncHandler(async (req, res, next) => {
   }
 });
 
-// @desc    Update user account
-// @route   PUT /api/users/account
-// @access  Private
+// @Desc    Update user account
+// @Route   PUT /api/users/account
+// @Access  Private
 const updateUserAccount = asyncHandler(async (req, res, next) => {
   const id = req.user._id;
   const { name, email, password } = req.body;
@@ -140,7 +141,7 @@ const updateUserAccount = asyncHandler(async (req, res, next) => {
   if (user) {
     user.name = name || user.name;
     user.email = email || user.email;
-    if (typeof password === 'string') {
+    if (typeof password === "string") {
       user.password = req.body.password;
     }
 
@@ -154,7 +155,7 @@ const updateUserAccount = asyncHandler(async (req, res, next) => {
       token,
     });
   } else {
-    next(new ErrorResponse('User Not Found'));
+    next(new ErrorResponse("User Not Found"));
   }
 });
 
@@ -169,7 +170,7 @@ const updateUser = asyncHandler(async (req, res, next) => {
   if (user) {
     user.name = req.body.name || user.name;
     user.email = req.body.email || user.email;
-    if (typeof isAdmin === 'boolean') {
+    if (typeof isAdmin === "boolean") {
       user.isAdmin = isAdmin;
     }
 
@@ -182,21 +183,21 @@ const updateUser = asyncHandler(async (req, res, next) => {
       isAdmin: updatedUser.isAdmin,
     });
   } else {
-    next(new ErrorResponse('User not found'));
+    next(new ErrorResponse("User not found"));
   }
 });
 
-// @desc      Forgot password
-// @route     POST /api/v1/users/forgotpassword
-// @access    Public
+// @Desc      Forgot password
+// @Route     POST /api/v1/users/forgotpassword
+// @Access    Public
 const forgotPassword = asyncHandler(async (req, res, next) => {
   const { email } = req.body;
   if (!email) {
-    return next(new ErrorResponse('Please add email', 404));
+    return next(new ErrorResponse("Please add email", 404));
   }
   const user = await User.findOne({ email });
   if (!user) {
-    return next(new ErrorResponse('There is no user with that email', 404));
+    return next(new ErrorResponse("There is no user with that email", 404));
   }
 
   // Get reset token
@@ -206,7 +207,7 @@ const forgotPassword = asyncHandler(async (req, res, next) => {
 
   // Create reset url
   const resetUrl = `${req.protocol}://${req.get(
-    'host'
+    "host"
   )}/api/v1/auth/resetpassword/${resetToken}`;
 
   const message = `You are receiving this email 
@@ -216,11 +217,11 @@ const forgotPassword = asyncHandler(async (req, res, next) => {
   try {
     await sendEmail({
       email: user.email,
-      subject: 'Password reset token',
+      subject: "Password reset token",
       message,
     });
-    console.log('email sending ');
-    res.status(200).json({ success: true, data: 'Email sent' });
+    console.log("email sending ");
+    res.status(200).json({ success: true, data: "Email sent" });
   } catch (err) {
     console.log(err);
     user.resetPasswordToken = undefined;
@@ -228,7 +229,7 @@ const forgotPassword = asyncHandler(async (req, res, next) => {
 
     await user.save({ validateBeforeSave: false });
 
-    return next(new ErrorResponse('Email could not be sent', 500));
+    return next(new ErrorResponse("Email could not be sent", 500));
   }
 
   res.status(200).json({
@@ -237,7 +238,7 @@ const forgotPassword = asyncHandler(async (req, res, next) => {
   });
 });
 
-module.exports = {
+export default {
   authUser,
   registerUser,
   getUserAccount,

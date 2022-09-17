@@ -1,20 +1,20 @@
-const jwt = require('jsonwebtoken');
-const asyncHandler = require('express-async-handler');
-const ErrorResponse = require('../utils/ErrorResponse');
-const User = require('../models/User');
+import jwt from "jsonwebtoken";
+import asyncHandler from "express-async-handler";
+import ErrorResponse from "../utils/ErrorResponse";
+import User from "../models/User";
 
 // Protect routes
-module.exports.protect = asyncHandler(async (req, res, next) => {
+export const protect = asyncHandler(async (req, res, next) => {
   let token;
 
   if (
     req.headers.authorization &&
-    req.headers.authorization.startsWith('Bearer')
+    req.headers.authorization.startsWith("Bearer")
   ) {
-    token = req.headers.authorization.split(' ')[1];
+    token = req.headers.authorization.split(" ")[1];
   }
   if (!token) {
-    return next(new ErrorResponse('Not authorized to access this route', 401));
+    return next(new ErrorResponse("Not authorized to access this route", 401));
   }
 
   try {
@@ -24,15 +24,15 @@ module.exports.protect = asyncHandler(async (req, res, next) => {
 
     next();
   } catch (err) {
-    return next(new ErrorResponse('Not authorized to access this route', 401));
+    return next(new ErrorResponse("Not authorized to access this route", 401));
   }
 });
 
 // Grant access to admin
-exports.authorize = (req, res, next) => {
+export const authorize = (req, res, next) => {
   const isAdmin = req.user.isAdmin;
   if (!isAdmin) {
-    return next(new ErrorResponse('Not authorized to access this route', 401));
+    return next(new ErrorResponse("Not authorized to access this route", 401));
   } else {
     next();
   }

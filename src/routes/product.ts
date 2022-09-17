@@ -1,5 +1,5 @@
-const express = require('express');
-const {
+import express from "express";
+import {
   getProducts,
   getProductById,
   deleteProduct,
@@ -11,33 +11,34 @@ const {
   deleteProductReview,
   getNewProducts,
   deleteProductReviewAdmin,
-} = require('../controllers/productController');
-const { authorize, protect } = require('../middleware/auth');
+} from "../controllers/productController";
+import { authorize, protect } from "../middleware/auth";
+
 const productRouter = express.Router();
 productRouter
-  .route('/')
+  .route("/")
   .get(getProducts)
   .post(protect, authorize, createProduct);
 
 productRouter
-  .route('/:id/reviews')
+  .route("/:id/reviews")
   .post(protect, createProductReview)
   .put(protect, updateProductReview)
   .delete(protect, deleteProductReview);
 
 productRouter.delete(
-  '/:id/reviews/:reviewId',
+  "/:id/reviews/:reviewId",
   [protect, authorize],
   deleteProductReviewAdmin
 );
 
-productRouter.get('/top', getTopProducts);
-productRouter.get('/new', getNewProducts);
+productRouter.get("/top", getTopProducts);
+productRouter.get("/new", getNewProducts);
 
 productRouter
-  .route('/:id')
+  .route("/:id")
   .get(getProductById)
   .delete(protect, authorize, deleteProduct)
   .put(protect, authorize, updateProduct);
 
-module.exports = productRouter;
+export default productRouter;
