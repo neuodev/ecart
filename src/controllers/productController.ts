@@ -79,235 +79,255 @@ const getProducts = asyncHandler(
 // @Desc    Fetch single product
 // @Route   GET /api/products/:id
 // @Access  Public
-const getProductById = asyncHandler(async (req, res, next) => {
-  const id = req.params.id;
-  const product = await Product.findById(id).populate({
-    path: "reviews.user",
-    select: "email",
-  });
-  if (!product) {
-    return next(new ErrorResponse(`Product with Id ${id} Not Found`, 404));
-  }
+const getProductById = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const id = req.params.id;
+    const product = await Product.findById(id).populate({
+      path: "reviews.user",
+      select: "email",
+    });
+    if (!product) {
+      return next(new ErrorResponse(`Product with Id ${id} Not Found`, 404));
+    }
 
-  res.status(200).json(product);
-});
+    res.status(200).json(product);
+  }
+);
 // @Desc    Delete a product
 // @Route   DELETE /api/products/:id
 // @Access  Private/Admin
-const deleteProduct = asyncHandler(async (req, res, next) => {
-  const id = req.params.id;
-  const product = await Product.findById(id);
+const deleteProduct = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const id = req.params.id;
+    const product = await Product.findById(id);
 
-  if (!product) {
-    return next(new ErrorResponse(`Product with id ${id} Not Found`, 404));
+    if (!product) {
+      return next(new ErrorResponse(`Product with id ${id} Not Found`, 404));
+    }
+
+    await product.remove();
+    res.status(200).json({ messages: "Product Removed" });
   }
-
-  await product.remove();
-  res.status(200).json({ messages: "Product Removed" });
-});
+);
 
 // @Desc    Create a product
 // @Route   POST /api/products
 // @Access  Private/Admin
-const createProduct = asyncHandler(async (req, res, next) => {
-  const user = req.user._id;
-  const product = await Product.create({ ...req.body, user });
+const createProduct = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user = req.user._id;
+    const product = await Product.create({ ...req.body, user });
 
-  res.status(201).json(product);
-});
+    res.status(201).json(product);
+  }
+);
 
 // @Desc    Update a product
 // @Route   PUT /api/products/:id
 // @Access  Private/Admin
-const updateProduct = asyncHandler(async (req, res, next) => {
-  const id = req.params.id;
-  const { name, price, description, images, brand, category, countInStock } =
-    req.body;
+const updateProduct = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const id = req.params.id;
+    const { name, price, description, images, brand, category, countInStock } =
+      req.body;
 
-  const product = await Product.findById(id);
+    const product = await Product.findById(id);
 
-  if (!product) {
-    return next(new ErrorResponse(`Product with id ${id} Not found `, 404));
+    if (!product) {
+      return next(new ErrorResponse(`Product with id ${id} Not found `, 404));
+    }
+
+    product.name = name || product.name;
+    product.price = price || product.price;
+    product.description = description || product.description;
+    product.brand = brand || product.brand;
+    product.category = category || product.category;
+    product.countInStock = countInStock || product.countInStock;
+
+    if (typeof images === "string") {
+      product.images.push(images as any);
+    }
+
+    await product.save();
+
+    res.status(200).json(product);
   }
-
-  product.name = name || product.name;
-  product.price = price || product.price;
-  product.description = description || product.description;
-  product.brand = brand || product.brand;
-  product.category = category || product.category;
-  product.countInStock = countInStock || product.countInStock;
-
-  if (typeof images === "string") {
-    product.images = product.images.push(images);
-  }
-
-  await product.save();
-
-  res.status(200).json(product);
-});
+);
 
 // @Desc    Create new review
 // @Route   POST /api/products/:id/reviews
 // @Access  Private
-const createProductReview = asyncHandler(async (req, res, next) => {
-  const { rating, comment } = req.body;
-  if (!rating || !comment) {
-    return next(new ErrorResponse("Rating and comment are required", 400));
+const createProductReview = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { rating, comment } = req.body;
+    if (!rating || !comment) {
+      return next(new ErrorResponse("Rating and comment are required", 400));
+    }
+
+    const name = req.user.firstName + " " + req.user.lastName;
+    const user = req.user._id;
+    const product = await Product.findById(req.params.id);
+
+    if (!product) {
+      return next(new ErrorResponse("Product Not Found", 404));
+    }
+
+    const alreadyReviewed = product.reviews.find(
+      (r) => r.user.toString() === req.user._id.toString()
+    );
+    if (alreadyReviewed) {
+      return next(new ErrorResponse("Product already reviewed", 400));
+    }
+
+    const review = {
+      name,
+      rating: Number(rating),
+      comment,
+      user,
+    };
+
+    product.reviews.push(review);
+
+    product.numReviews = product.reviews.length;
+
+    product.rating =
+      product.reviews.reduce((acc, item) => item.rating + acc, 0) /
+      product.reviews.length;
+
+    await product.save();
+    res.status(201).json({ message: "Review added" });
   }
-
-  const name = req.user.firstName + " " + req.user.lastName;
-  const user = req.user._id;
-  const product = await Product.findById(req.params.id);
-
-  if (!product) {
-    return next(new ErrorResponse("Product Not Found", 404));
-  }
-
-  const alreadyReviewed = product.reviews.find(
-    (r) => r.user.toString() === req.user._id.toString()
-  );
-  if (alreadyReviewed) {
-    return next(new ErrorResponse("Product already reviewed", 400));
-  }
-
-  const review = {
-    name,
-    rating: Number(rating),
-    comment,
-    user,
-  };
-
-  product.reviews.push(review);
-
-  product.numReviews = product.reviews.length;
-
-  product.rating =
-    product.reviews.reduce((acc, item) => item.rating + acc, 0) /
-    product.reviews.length;
-
-  await product.save();
-  res.status(201).json({ message: "Review added" });
-});
+);
 
 // @Desc    Update  review
 // @Route   PUT /api/products/:id/reviews
 // @Access  Private
-const updateProductReview = asyncHandler(async (req, res, next) => {
-  let { rating, comment } = req.body;
-  if (!rating && !comment) {
-    return next(
-      new ErrorResponse("Rating or comment are required for update ", 400)
+const updateProductReview = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    let { rating, comment } = req.body;
+    if (!rating && !comment) {
+      return next(
+        new ErrorResponse("Rating or comment are required for update ", 400)
+      );
+    }
+    const productId = req.params.id;
+    const user = req.user._id;
+    const product = await Product.findById(productId);
+
+    if (!product) {
+      return next(new ErrorResponse("Product Not Found", 404));
+    }
+    let review = product.reviews.find(
+      (review) => review.user.toString() === user.toString()
     );
-  }
-  const productId = req.params.id;
-  const user = req.user._id;
-  const product = await Product.findById(productId);
+    if (!review) {
+      return next(new ErrorResponse("Review not found", 400));
+    }
 
-  if (!product) {
-    return next(new ErrorResponse("Product Not Found", 404));
-  }
-  let review = product.reviews.find(
-    (review) => review.user.toString() === user.toString()
-  );
-  if (!review) {
-    return next(new ErrorResponse("Review not found", 400));
-  }
+    review.rating = rating || review.rating;
+    review.comment = comment || review.comment;
 
-  review.rating = rating || review.rating;
-  review.comment = comment || review.comment;
-
-  await product.save();
-  res.status(201).json({ message: "Review Updated" });
-});
+    await product.save();
+    res.status(201).json({ message: "Review Updated" });
+  }
+);
 
 // @Desc    delete  review
 // @Route   DELETE /api/products/:id/reviews
 // @Access  Private
-const deleteProductReview = asyncHandler(async (req, res, next) => {
-  const productId = req.params.id;
-  const user = req.user._id;
-  const product = await Product.findById(productId);
+const deleteProductReview = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const productId = req.params.id;
+    const user = req.user._id;
+    const product = await Product.findById(productId);
 
-  if (!product) {
-    return next(new ErrorResponse("Product Not Found", 404));
+    if (!product) {
+      return next(new ErrorResponse("Product Not Found", 404));
+    }
+    let review = product.reviews.find(
+      (review) => review.user.toString() === user.toString()
+    );
+    if (!review) {
+      return next(new ErrorResponse("Review not found", 400));
+    }
+
+    product.reviews = product.reviews.filter(
+      (review) => review.user.toString() !== user.toString()
+    );
+    product.numReviews = product.reviews.length;
+
+    if (product.reviews.length !== 0) {
+      product.rating =
+        product.reviews.reduce((acc, item) => item.rating + acc, 0) /
+        product.reviews.length;
+    } else {
+      product.rating = 0;
+    }
+
+    await product.save();
+    res.status(201).json({ message: "Review Deleted" });
   }
-  let review = product.reviews.find(
-    (review) => review.user.toString() === user.toString()
-  );
-  if (!review) {
-    return next(new ErrorResponse("Review not found", 400));
-  }
-
-  product.reviews = product.reviews.filter(
-    (review) => review.user.toString() !== user.toString()
-  );
-  product.numReviews = product.reviews.length;
-
-  if (product.reviews.length !== 0) {
-    product.rating =
-      product.reviews.reduce((acc, item) => item.rating + acc, 0) /
-      product.reviews.length;
-  } else {
-    product.rating = 0;
-  }
-
-  await product.save();
-  res.status(201).json({ message: "Review Deleted" });
-});
+);
 
 // @Desc    Create new review
 // @Route   POST /api/products/:id/reviews/:reviewId
 // @Access  Private
-const deleteProductReviewAdmin = asyncHandler(async (req, res, next) => {
-  const reviewId = req.params.reviewId;
-  const product = await Product.findById(req.params.id);
-  if (!product) {
-    return next(new ErrorResponse("Product Not Found", 404));
+const deleteProductReviewAdmin = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const reviewId = req.params.reviewId;
+    const product = await Product.findById(req.params.id);
+    if (!product) {
+      return next(new ErrorResponse("Product Not Found", 404));
+    }
+
+    const review = product.reviews.find(
+      (r) => r._id.toString() === reviewId.toString()
+    );
+
+    if (!review) {
+      return next(new ErrorResponse("Review Not Found", 400));
+    }
+
+    product.reviews = product.reviews.filter(
+      (review) => review._id.toString() !== reviewId.toString()
+    );
+
+    product.numReviews = product.reviews.length;
+
+    if (product.reviews.length !== 0) {
+      product.rating =
+        product.reviews.reduce((acc, item) => item.rating + acc, 0) /
+        product.reviews.length;
+    } else {
+      product.rating = 0;
+    }
+
+    await product.save();
+    res.status(201).json({ message: "Review Removed" });
   }
-
-  const review = product.reviews.find(
-    (r) => r._id.toString() === reviewId.toString()
-  );
-
-  if (!review) {
-    return next(new ErrorResponse("Review Not Found", 400));
-  }
-
-  product.reviews = product.reviews.filter(
-    (review) => review._id.toString() !== reviewId.toString()
-  );
-
-  product.numReviews = product.reviews.length;
-
-  if (product.reviews.length !== 0) {
-    product.rating =
-      product.reviews.reduce((acc, item) => item.rating + acc, 0) /
-      product.reviews.length;
-  } else {
-    product.rating = 0;
-  }
-
-  await product.save();
-  res.status(201).json({ message: "Review Removed" });
-});
+);
 
 // @Desc    Get top rated products
 // @Route   GET /api/products/top
 // @Access  Public
-const getTopProducts = asyncHandler(async (req, res, next) => {
-  const products = await Product.find({}).sort({ rating: -1 }).limit(4);
+const getTopProducts = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const products = await Product.find({}).sort({ rating: -1 }).limit(4);
 
-  res.json(products);
-});
+    res.json(products);
+  }
+);
 
 // @Desc    Get top rated products
 // @Route   GET /api/products/top
 // @Access  Public
-const getNewProducts = asyncHandler(async (req, res, next) => {
-  const products = await Product.find({}).sort({ createdAt: -1 }).limit(4);
+const getNewProducts = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const products = await Product.find({}).sort({ createdAt: -1 }).limit(4);
 
-  res.json(products);
-});
+    res.json(products);
+  }
+);
 
 export {
   getProducts,

@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { InferSchemaType, Model, Schema } from "mongoose";
 
 const reviewSchema = new Schema(
   {
@@ -86,6 +86,10 @@ const productSchema = new Schema(
     timestamps: true,
   }
 );
-
-const Product = mongoose.model("Product", productSchema);
+export type IProdcut = InferSchemaType<typeof productSchema> & { _id: string };
+type ProductModel = Model<IProdcut, {}, {}>;
+const Product = mongoose.model<IProdcut, ProductModel>(
+  "Product",
+  productSchema
+);
 export default Product;
