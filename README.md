@@ -7,7 +7,9 @@
     <img src="./wallet.png" alt="Wallet" title="Wallet"/>
 </p>
 
-# [Live Preview](https://walletecommerce.herokuapp.com/) 👀
+<h1 align="center">
+    <a href="https://walletecommerce.herokuapp.com/">Live Preview 👀</a>
+</h1>
 
 ## Screenshots 📺
 
