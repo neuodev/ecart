@@ -60,6 +60,7 @@ const registerUser = asyncHandler(async (req, res, next) => {
     next(new ErrorResponse(`Invalid User Data`, 400));
   }
 });
+
 // @Desc    Get user account
 // @Route   GET /api/users/account
 // @Access  Private

@@ -1,4 +1,4 @@
-import mongoose, { InferSchemaType, Schema } from "mongoose";
+import mongoose, { InferSchemaType, Schema, Document, Model } from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
@@ -40,7 +40,14 @@ const UserSchema = new Schema(
   }
 );
 
-export type UserType = InferSchemaType<typeof UserSchema> & { _id: string };
+export type IUser = InferSchemaType<typeof UserSchema> & { _id: string };
+interface IUserMethods {
+  getSignedJwtToken(): string;
+  matchPassword(password: string): Promise<boolean>;
+  getResetPasswordToken(): string;
+}
+
+type UserModel = Model<IUser, {}, IUserMethods>;
 
 // Encrypt password
 UserSchema.pre("save", async function (next) {
@@ -60,7 +67,7 @@ UserSchema.methods.getSignedJwtToken = function () {
 };
 
 // Match user entered password
-UserSchema.methods.matchPassword = async function (enteredPassword) {
+UserSchema.methods.matchPassword = async function (enteredPassword: string) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
@@ -81,5 +88,5 @@ UserSchema.methods.getResetPasswordToken = function () {
   return resetToken;
 };
 
-const User = mongoose.model("User", UserSchema);
+const User = mongoose.model<IUser, UserModel>("User", UserSchema);
 export default User;
