@@ -1,63 +1,80 @@
 import asyncHandler from "express-async-handler";
 import Product from "../models/Product";
 import ErrorResponse from "../utils/ErrorResponse";
+import { Request, Response, NextFunction } from "express";
+
+interface Query {
+  q?: string;
+  select?: string;
+  sort?: string;
+  page?: string;
+  limit?: string;
+}
 
 // @Desc    Fetch all products
 // @Route   GET /api/products
 // @Access  Public
-const getProducts = asyncHandler(async (req, res, next) => {
-  const count = await Product.count();
-  // search by price and category
-  // sort the result by name
-  let query;
-  let reqQuery = { ...req.query };
+const getProducts = asyncHandler(
+  async (
+    req: Request<{}, {}, {}, Query>,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const count = await Product.count();
+    // search by price and category
+    // sort the result by name
+    let query;
+    let reqQuery: {
+      [key: string]: any;
+    } = { ...req.query };
 
-  const removeFields = ["select", "sort", "limit", "page", "q"];
+    const removeFields = ["select", "sort", "limit", "page", "q"];
 
-  // filter product by reqEx
-  if (req.query.q) {
-    reqQuery.name = {
-      $regex: req.query.q,
-      $options: "i",
-    };
+    // filter product by reqEx
+    if (req.query.q) {
+      reqQuery.name = {
+        $regex: req.query.q,
+        $options: "i",
+      };
+    }
+    removeFields.forEach((param) => delete reqQuery[param]);
+    let queryStr = JSON.stringify(reqQuery);
+
+    // Replace Invalid Oparator
+    queryStr = queryStr.replace(
+      /\b(gt|gte|lt|lte|in)\b/g,
+      (match) => `$${match}`
+    );
+    query = Product.find(JSON.parse(queryStr));
+    // Select Fields
+    if (req.query.select) {
+      const fields = req.query.select.split(",").join(" ");
+      query = query.select(fields);
+    }
+
+    // Sort
+    if (req.query.sort) {
+      const { sort } = req.query;
+      query = query.sort(sort.split(",").join(" "));
+    } else {
+      query = query.sort("-createdAt");
+    }
+
+    // Pagination
+    const page = parseInt(req.query.page, 10) || 1;
+    const limit = parseInt(req.query.limit, 10) || 100;
+    const skip = (page - 1) * limit;
+    query = query.skip(skip).limit(limit);
+    // Apply The Query
+    const products = await query;
+
+    res.status(200).json({
+      success: true,
+      count,
+      products,
+    });
   }
-  removeFields.forEach((param) => delete reqQuery[param]);
-  let queryStr = JSON.stringify(reqQuery);
-
-  // Replace Invalid Oparator
-  queryStr = queryStr.replace(
-    /\b(gt|gte|lt|lte|in)\b/g,
-    (match) => `$${match}`
-  );
-  query = Product.find(JSON.parse(queryStr));
-  // Select Fields
-  if (req.query.select) {
-    const fields = req.query.select.split(",").join(" ");
-    query = query.select(fields);
-  }
-
-  // Sort
-  if (req.query.sort) {
-    const { sort } = req.query;
-    query = query.sort(sort.split(",").join(" "));
-  } else {
-    query = query.sort("-createdAt");
-  }
-
-  // Pagination
-  const page = parseInt(req.query.page, 10) || 1;
-  const limit = parseInt(req.query.limit, 10) || 100;
-  const skip = (page - 1) * limit;
-  query = query.skip(skip).limit(limit);
-  // Apply The Query
-  const products = await query;
-
-  res.status(200).json({
-    success: true,
-    count,
-    products,
-  });
-});
+);
 
 // @Desc    Fetch single product
 // @Route   GET /api/products/:id

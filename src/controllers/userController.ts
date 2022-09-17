@@ -19,7 +19,7 @@ const authUser = asyncHandler(async (req, res, next) => {
     const token = user.getSignedJwtToken();
     res.status(200).json({
       _id: user._id,
-      name: user.name,
+      name: `${user.firstName} ${user.lastName}`,
       email: user.email,
       isAdmin: user.isAdmin,
       token,
@@ -51,7 +51,7 @@ const registerUser = asyncHandler(async (req, res, next) => {
   if (user) {
     res.status(201).json({
       _id: user._id,
-      name: user.name,
+      name: `${user.firstName} ${user.lastName}`,
       email: user.email,
       isAdmin: user.isAdmin,
       token,
@@ -70,7 +70,7 @@ const getUserAccount = asyncHandler(async (req, res, next) => {
   if (user) {
     res.json({
       _id: user._id,
-      name: user.name,
+      name: `${user.firstName} ${user.lastName}`,
       email: user.email,
       isAdmin: user.isAdmin,
     });
@@ -135,11 +135,12 @@ const getUserById = asyncHandler(async (req, res, next) => {
 // @Access  Private
 const updateUserAccount = asyncHandler(async (req, res, next) => {
   const id = req.user._id;
-  const { name, email, password } = req.body;
+  const { firstName, lastName, email, password } = req.body;
   const user = await User.findById(id);
 
   if (user) {
-    user.name = name || user.name;
+    user.firstName = firstName || user.firstName;
+    user.lastName = lastName || user.lastName;
     user.email = email || user.email;
     if (typeof password === "string") {
       user.password = req.body.password;
@@ -149,7 +150,7 @@ const updateUserAccount = asyncHandler(async (req, res, next) => {
     const token = user.getSignedJwtToken();
     res.json({
       _id: updatedUser._id,
-      name: updatedUser.name,
+      name: `${user.firstName} ${user.lastName}`,
       email: updatedUser.email,
       isAdmin: updatedUser.isAdmin,
       token,
@@ -159,16 +160,17 @@ const updateUserAccount = asyncHandler(async (req, res, next) => {
   }
 });
 
-// @desc    Update user
-// @route   PUT /api/users/:id
-// @access  Private/Admin
+// @Desc    Update user
+// @Route   PUT /api/users/:id
+// @Access  Private/Admin
 const updateUser = asyncHandler(async (req, res, next) => {
   const id = req.params.id;
-  const { name, email, isAdmin } = req.body;
+  const { firstName, lastName, email, isAdmin } = req.body;
   const user = await User.findById(id);
 
   if (user) {
-    user.name = req.body.name || user.name;
+    user.firstName = firstName || user.firstName;
+    user.lastName = lastName || user.lastName;
     user.email = req.body.email || user.email;
     if (typeof isAdmin === "boolean") {
       user.isAdmin = isAdmin;
@@ -178,7 +180,7 @@ const updateUser = asyncHandler(async (req, res, next) => {
 
     res.json({
       _id: updatedUser._id,
-      name: updatedUser.name,
+      name: `${user.firstName} ${user.lastName}`,
       email: updatedUser.email,
       isAdmin: updatedUser.isAdmin,
     });

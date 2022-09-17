@@ -40,7 +40,7 @@ const UserSchema = new Schema(
   }
 );
 
-export type UserType = InferSchemaType<typeof UserSchema>;
+export type UserType = InferSchemaType<typeof UserSchema> & { _id: string };
 
 // Encrypt password
 UserSchema.pre("save", async function (next) {

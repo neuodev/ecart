@@ -1,41 +1,44 @@
 import asyncHandler from "express-async-handler";
 import Order from "../models/Order";
 import ErrorResponse from "../utils/ErrorResponse";
+import { Request, Response, NextFunction } from "express";
 
 // @Desc    Create new order
 // @Route   POST /api/orders
 // @Access  Private
-const addOrderItems = asyncHandler(async (req, res, next) => {
-  const {
-    orderItems,
-    shippingAddress,
-    shippingMethod,
-    taxPrice,
-    shippingPrice,
-    totalPrice,
-  } = req.body;
-
-  if (orderItems && orderItems.length === 0) {
-    return next(new ErrorResponse("Order items is required"));
-  } else {
-    const order = new Order({
+const addOrderItems = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const {
       orderItems,
-      user: req.user._id,
       shippingAddress,
       shippingMethod,
       taxPrice,
       shippingPrice,
       totalPrice,
-    });
+    } = req.body;
 
-    const createdOrder = await order.save();
-    if (!createdOrder) {
-      return next(new ErrorResponse("Can't create the order "));
+    if (orderItems && orderItems.length === 0) {
+      return next(new ErrorResponse("Order items is required"));
+    } else {
+      const order = new Order({
+        orderItems,
+        user: req.user._id,
+        shippingAddress,
+        shippingMethod,
+        taxPrice,
+        shippingPrice,
+        totalPrice,
+      });
+
+      const createdOrder = await order.save();
+      if (!createdOrder) {
+        return next(new ErrorResponse("Can't create the order "));
+      }
+
+      res.status(201).json(createdOrder);
     }
-
-    res.status(201).json(createdOrder);
   }
-});
+);
 // @desc    Get order by ID
 // @route   GET /api/orders/:id
 // @access  Private
@@ -86,21 +89,23 @@ const updateOrderToPaid = asyncHandler(async (req, res, next) => {
 // @desc    Update order to delivered
 // @route   GET /api/orders/:id/deliver
 // @access  Private/Admin
-const updateOrderToDelivered = asyncHandler(async (req, res) => {
-  const orderId = req.params.id;
-  const order = await Order.findById(orderId);
+const updateOrderToDelivered = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const orderId = req.params.id;
+    const order = await Order.findById(orderId);
 
-  if (order) {
-    order.isDelivered = true;
-    order.deliveredAt = Date.now();
+    if (order) {
+      order.isDelivered = true;
+      order.deliveredAt = Date.now();
 
-    const updatedOrder = await order.save();
+      const updatedOrder = await order.save();
 
-    res.json(updatedOrder);
-  } else {
-    return next(new ErrorResponse("Order Not Found", 404));
+      res.json(updatedOrder);
+    } else {
+      return next(new ErrorResponse("Order Not Found", 404));
+    }
   }
-});
+);
 
 // @desc    Get logged in user orders
 // @route   GET /api/orders/myorders
