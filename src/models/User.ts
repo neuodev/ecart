@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { InferSchemaType, Schema } from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
@@ -39,6 +39,8 @@ const UserSchema = new Schema(
     timestamps: true,
   }
 );
+
+export type UserType = InferSchemaType<typeof UserSchema>;
 
 // Encrypt password
 UserSchema.pre("save", async function (next) {
