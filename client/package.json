@@ -29,9 +29,11 @@
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.3.0",
+    "source-map-loader": "^4.0.0",
     "styled-components": "^5.2.1",
     "swiper": "^6.4.11",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.3",
+    "ts-loader": "^9.3.1",
     "web-vitals": "^0.2.4"
   },
   "scripts": {
