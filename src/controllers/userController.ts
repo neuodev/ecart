@@ -292,53 +292,49 @@ const updateUser = asyncHandler(
 // @Desc      Forgot password
 // @Route     POST /api/v1/users/forgotpassword
 // @Access    Public
-const forgotPassword = asyncHandler(async (req, res, next) => {
-  const { email } = req.body;
-  if (!email) {
-    return next(new ErrorResponse("Please add email", 404));
-  }
-  const user = await User.findOne({ email });
-  if (!user) {
-    return next(new ErrorResponse("There is no user with that email", 404));
-  }
+const forgotPassword = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { email } = req.body;
+    if (!email) {
+      return next(new ErrorResponse("Please add email", 404));
+    }
+    const user = await User.findOne({ email });
+    if (!user) {
+      return next(new ErrorResponse("There is no user with that email", 404));
+    }
 
-  // Get reset token
-  const resetToken = user.getResetPasswordToken();
-
-  await user.save({ validateBeforeSave: false });
-
-  // Create reset url
-  const resetUrl = `${req.protocol}://${req.get(
-    "host"
-  )}/api/v1/auth/resetpassword/${resetToken}`;
-
-  const message = `You are receiving this email 
-  because you (or someone else) has requested the 
-  reset of a password. Please make a PUT request to: \n\n ${resetUrl}`;
-
-  try {
-    await sendEmail({
-      email: user.email,
-      subject: "Password reset token",
-      message,
-    });
-    console.log("email sending ");
-    res.status(200).json({ success: true, data: "Email sent" });
-  } catch (err) {
-    console.log(err);
-    user.resetPasswordToken = undefined;
-    user.resetPasswordExpire = undefined;
+    // Get reset token
+    const resetToken = user.getResetPasswordToken();
 
     await user.save({ validateBeforeSave: false });
 
-    return next(new ErrorResponse("Email could not be sent", 500));
-  }
+    // Create reset url
+    const resetUrl = `${req.protocol}://${req.get(
+      "host"
+    )}/api/v1/auth/resetpassword/${resetToken}`;
 
-  res.status(200).json({
-    success: true,
-    data: user,
-  });
-});
+    const message = `You are receiving this email 
+  because you (or someone else) has requested the 
+  reset of a password. Please make a PUT request to: \n\n ${resetUrl}`;
+
+    try {
+      await sendEmail({
+        email: user.email,
+        subject: "Password reset token",
+        message,
+      });
+      res.status(200).json({ success: true, data: "Email sent" });
+    } catch (err) {
+      console.log(err);
+      user.resetPasswordToken = undefined;
+      user.resetPasswordExpire = undefined;
+
+      await user.save({ validateBeforeSave: false });
+
+      return next(new ErrorResponse("Email could not be sent", 500));
+    }
+  }
+);
 
 export {
   authUser,
