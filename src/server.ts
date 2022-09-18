@@ -1,6 +1,6 @@
 import path from "path";
 import express from "express";
-import dotenv from "dotenv";
+import "dotenv/config";
 import "colors";
 import morgan from "morgan";
 import connectDB from "./config/db";
@@ -14,8 +14,6 @@ import cors from "cors";
 import xss from "xss";
 import hpp from "hpp";
 
-// Load env vars
-dotenv.config({ path: "./config/config.env" });
 connectDB();
 const app = express();
 
@@ -24,17 +22,10 @@ if (process.env.NODE_ENV === "development") {
 }
 app.use(morgan("dev"));
 
-// sinitize our data
 app.use(mongoSanitize());
-// set security headers
 app.use(helmet());
-
-// prvent http param pollution
 app.use(hpp());
-
-// enaple course
 app.use(cors());
-
 app.use(express.json());
 
 // get paypal client id
@@ -49,11 +40,11 @@ app.use("/api/v1/orders", orderRouter);
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../client/build")));
 
-  app.get("*", (req, res) =>
+  app.get("*", (_req, res) =>
     res.sendFile(path.resolve(__dirname, "..", "client", "build", "index.html"))
   );
 } else {
-  app.get("/", (req, res) => {
+  app.get("/", (_req, res) => {
     res.send("API is running....");
   });
 }

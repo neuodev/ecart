@@ -8,7 +8,7 @@
     "server": "nodemon backend/server",
     "client": "npm start  --prefix client",
     "dev:server": "ts-node-dev --respawn src/server.ts",
-    "dev": "concurrently \" npm run server \" \" npm run client\" ",
+    "dev": "concurrently -n server,client \" npm run server \" \" npm run client\" ",
     "build": "tsc --pretty"
   },
   "author": "Ahmed Ibrahim",
