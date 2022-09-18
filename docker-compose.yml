@@ -7,9 +7,6 @@ services:
       - 27017:27017
     volumes:
       - mongodb_data_container:/data/db
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=user
-      - MONGO_INITDB_ROOT_PASSWORD=password
 
 volumes:
   mongodb_data_container:
