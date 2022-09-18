@@ -2,6 +2,7 @@ import path from "path";
 import express from "express";
 import "dotenv/config";
 import "colors";
+import "./utils/toAdmin";
 import morgan from "morgan";
 import connectDB from "./config/db";
 import errorHandler from "./middleware/error";

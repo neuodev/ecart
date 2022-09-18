@@ -45,6 +45,7 @@ interface IUserMethods {
   getSignedJwtToken(): string;
   matchPassword(password: string): Promise<boolean>;
   getResetPasswordToken(): string;
+  fullName(): string;
 }
 
 type UserModel = Model<IUser, {}, IUserMethods>;
@@ -69,6 +70,10 @@ UserSchema.methods.getSignedJwtToken = function () {
 // Match user entered password
 UserSchema.methods.matchPassword = async function (enteredPassword: string) {
   return await bcrypt.compare(enteredPassword, this.password);
+};
+
+UserSchema.methods.fullName = function () {
+  return `${this.firstName} ${this.lastName}`;
 };
 
 // Generate and hash password token
