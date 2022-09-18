@@ -1,0 +1,338 @@
+{
+	"info": {
+		"_postman_id": "c686be39-41dc-415b-8bd5-7dd21b83ece7",
+		"name": "Wallet e-commerce",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17267643"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"jone@wallet.io\",\r\n    \"password\": \"1234567\"\r\n}"
+				},
+				"url": {
+					"raw": "{{SERVER_URI}}/api/v1/users/login",
+					"host": [
+						"{{SERVER_URI}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"Joen\",\r\n    \"lastName\": \"Doe\",\r\n    \"email\": \"jone@wallet.io\",\r\n    \"password\": \"1234567\"\r\n}"
+				},
+				"url": {
+					"raw": "{{SERVER_URI}}/api/v1/users",
+					"host": [
+						"{{SERVER_URI}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User account",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzMjZhNGZkYTgwMTJjNGJjMDJkNjM2OCIsImlhdCI6MTY2MzQ3Njk4OSwiZXhwIjoxNjY2MDY4OTg5fQ.wxPGnDLvZYqyXXC5YIaUJoJqfxdeZlb96xi4Jvgtj80",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER_URI}}/api/v1/users/account",
+					"host": [
+						"{{SERVER_URI}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"account"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Users",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzMjZhNGZkYTgwMTJjNGJjMDJkNjM2OCIsImlhdCI6MTY2MzQ3Njk4OSwiZXhwIjoxNjY2MDY4OTg5fQ.wxPGnDLvZYqyXXC5YIaUJoJqfxdeZlb96xi4Jvgtj80",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER_URI}}/api/v1/users",
+					"host": [
+						"{{SERVER_URI}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove user [admin]",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzMjY5ODcxNDE4Njk5MDdmMjM5MGYwMiIsImlhdCI6MTY2MzQ3Mzg5MiwiZXhwIjoxNjY2MDY1ODkyfQ.Ia96MakDRRqWZ_F7RT72hd2s7-bOxx_ecXHiRX9fUQ0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER_URI}}/api/v1/users/6326a3023979c3a722be8408",
+					"host": [
+						"{{SERVER_URI}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"6326a3023979c3a722be8408"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete user [user]",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzMjY5ODcxNDE4Njk5MDdmMjM5MGYwMiIsImlhdCI6MTY2MzQ3NjI1NiwiZXhwIjoxNjY2MDY4MjU2fQ.G441JZ2ueMEki0_gv3rpAmpLn-8YrNFZ9qH7JQPOKBo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER_URI}}/api/v1/users/account",
+					"host": [
+						"{{SERVER_URI}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"account"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user by id [admin]",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzMjZhNGZkYTgwMTJjNGJjMDJkNjM2OCIsImlhdCI6MTY2MzQ3Njk4OSwiZXhwIjoxNjY2MDY4OTg5fQ.wxPGnDLvZYqyXXC5YIaUJoJqfxdeZlb96xi4Jvgtj80",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{SERVER_URI}}/api/v1/users/6326a3633979c3a722be8411",
+					"host": [
+						"{{SERVER_URI}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"6326a3633979c3a722be8411"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update account [user]",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzMjZhNGZkYTgwMTJjNGJjMDJkNjM2OCIsImlhdCI6MTY2MzQ3Njk4OSwiZXhwIjoxNjY2MDY4OTg5fQ.wxPGnDLvZYqyXXC5YIaUJoJqfxdeZlb96xi4Jvgtj80",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"Jone\"\r\n}"
+				},
+				"url": {
+					"raw": "{{SERVER_URI}}/api/v1/users/account",
+					"host": [
+						"{{SERVER_URI}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"account"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update account [admin]",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzMjZhNGZkYTgwMTJjNGJjMDJkNjM2OCIsImlhdCI6MTY2MzQ3Njk4OSwiZXhwIjoxNjY2MDY4OTg5fQ.wxPGnDLvZYqyXXC5YIaUJoJqfxdeZlb96xi4Jvgtj80",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"isAdmin\": true\r\n}"
+				},
+				"url": {
+					"raw": "{{SERVER_URI}}/api/v1/users/6326a3633979c3a722be8411",
+					"host": [
+						"{{SERVER_URI}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"6326a3633979c3a722be8411"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Forget Password",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzMjZhNGZkYTgwMTJjNGJjMDJkNjM2OCIsImlhdCI6MTY2MzQ3Njk4OSwiZXhwIjoxNjY2MDY4OTg5fQ.wxPGnDLvZYqyXXC5YIaUJoJqfxdeZlb96xi4Jvgtj80",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"jone@wallet.io\"\r\n}"
+				},
+				"url": {
+					"raw": "{{SERVER_URI}}/api/v1/users/forgetpassword",
+					"host": [
+						"{{SERVER_URI}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"forgetpassword"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

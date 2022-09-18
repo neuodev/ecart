@@ -21,6 +21,8 @@
 
 # API
 
+For full documentaiton try to import [this collection](./Wallet%20e-commerce.postman_collection.json) into your postman
+
 ## User
 
 ### Admin Only
