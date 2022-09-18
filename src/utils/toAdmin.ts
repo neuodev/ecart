@@ -17,6 +17,8 @@ export const toAdmin = async (id: string) => {
         isAdmin: true,
       }
     );
+
+    console.log(`${user.fullName()} is now an admin`.bgGreen);
   } catch (error) {
     console.log(error.message.red.underline);
   }
