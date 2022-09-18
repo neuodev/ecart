@@ -134,18 +134,24 @@ const getUsers = asyncHandler(async (req, res, next) => {
 });
 
 // @Desc    Delete user
-// @Route   DELETE /api/users/:id
+// @Route   DELETE /api/v1/users/:id
 // @Access  Private/Admin
-const deleteUser = asyncHandler(async (req, res, next) => {
-  const id = req.params.id;
-  const user = await User.findById(id);
-  if (!user) {
-    return next(new ErrorResponse(`User Not Found `, 404));
-  }
+const deleteUser = asyncHandler(
+  async (
+    req: Request<{ id: string }>,
+    res: Response<{ message: string }>,
+    next: NextFunction
+  ) => {
+    const id = req.params.id;
+    const user = await User.findById(id);
+    if (!user) {
+      return next(new ErrorResponse(`User Not Found `, 404));
+    }
 
-  await user.remove();
-  res.json({ message: "User removed" });
-});
+    await user.remove();
+    res.json({ message: "User removed" });
+  }
+);
 
 // @Desc    Delete Account form user it self
 // @Route   DELETE /api/users/account
