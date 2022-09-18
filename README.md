@@ -19,17 +19,20 @@
 
 ![Checkout page](/client/public/images/e-commerce-3.png)
 
-## API
+# API
+
+## User
+
+### Admin Only
 
 <details>
-<summary>POST /api/v1/users/login</summary>
+<summary>PUT /api/v1/users/:id - Admin only </summary>
 
 ### Request
 
 ```json
 {
-  "email": "jone@wallet.io",
-  "password": "1234567"
+  "isAdmin": true
 }
 ```
 
@@ -37,68 +40,15 @@
 
 ```json
 {
-  "_id": "6326a4fda8012c4bc02d6368",
-  "firstName": "Jone",
+  "_id": "6326a3633979c3a722be8411",
+  "firstName": "Jane",
   "lastName": "Doe",
-  "email": "jone@wallet.io",
-  "isAdmin": true,
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzMjZhNGZkYTgwMTJjNGJjMDJkNjM2OCIsImlhdCI6MTY2MzQ4MDk4NCwiZXhwIjoxNjY2MDcyOTg0fQ.rv7FZMh_ScxkdvYHfBC03cEajFuViXoEtwN74FYmkRQ"
+  "email": "jane@wallet.io",
+  "isAdmin": true
 }
 ```
 
 </details>
-
-<details>
-<summary>POST /api/v1/users</summary>
-
-### Request
-
-```json
-{
-  "firstName": "Joen",
-  "lastName": "Doe",
-  "email": "jone@wallet.io",
-  "password": "1234567"
-}
-```
-
-### Response
-
-```json
-{
-  "_id": "6326a4fda8012c4bc02d6368",
-  "firstName": "Joen",
-  "lastName": "Doe",
-  "email": "jone@wallet.io",
-  "isAdmin": false,
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzMjZhNGZkYTgwMTJjNGJjMDJkNjM2OCIsImlhdCI6MTY2MzQ3Njk4OSwiZXhwIjoxNjY2MDY4OTg5fQ.wxPGnDLvZYqyXXC5YIaUJoJqfxdeZlb96xi4Jvgtj80"
-}
-```
-
-</details>
-
-<details>
-<summary>GET /api/v1/users/account</summary>
-
-### Request
-
-`Authorization: Bearer <TOKEN>`
-
-### Response
-
-```json
-{
-  "_id": "6326a4fda8012c4bc02d6368",
-  "firstName": "Joen",
-  "lastName": "Doe",
-  "email": "jone@wallet.io",
-  "isAdmin": false,
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzMjZhNGZkYTgwMTJjNGJjMDJkNjM2OCIsImlhdCI6MTY2MzQ3Njk4OSwiZXhwIjoxNjY2MDY4OTg5fQ.wxPGnDLvZYqyXXC5YIaUJoJqfxdeZlb96xi4Jvgtj80"
-}
-```
-
-</details>
-
 <details>
 <summary>GET /api/v1/users - Admin only</summary>
 
@@ -197,6 +147,86 @@
 
 </details>
 
+### Admin/users
+
+<details>
+<summary>POST /api/v1/users/login</summary>
+
+### Request
+
+```json
+{
+  "email": "jone@wallet.io",
+  "password": "1234567"
+}
+```
+
+### Response
+
+```json
+{
+  "_id": "6326a4fda8012c4bc02d6368",
+  "firstName": "Jone",
+  "lastName": "Doe",
+  "email": "jone@wallet.io",
+  "isAdmin": true,
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzMjZhNGZkYTgwMTJjNGJjMDJkNjM2OCIsImlhdCI6MTY2MzQ4MDk4NCwiZXhwIjoxNjY2MDcyOTg0fQ.rv7FZMh_ScxkdvYHfBC03cEajFuViXoEtwN74FYmkRQ"
+}
+```
+
+</details>
+
+<details>
+<summary>POST /api/v1/users</summary>
+
+### Request
+
+```json
+{
+  "firstName": "Joen",
+  "lastName": "Doe",
+  "email": "jone@wallet.io",
+  "password": "1234567"
+}
+```
+
+### Response
+
+```json
+{
+  "_id": "6326a4fda8012c4bc02d6368",
+  "firstName": "Joen",
+  "lastName": "Doe",
+  "email": "jone@wallet.io",
+  "isAdmin": false,
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzMjZhNGZkYTgwMTJjNGJjMDJkNjM2OCIsImlhdCI6MTY2MzQ3Njk4OSwiZXhwIjoxNjY2MDY4OTg5fQ.wxPGnDLvZYqyXXC5YIaUJoJqfxdeZlb96xi4Jvgtj80"
+}
+```
+
+</details>
+
+<details>
+<summary>GET /api/v1/users/account</summary>
+
+### Request
+
+`Authorization: Bearer <TOKEN>`
+
+### Response
+
+```json
+{
+  "_id": "6326a4fda8012c4bc02d6368",
+  "firstName": "Joen",
+  "lastName": "Doe",
+  "email": "jone@wallet.io",
+  "isAdmin": false,
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzMjZhNGZkYTgwMTJjNGJjMDJkNjM2OCIsImlhdCI6MTY2MzQ3Njk4OSwiZXhwIjoxNjY2MDY4OTg5fQ.wxPGnDLvZYqyXXC5YIaUJoJqfxdeZlb96xi4Jvgtj80"
+}
+```
+
+</details>
+
 <details>
 <summary>PUT /api/v1/account </summary>
 
@@ -214,30 +244,6 @@
   "email": "jone@wallet.io",
   "isAdmin": true,
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzMjZhNGZkYTgwMTJjNGJjMDJkNjM2OCIsImlhdCI6MTY2MzQ3ODk1MywiZXhwIjoxNjY2MDcwOTUzfQ.5KCy_rocdxUDcLRVEgJdcJmAHKfP4gIOWEy9Mra4V6M"
-}
-```
-
-</details>
-<details>
-<summary>PUT /api/v1/users/:id - Admin only </summary>
-
-### Request
-
-```json
-{
-  "isAdmin": true
-}
-```
-
-### Response
-
-```json
-{
-  "_id": "6326a3633979c3a722be8411",
-  "firstName": "Jane",
-  "lastName": "Doe",
-  "email": "jane@wallet.io",
-  "isAdmin": true
 }
 ```
 
