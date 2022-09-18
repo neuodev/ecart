@@ -54,5 +54,7 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () =>
-  console.log(`Server start in ${process.env.NODE_ENV} at port ${PORT}`.bgCyan)
+  console.log(
+    `Server start in ${process.env.NODE_ENV || "-"} at port ${PORT}`.bgCyan
+  )
 );
