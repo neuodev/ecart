@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import asyncHandler from "express-async-handler";
-import User from "../models/User";
+import User, { IUser } from "../models/User";
+import { isEmptyObj } from "../utils";
 import ErrorResponse from "../utils/ErrorResponse";
 import sendEmail from "../utils/sendEmail";
 
@@ -168,48 +169,73 @@ const deleteUserAccount = asyncHandler(async (req, res, next) => {
 });
 
 // @Desc    Get user by ID
-// @Route   GET /api/users/:id
+// @Route   GET /api/v1/users/:id
 // @Access  Private/Admin
-const getUserById = asyncHandler(async (req, res, next) => {
-  const id = req.params.id;
-  const user = await User.findById(id).select("-password");
+const getUserById = asyncHandler(
+  async (
+    req: Request<{ id: string }>,
+    res: Response<IUser>,
+    next: NextFunction
+  ) => {
+    const id = req.params.id;
+    const user = await User.findById(id).select("-password");
 
-  if (user) {
-    res.json(user);
-  } else {
-    return next(new ErrorResponse(`User Not Found `, 404));
+    if (user) {
+      res.json(user);
+    } else {
+      return next(new ErrorResponse(`User Not Found `, 404));
+    }
   }
-});
+);
 
 // @Desc    Update user account
-// @Route   PUT /api/users/account
+// @Route   PUT /api/v1/users/account
 // @Access  Private
-const updateUserAccount = asyncHandler(async (req, res, next) => {
-  const id = req.user._id;
-  const { firstName, lastName, email, password } = req.body;
-  const user = await User.findById(id);
-
-  if (user) {
-    user.firstName = firstName || user.firstName;
-    user.lastName = lastName || user.lastName;
-    user.email = email || user.email;
-    if (typeof password === "string") {
-      user.password = req.body.password;
+const updateUserAccount = asyncHandler(
+  async (
+    req: Request<
+      {},
+      {
+        firstName: string;
+        lastName: string;
+        email: string;
+        password: string;
+      }
+    >,
+    res: Response<UserRes>,
+    next: NextFunction
+  ) => {
+    const id = req.user._id;
+    const { firstName, lastName, email, password } = req.body;
+    if (isEmptyObj(req.body)) {
+      return next(new ErrorResponse("Empty request body", 400));
     }
 
-    const updatedUser = await user.save();
-    const token = user.getSignedJwtToken();
-    res.json({
-      _id: updatedUser._id,
-      name: `${user.firstName} ${user.lastName}`,
-      email: updatedUser.email,
-      isAdmin: updatedUser.isAdmin,
-      token,
-    });
-  } else {
-    next(new ErrorResponse("User Not Found"));
+    const user = await User.findById(id);
+    if (user) {
+      user.firstName = firstName || user.firstName;
+      user.lastName = lastName || user.lastName;
+      user.email = email || user.email;
+
+      if (typeof password === "string") {
+        user.password = password;
+      }
+
+      const updatedUser = await user.save();
+      const token = user.getSignedJwtToken();
+      res.json({
+        _id: updatedUser._id,
+        firstName: updatedUser.firstName,
+        lastName: updatedUser.lastName,
+        email: updatedUser.email,
+        isAdmin: updatedUser.isAdmin,
+        token,
+      });
+    } else {
+      next(new ErrorResponse("User Not Found"));
+    }
   }
-});
+);
 
 // @Desc    Update user
 // @Route   PUT /api/users/:id
