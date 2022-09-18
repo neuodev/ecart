@@ -1,87 +1,131 @@
+import { NextFunction, Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 import User from "../models/User";
 import ErrorResponse from "../utils/ErrorResponse";
 import sendEmail from "../utils/sendEmail";
 
+type AuthReqBody = {
+  email: string;
+  password: string;
+};
+
+type UserRes = {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  isAdmin: boolean;
+  token: string;
+};
+
 // @Desc    Auth user & get token
-// @Route   POST /api/users/login
+// @Route   POST /api/v1/users/login
 // @Access  Public
-const authUser = asyncHandler(async (req, res, next) => {
-  const { email, password } = req.body;
+const authUser = asyncHandler(
+  async (
+    req: Request<{}, AuthReqBody>,
+    res: Response<UserRes>,
+    next: NextFunction
+  ) => {
+    const { email, password } = req.body;
 
-  const user = await User.findOne({ email });
+    const user = await User.findOne({ email });
+    if (!password) {
+      return next(new ErrorResponse("Password is required", 400));
+    }
 
-  if (!password) {
-    return next(new ErrorResponse("Password is required", 400));
+    if (user && (await user.matchPassword(password))) {
+      const token = user.getSignedJwtToken();
+      res.status(200).json({
+        _id: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        isAdmin: user.isAdmin,
+        token,
+      });
+    } else {
+      next(new ErrorResponse("Invalid email or password", 401));
+    }
   }
-
-  if (user && (await user.matchPassword(password))) {
-    const token = user.getSignedJwtToken();
-    res.status(200).json({
-      _id: user._id,
-      name: `${user.firstName} ${user.lastName}`,
-      email: user.email,
-      isAdmin: user.isAdmin,
-      token,
-    });
-  } else {
-    next(new ErrorResponse("Invalid email or password", 401));
-  }
-});
+);
 
 // @Desc    Register a new user
-// @Route   POST /api/users
+// @Route   POST /api/v1/users
 // @Access  Public
-const registerUser = asyncHandler(async (req, res, next) => {
-  const { firstName, lastName, email, password } = req.body;
+type RegisterUserBody = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+};
 
-  const userExists = await User.findOne({ email });
+const registerUser = asyncHandler(
+  async (req: Request<{}, RegisterUserBody>, res: Response<UserRes>, next) => {
+    const { firstName, lastName, email, password } = req.body;
 
-  if (userExists) {
-    return next(new ErrorResponse("User already exist", 401));
-  }
+    const userExists = await User.findOne({ email });
+    if (userExists) {
+      return next(new ErrorResponse("User already exist", 401));
+    }
 
-  const user = await User.create({
-    firstName,
-    lastName,
-    email,
-    password,
-  });
-  const token = user.getSignedJwtToken();
-  if (user) {
-    res.status(201).json({
-      _id: user._id,
-      name: `${user.firstName} ${user.lastName}`,
-      email: user.email,
-      isAdmin: user.isAdmin,
-      token,
+    const user = await User.create({
+      firstName,
+      lastName,
+      email,
+      password,
     });
-  } else {
-    next(new ErrorResponse(`Invalid User Data`, 400));
+
+    const token = user.getSignedJwtToken();
+    if (user) {
+      res.status(201).json({
+        _id: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        isAdmin: user.isAdmin,
+        token,
+      });
+    } else {
+      next(new ErrorResponse(`Invalid User Data`, 400));
+    }
   }
-});
+);
 
 // @Desc    Get user account
-// @Route   GET /api/users/account
+// @Route   GET /api/api/users/account
 // @Access  Private
-const getUserAccount = asyncHandler(async (req, res, next) => {
-  const id = req.user._id;
-  const user = await User.findById(id);
+const getUserAccount = asyncHandler(
+  async (
+    req: Request,
+    res: Response<{
+      _id: string;
+      firstName: string;
+      lastName: string;
+      email: string;
+      isAdmin: boolean;
+    }>,
+    next: NextFunction
+  ) => {
+    const id = req.user._id;
+    const user = await User.findById(id);
 
-  if (user) {
-    res.json({
-      _id: user._id,
-      name: `${user.firstName} ${user.lastName}`,
-      email: user.email,
-      isAdmin: user.isAdmin,
-    });
-  } else {
-    next(new ErrorResponse("User Not Found"));
+    if (user) {
+      res.json({
+        _id: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        isAdmin: user.isAdmin,
+      });
+    } else {
+      next(new ErrorResponse("User Not Found"));
+    }
   }
-});
+);
 
 // @Desc    Get all users
-// @Route   GET /api/users
+// @Route   GET /api/api/users
 // @Access  Private/Admin
 const getUsers = asyncHandler(async (req, res, next) => {
   const count = await User.countDocuments();

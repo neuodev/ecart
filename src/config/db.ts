@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import "colors";
 
 const connectDB = async () => {
   try {
@@ -9,8 +10,6 @@ const connectDB = async () => {
         "Missing mongo URI\nTry to use docker `docker-compose up -d` then add this `MONGO_URI=mongodb://localhost/wallet` to your `.env`"
       );
     }
-
-    console.log(`[uri] ${uri}`);
 
     const conn = await mongoose.connect(uri);
     console.log(`MongoDB Connected: ${conn.connection.host}`.cyan.underline);
