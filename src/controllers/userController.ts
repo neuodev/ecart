@@ -238,33 +238,56 @@ const updateUserAccount = asyncHandler(
 );
 
 // @Desc    Update user
-// @Route   PUT /api/users/:id
+// @Route   PUT /api/v1/users/:id
 // @Access  Private/Admin
-const updateUser = asyncHandler(async (req, res, next) => {
-  const id = req.params.id;
-  const { firstName, lastName, email, isAdmin } = req.body;
-  const user = await User.findById(id);
+const updateUser = asyncHandler(
+  async (
+    req: Request<
+      {
+        id: string;
+      },
+      {
+        firstName: string;
+        lastName: string;
+        email: string;
+        isAmdin: boolean;
+      }
+    >,
+    res: Response<{
+      _id: string;
+      firstName: string;
+      lastName: string;
+      email: string;
+      isAdmin: boolean;
+    }>,
+    next: NextFunction
+  ) => {
+    const id = req.params.id;
+    const { firstName, lastName, email, isAdmin } = req.body;
+    const user = await User.findById(id);
+    if (user) {
+      user.firstName = firstName || user.firstName;
+      user.lastName = lastName || user.lastName;
+      user.email = email || user.email;
 
-  if (user) {
-    user.firstName = firstName || user.firstName;
-    user.lastName = lastName || user.lastName;
-    user.email = req.body.email || user.email;
-    if (typeof isAdmin === "boolean") {
-      user.isAdmin = isAdmin;
+      if (typeof isAdmin === "boolean") {
+        user.isAdmin = isAdmin;
+      }
+
+      const updatedUser = await user.save();
+
+      res.json({
+        _id: updatedUser._id,
+        firstName: updatedUser.firstName,
+        lastName: updatedUser.lastName,
+        email: updatedUser.email,
+        isAdmin: updatedUser.isAdmin,
+      });
+    } else {
+      next(new ErrorResponse("User not found"));
     }
-
-    const updatedUser = await user.save();
-
-    res.json({
-      _id: updatedUser._id,
-      name: `${user.firstName} ${user.lastName}`,
-      email: updatedUser.email,
-      isAdmin: updatedUser.isAdmin,
-    });
-  } else {
-    next(new ErrorResponse("User not found"));
   }
-});
+);
 
 // @Desc      Forgot password
 // @Route     POST /api/v1/users/forgotpassword
