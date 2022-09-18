@@ -26,7 +26,7 @@
 ### Admin Only
 
 <details>
-<summary>PUT /api/v1/users/:id - Admin only </summary>
+<summary>PUT /api/v1/users/:id  </summary>
 
 ### Request
 
@@ -50,7 +50,7 @@
 
 </details>
 <details>
-<summary>GET /api/v1/users - Admin only</summary>
+<summary>GET /api/v1/users </summary>
 
 ### Request
 
@@ -91,7 +91,7 @@
 </details>
 
 <details>
-<summary>DELETE /api/v1/users/:id - Admin only</summary>
+<summary>DELETE /api/v1/users/:id </summary>
 
 ### Request
 
@@ -124,7 +124,7 @@
 </details>
 
 <details>
-<summary>GET /api/v1/users/:id - Admin only</summary>
+<summary>GET /api/v1/users/:id </summary>
 
 ### Request
 
