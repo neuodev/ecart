@@ -1,4 +1,11 @@
 #!/bin/bash
+################################################################################
+#                               By: Ahmed Ibrahim
+#                         Created At: Sat. 17 Sep. 2022
+#                                  Description:
+#                     Change all of the .js files into .ts.
+#                   As this project was originally made by JS
+################################################################################
 
 curr_files=$( ls ./src/*/*.js )
 

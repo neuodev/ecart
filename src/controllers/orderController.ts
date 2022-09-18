@@ -1,52 +1,55 @@
-const asyncHandler = require('express-async-handler');
-const Order = require('../models/Order');
-const ErrorResponse = require('../utils/ErrorResponse');
+import asyncHandler from "express-async-handler";
+import Order from "../models/Order";
+import ErrorResponse from "../utils/ErrorResponse";
+import { Request, Response, NextFunction } from "express";
 
-// @desc    Create new order
-// @route   POST /api/orders
-// @access  Private
-const addOrderItems = asyncHandler(async (req, res, next) => {
-  const {
-    orderItems,
-    shippingAddress,
-    shippingMethod,
-    taxPrice,
-    shippingPrice,
-    totalPrice,
-  } = req.body;
-
-  if (orderItems && orderItems.length === 0) {
-    return next(new ErrorResponse('Order items is required'));
-  } else {
-    const order = new Order({
+// @Desc    Create new order
+// @Route   POST /api/orders
+// @Access  Private
+const addOrderItems = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const {
       orderItems,
-      user: req.user._id,
       shippingAddress,
       shippingMethod,
       taxPrice,
       shippingPrice,
       totalPrice,
-    });
+    } = req.body;
 
-    const createdOrder = await order.save();
-    if (!createdOrder) {
-      return next(new ErrorResponse("Can't create the order "));
+    if (orderItems && orderItems.length === 0) {
+      return next(new ErrorResponse("Order items is required"));
+    } else {
+      const order = new Order({
+        orderItems,
+        user: req.user._id,
+        shippingAddress,
+        shippingMethod,
+        taxPrice,
+        shippingPrice,
+        totalPrice,
+      });
+
+      const createdOrder = await order.save();
+      if (!createdOrder) {
+        return next(new ErrorResponse("Can't create the order "));
+      }
+
+      res.status(201).json(createdOrder);
     }
-
-    res.status(201).json(createdOrder);
   }
-});
+);
 // @desc    Get order by ID
 // @route   GET /api/orders/:id
 // @access  Private
 const getOrderById = asyncHandler(async (req, res, next) => {
   const orderId = req.params.id;
-  const order = await Order.findById(orderId).populate('user', 'name email');
+  const order = await Order.findById(orderId).populate("user", "name email");
 
   if (order) {
     res.json(order);
   } else {
-    return next(new ErrorResponse('Order Not Found', 404));
+    return next(new ErrorResponse("Order Not Found", 404));
   }
 });
 
@@ -62,7 +65,7 @@ const updateOrderToPaid = asyncHandler(async (req, res, next) => {
     payer: { email_address },
   } = req.body;
   if (!id || !status || !update_time || !email_address) {
-    return next(new ErrorResponse('payment info is required'));
+    return next(new ErrorResponse("payment info is required"));
   }
   const order = await Order.findById(orderId);
   if (order) {
@@ -79,28 +82,30 @@ const updateOrderToPaid = asyncHandler(async (req, res, next) => {
 
     res.json(updatedOrder);
   } else {
-    return next(new ErrorResponse('Order Not Found', 404));
+    return next(new ErrorResponse("Order Not Found", 404));
   }
 });
 
 // @desc    Update order to delivered
 // @route   GET /api/orders/:id/deliver
 // @access  Private/Admin
-const updateOrderToDelivered = asyncHandler(async (req, res) => {
-  const orderId = req.params.id;
-  const order = await Order.findById(orderId);
+const updateOrderToDelivered = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const orderId = req.params.id;
+    const order = await Order.findById(orderId);
 
-  if (order) {
-    order.isDelivered = true;
-    order.deliveredAt = Date.now();
+    if (order) {
+      order.isDelivered = true;
+      order.deliveredAt = Date.now();
 
-    const updatedOrder = await order.save();
+      const updatedOrder = await order.save();
 
-    res.json(updatedOrder);
-  } else {
-    return next(new ErrorResponse('Order Not Found', 404));
+      res.json(updatedOrder);
+    } else {
+      return next(new ErrorResponse("Order Not Found", 404));
+    }
   }
-});
+);
 
 // @desc    Get logged in user orders
 // @route   GET /api/orders/myorders
@@ -115,12 +120,12 @@ const getMyOrders = asyncHandler(async (req, res) => {
 // @route   GET /api/orders
 // @access  Private/Admin
 const getOrders = asyncHandler(async (req, res) => {
-  const orders = await Order.find({}).populate('user', 'id name');
+  const orders = await Order.find({}).populate("user", "id name");
   const count = await Order.countDocuments();
   res.json({ success: true, count, orders });
 });
 
-module.exports = {
+export {
   addOrderItems,
   getOrderById,
   updateOrderToPaid,
