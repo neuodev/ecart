@@ -41,7 +41,7 @@ const UserSchema = new Schema(
 );
 
 export type IUser = InferSchemaType<typeof UserSchema> & { _id: string };
-interface IUserMethods {
+export interface IUserMethods {
   getSignedJwtToken(): string;
   matchPassword(password: string): Promise<boolean>;
   getResetPasswordToken(): string;
