@@ -23,7 +23,7 @@
 
 For full documentaiton try to import [this collection](./Wallet%20e-commerce.postman_collection.json) into your postman
 
-## User
+## User API
 
 ### Admin Only
 
@@ -265,6 +265,269 @@ For full documentaiton try to import [this collection](./Wallet%20e-commerce.pos
   "success": true,
   "data": "Email sent"
 }
+```
+
+</details>
+
+# Product API
+
+## Admin Only
+
+<details>
+<summary>PUT /api/v1/products/:id</summary>
+
+Update a product by `id`
+
+### Request
+
+```json
+{
+  "price": 1200.0,
+  "images": ["img_3.png", "img_4.png"]
+}
+```
+
+### Response
+
+```json
+{
+  "_id": "6327fa179b841ab4ec957660",
+  "user": "6326a4fda8012c4bc02d6368",
+  "name": "iPhone 13 pro max",
+  "images": ["img_1.png", "img_3.png", "img_4.png"],
+  "brand": "Apple",
+  "category": [],
+  "description": "The most powerful phone on the planet earth",
+  "rating": 0,
+  "numReviews": 0,
+  "discount": 2,
+  "price": 1200,
+  "countInStock": 2000,
+  "reviews": [],
+  "createdAt": "2022-09-19T05:11:51.150Z",
+  "updatedAt": "2022-09-19T05:20:08.235Z",
+  "__v": 1
+}
+```
+
+</details>
+
+<details>
+<summary>POST /api/v1/products</summary>
+
+Create new product
+
+### Request
+
+```json
+{
+  "name": "iPhone 13 pro max",
+  "images": ["img_1.png"],
+  "brand": "Apple",
+  "caregory": ["phones"],
+  "description": "The most powerful phone on the planet earth",
+  "discount": 2,
+  "price": 1000.0,
+  "countInStock": 2000
+}
+```
+
+### Response
+
+```json
+{
+  "user": "6326a4fda8012c4bc02d6368",
+  "name": "iPhone 13 pro max",
+  "images": ["img_1.png"],
+  "brand": "Apple",
+  "category": [],
+  "description": "The most powerful phone on the planet earth",
+  "rating": 0,
+  "numReviews": 0,
+  "discount": 2,
+  "price": 1000,
+  "countInStock": 2000,
+  "_id": "6327fa179b841ab4ec957660",
+  "reviews": [],
+  "createdAt": "2022-09-19T05:11:51.150Z",
+  "updatedAt": "2022-09-19T05:11:51.150Z",
+  "__v": 0
+}
+```
+
+</details>
+
+<details>
+<summary>DELETE /api/v1/products/:id</summary>
+
+Delete a product by `ID`
+
+### Headers
+
+`Authorization: Bearer <TOKEN>`
+
+### Responst
+
+```json
+{
+  "messages": "Product Removed"
+}
+```
+
+</details>
+
+## Users/Admins
+
+<details>
+<summary>GET /api/v1/products</summary>
+
+Get all products
+
+### Response
+
+```json
+{
+  "success": true,
+  "count": 2,
+  "products": [
+    {
+      "_id": "6327fa179b841ab4ec957660",
+      "user": "6326a4fda8012c4bc02d6368",
+      "name": "iPhone 13 pro max",
+      "images": ["img_1.png"],
+      "brand": "Apple",
+      "category": [],
+      "description": "The most powerful phone on the planet earth",
+      "rating": 0,
+      "numReviews": 0,
+      "discount": 2,
+      "price": 1000,
+      "countInStock": 2000,
+      "reviews": [],
+      "createdAt": "2022-09-19T05:11:51.150Z",
+      "updatedAt": "2022-09-19T05:11:51.150Z",
+      "__v": 0
+    },
+    {
+      "_id": "6327dea49a70962f67219b8e",
+      "user": "6326a4fda8012c4bc02d6368",
+      "name": "iPhone 13 pro max",
+      "images": [
+        "img_1.png",
+        "img_2.png",
+        "img_3.png",
+        "img_3.png",
+        "img_4.png"
+      ],
+      "brand": "Apple",
+      "category": [],
+      "description": "The most powerful phone on the planet earth",
+      "rating": 0,
+      "numReviews": 0,
+      "discount": 2,
+      "price": 1200,
+      "countInStock": 2000,
+      "reviews": [],
+      "createdAt": "2022-09-19T03:14:44.403Z",
+      "updatedAt": "2022-09-19T03:59:29.317Z",
+      "__v": 7
+    }
+  ]
+}
+```
+
+</details>
+
+<details>
+<summary>GET /api/v1/products/:id</summary>
+
+Get product by `id`
+
+### Response
+
+```json
+{
+  "_id": "6327fa179b841ab4ec957660",
+  "user": "6326a4fda8012c4bc02d6368",
+  "name": "iPhone 13 pro max",
+  "images": ["img_1.png"],
+  "brand": "Apple",
+  "category": [],
+  "description": "The most powerful phone on the planet earth",
+  "rating": 0,
+  "numReviews": 0,
+  "discount": 2,
+  "price": 1000,
+  "countInStock": 2000,
+  "reviews": [],
+  "createdAt": "2022-09-19T05:11:51.150Z",
+  "updatedAt": "2022-09-19T05:11:51.150Z",
+  "__v": 0
+}
+```
+
+</details>
+
+<details>
+<summary>GET /api/v1/products/top</summary>
+
+Get top rated products
+
+### Response
+
+```json
+[
+  {
+    "_id": "6327fa179b841ab4ec957660",
+    "user": "6326a4fda8012c4bc02d6368",
+    "name": "iPhone 13 pro max",
+    "images": ["img_1.png", "img_3.png", "img_4.png"],
+    "brand": "Apple",
+    "category": [],
+    "description": "The most powerful phone on the planet earth",
+    "rating": 0,
+    "numReviews": 0,
+    "discount": 2,
+    "price": 1200,
+    "countInStock": 2000,
+    "reviews": [],
+    "createdAt": "2022-09-19T05:11:51.150Z",
+    "updatedAt": "2022-09-19T05:20:08.235Z",
+    "__v": 1
+  }
+]
+```
+
+</details>
+
+<details>
+<summary>GET /api/v1/products/new</summary>
+
+Get new published products
+
+### Response
+
+```json
+[
+  {
+    "_id": "6327fa179b841ab4ec957660",
+    "user": "6326a4fda8012c4bc02d6368",
+    "name": "iPhone 13 pro max",
+    "images": ["img_1.png", "img_3.png", "img_4.png"],
+    "brand": "Apple",
+    "category": [],
+    "description": "The most powerful phone on the planet earth",
+    "rating": 0,
+    "numReviews": 0,
+    "discount": 2,
+    "price": 1200,
+    "countInStock": 2000,
+    "reviews": [],
+    "createdAt": "2022-09-19T05:11:51.150Z",
+    "updatedAt": "2022-09-19T05:20:08.235Z",
+    "__v": 1
+  }
+]
 ```
 
 </details>
