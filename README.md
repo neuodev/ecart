@@ -23,9 +23,7 @@
 
 For full documentaiton try to import [this collection](./Wallet%20e-commerce.postman_collection.json) into your postman
 
-## User API
-
-### Admin Only
+# User API
 
 <details>
 <summary>PUT /api/v1/users/:id  </summary>
@@ -149,8 +147,6 @@ For full documentaiton try to import [this collection](./Wallet%20e-commerce.pos
 
 </details>
 
-### Admin/users
-
 <details>
 <summary>POST /api/v1/users/login</summary>
 
@@ -269,9 +265,9 @@ For full documentaiton try to import [this collection](./Wallet%20e-commerce.pos
 
 </details>
 
-# Product API
+<br />
 
-### Admin Only
+# Product API
 
 <details>
 <summary>PUT /api/v1/products/:id</summary>
@@ -375,8 +371,6 @@ Delete a product by `ID`
 ```
 
 </details>
-
-### Users/Admins
 
 <details>
 <summary>GET /api/v1/products</summary>
@@ -531,6 +525,8 @@ Get new published products
 ```
 
 </details>
+
+<br />
 
 # Reviews API
 
