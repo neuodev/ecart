@@ -1,5 +1,5 @@
 import asyncHandler from "express-async-handler";
-import Product from "../models/Product";
+import Product, { IProdcut } from "../models/Product";
 import ErrorResponse from "../utils/ErrorResponse";
 import { Request, Response, NextFunction } from "express";
 
@@ -273,11 +273,17 @@ const updateProductReview = asyncHandler(
   }
 );
 
-// @Desc    delete  review
-// @Route   DELETE /api/products/:id/reviews
+// @Desc    delete review
+// @Route   DELETE /api/v1/products/:id/reviews
 // @Access  Private
 const deleteProductReview = asyncHandler(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (
+    req: Request<{
+      id: string;
+    }>,
+    res: Response,
+    next: NextFunction
+  ) => {
     const productId = req.params.id;
     const user = req.user._id;
     const product = await Product.findById(productId);
@@ -311,10 +317,19 @@ const deleteProductReview = asyncHandler(
 );
 
 // @Desc    Create new review
-// @Route   POST /api/products/:id/reviews/:reviewId
+// @Route   POST /api/v1/products/:id/reviews/:reviewId
 // @Access  Private
 const deleteProductReviewAdmin = asyncHandler(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (
+    req: Request<{
+      id: string;
+      reviewId: string;
+    }>,
+    res: Response<{
+      message: string;
+    }>,
+    next: NextFunction
+  ) => {
     const reviewId = req.params.reviewId;
     const product = await Product.findById(req.params.id);
     if (!product) {
@@ -349,22 +364,45 @@ const deleteProductReviewAdmin = asyncHandler(
 );
 
 // @Desc    Get top rated products
-// @Route   GET /api/products/top
+// @Route   GET /api/v1/products/top
 // @Access  Public
 const getTopProducts = asyncHandler(
-  async (req: Request, res: Response, next: NextFunction) => {
-    const products = await Product.find({}).sort({ rating: -1 }).limit(4);
+  async (
+    req: Request<{ limit?: number }>,
+    res: Response<IProdcut[]>,
+    next: NextFunction
+  ) => {
+    let limit = Number(req.query.limit || 4);
+    if (isNaN(limit))
+      return next(
+        new ErrorResponse(`${req.query.limit} is not a valid number`)
+      );
 
+    const products = await Product.find({}).sort({ rating: -1 }).limit(limit);
     res.json(products);
   }
 );
 
 // @Desc    Get top rated products
-// @Route   GET /api/products/top
+// @Route   GET /api/v1/products/top
 // @Access  Public
 const getNewProducts = asyncHandler(
-  async (req: Request, res: Response, next: NextFunction) => {
-    const products = await Product.find({}).sort({ createdAt: -1 }).limit(4);
+  async (
+    req: Request<{
+      limit?: number;
+    }>,
+    res: Response<IProdcut[]>,
+    next: NextFunction
+  ) => {
+    let limit = Number(req.query.limit || 4);
+    if (isNaN(limit))
+      return next(
+        new ErrorResponse(`${req.query.limit} is not a valid number`)
+      );
+
+    const products = await Product.find({})
+      .sort({ createdAt: -1 })
+      .limit(limit);
 
     res.json(products);
   }
