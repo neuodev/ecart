@@ -368,7 +368,7 @@ const deleteProductReviewAdmin = asyncHandler(
 // @Access  Public
 const getTopProducts = asyncHandler(
   async (
-    req: Request<{ limit?: number }>,
+    req: Request<{}, {}, { limit?: number }>,
     res: Response<IProdcut[]>,
     next: NextFunction
   ) => {
@@ -388,9 +388,13 @@ const getTopProducts = asyncHandler(
 // @Access  Public
 const getNewProducts = asyncHandler(
   async (
-    req: Request<{
-      limit?: number;
-    }>,
+    req: Request<
+      {},
+      {},
+      {
+        limit?: number;
+      }
+    >,
     res: Response<IProdcut[]>,
     next: NextFunction
   ) => {

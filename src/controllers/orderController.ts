@@ -49,41 +49,48 @@ const addOrderItems = asyncHandler(
       totalPrice,
     } = req.body;
 
-    if (orderItems && orderItems.length === 0) {
-      return next(new ErrorResponse("Order items is required"));
-    } else {
-      const order = new Order({
-        orderItems,
-        user: req.user._id,
-        shippingAddress,
-        shippingMethod,
-        taxPrice,
-        shippingPrice,
-        totalPrice,
-      });
+    if (!orderItems || orderItems.length === 0)
+      return next(new ErrorResponse("Can't create an empty order"));
 
-      const createdOrder = await order.save();
-      if (!createdOrder) {
-        return next(new ErrorResponse("Can't create the order "));
-      }
+    const order = new Order({
+      orderItems,
+      user: req.user._id,
+      shippingAddress,
+      shippingMethod,
+      taxPrice,
+      shippingPrice,
+      totalPrice,
+    });
 
-      res.status(201).json(createdOrder);
+    const createdOrder = await order.save();
+    if (!createdOrder) {
+      return next(new ErrorResponse("Can't create the order "));
     }
+
+    res.status(201).json(createdOrder);
   }
 );
 // @desc    Get order by ID
-// @route   GET /api/orders/:id
+// @route   GET /api/v1/orders/:id
 // @access  Private
-const getOrderById = asyncHandler(async (req, res, next) => {
-  const orderId = req.params.id;
-  const order = await Order.findById(orderId).populate("user", "name email");
+const getOrderById = asyncHandler(
+  async (
+    req: Request<{
+      id: string;
+    }>,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const orderId = req.params.id;
+    const order = await Order.findById(orderId).populate("user", "name email");
 
-  if (order) {
-    res.json(order);
-  } else {
-    return next(new ErrorResponse("Order Not Found", 404));
+    if (order) {
+      res.json(order);
+    } else {
+      return next(new ErrorResponse("Order Not Found", 404));
+    }
   }
-});
+);
 
 // @desc    Update order to paid
 // @route   GET /api/orders/:id/pay
