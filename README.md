@@ -271,7 +271,7 @@ For full documentaiton try to import [this collection](./Wallet%20e-commerce.pos
 
 # Product API
 
-## Admin Only
+### Admin Only
 
 <details>
 <summary>PUT /api/v1/products/:id</summary>
@@ -376,7 +376,7 @@ Delete a product by `ID`
 
 </details>
 
-## Users/Admins
+### Users/Admins
 
 <details>
 <summary>GET /api/v1/products</summary>
@@ -528,6 +528,85 @@ Get new published products
     "__v": 1
   }
 ]
+```
+
+</details>
+
+# Reviews API
+
+<details>
+<summary>POST /api/v1/products/:id/reviews</summary>
+
+Add product review
+
+### Request
+
+```json
+{
+  "rating": 5,
+  "comment": "Very cool!"
+}
+```
+
+### Response
+
+```json
+{
+  "message": "Review added"
+}
+```
+
+</details>
+
+<details>
+<summary>PUT /api/v1/products/:id/reviews</summary>
+
+Update product review by the user
+
+### Request
+
+```json
+{
+  "comment": "Super cool!"
+}
+```
+
+### Response
+
+```json
+{
+  "message": "Review Updated"
+}
+```
+
+</details>
+
+<details>
+<summary>DELETE /api/v1/products/:id/reviews</summary>
+
+Delete product review by the user
+
+### Response
+
+```json
+{
+  "message": "Review Deleted"
+}
+```
+
+</details>
+
+<details>
+<summary>DELTE /api/v1/products/:productId/reviews/:reviewId</summary>
+
+Delete product review by the admin
+
+### Response
+
+```json
+{
+  "message": "Review Removed"
+}
 ```
 
 </details>
