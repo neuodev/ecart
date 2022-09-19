@@ -13,6 +13,7 @@ import {
   deleteProductReviewAdmin,
 } from "../controllers/productController";
 import { authorize, protect } from "../middleware/auth";
+import { bodyCheck } from "../middleware/bodyCheck";
 
 const productRouter = express.Router();
 productRouter
@@ -39,6 +40,6 @@ productRouter
   .route("/:id")
   .get(getProductById)
   .delete(protect, authorize, deleteProduct)
-  .put(protect, authorize, updateProduct);
+  .put(protect, authorize, bodyCheck(), updateProduct);
 
 export default productRouter;

@@ -1,4 +1,4 @@
-import mongoose, { InferSchemaType, Model, Schema } from "mongoose";
+import mongoose, { InferSchemaType, Model, Schema, Document } from "mongoose";
 
 const reviewSchema = new Schema(
   {
@@ -23,22 +23,22 @@ const productSchema = new Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      required: [true, `User is required`],
+      required: [true, "User is required"],
       ref: "User",
     },
     name: {
       type: String,
-      required: [true, `Name is required`],
+      required: [true, "Name is required"],
     },
     images: [
       {
         type: String,
-        required: true,
+        required: [true, "Image is required"],
       },
     ],
     brand: {
       type: String,
-      required: [true, `brand is required`],
+      required: [true, "brand is required"],
       default: "NO-BRAND",
     },
     category: [
@@ -50,7 +50,7 @@ const productSchema = new Schema(
     ],
     description: {
       type: String,
-      required: [true, `Descritption is required`],
+      required: [true, "Descritption is required"],
     },
     reviews: [reviewSchema],
     rating: {

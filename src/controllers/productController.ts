@@ -1,5 +1,5 @@
 import asyncHandler from "express-async-handler";
-import Product from "../models/Product";
+import Product, { IProdcut } from "../models/Product";
 import ErrorResponse from "../utils/ErrorResponse";
 import { Request, Response, NextFunction } from "express";
 
@@ -12,7 +12,7 @@ interface Query {
 }
 
 // @Desc    Fetch all products
-// @Route   GET /api/products
+// @Route   GET /api/v1/products
 // @Access  Public
 const getProducts = asyncHandler(
   async (
@@ -93,6 +93,7 @@ const getProductById = asyncHandler(
     res.status(200).json(product);
   }
 );
+
 // @Desc    Delete a product
 // @Route   DELETE /api/products/:id
 // @Access  Private/Admin
@@ -111,7 +112,7 @@ const deleteProduct = asyncHandler(
 );
 
 // @Desc    Create a product
-// @Route   POST /api/products
+// @Route   POST /api/v1/products
 // @Access  Private/Admin
 const createProduct = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -123,10 +124,27 @@ const createProduct = asyncHandler(
 );
 
 // @Desc    Update a product
-// @Route   PUT /api/products/:id
+// @Route   PUT /api/v1/products/:id
 // @Access  Private/Admin
 const updateProduct = asyncHandler(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (
+    req: Request<
+      {
+        id: string;
+      },
+      {
+        name: string;
+        price: string;
+        description: string;
+        images: string[] | string;
+        brand: string;
+        category: string;
+        countInStock: string;
+      }
+    >,
+    res: Response,
+    next: NextFunction
+  ) => {
     const id = req.params.id;
     const { name, price, description, images, brand, category, countInStock } =
       req.body;
@@ -143,9 +161,12 @@ const updateProduct = asyncHandler(
     product.brand = brand || product.brand;
     product.category = category || product.category;
     product.countInStock = countInStock || product.countInStock;
+    let oldImages = product.images;
 
-    if (typeof images === "string") {
-      product.images.push(images as any);
+    if (Array.isArray(images)) {
+      product.images = oldImages.concat(images);
+    } else if (typeof images === "string") {
+      oldImages.push(images as any);
     }
 
     await product.save();
@@ -155,16 +176,32 @@ const updateProduct = asyncHandler(
 );
 
 // @Desc    Create new review
-// @Route   POST /api/products/:id/reviews
+// @Route   POST /api/v1/products/:id/reviews
 // @Access  Private
 const createProductReview = asyncHandler(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (
+    req: Request<
+      {
+        id: string;
+      },
+      {
+        rating: number;
+        comment: string;
+      }
+    >,
+    res: Response,
+    next: NextFunction
+  ) => {
     const { rating, comment } = req.body;
     if (!rating || !comment) {
       return next(new ErrorResponse("Rating and comment are required", 400));
     }
 
-    const name = req.user.firstName + " " + req.user.lastName;
+    if (isNaN(Number(rating))) {
+      return next(new ErrorResponse(`${rating} is not a valid rating`, 400));
+    }
+
+    const name = req.user.fullName();
     const user = req.user._id;
     const product = await Product.findById(req.params.id);
 
@@ -187,9 +224,7 @@ const createProductReview = asyncHandler(
     };
 
     product.reviews.push(review);
-
     product.numReviews = product.reviews.length;
-
     product.rating =
       product.reviews.reduce((acc, item) => item.rating + acc, 0) /
       product.reviews.length;
@@ -199,11 +234,17 @@ const createProductReview = asyncHandler(
   }
 );
 
-// @Desc    Update  review
-// @Route   PUT /api/products/:id/reviews
+// @Desc    Update review
+// @Route   PUT /api/v1/products/:id/reviews
 // @Access  Private
 const updateProductReview = asyncHandler(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (
+    req: Request<{
+      id: string;
+    }>,
+    res: Response,
+    next: NextFunction
+  ) => {
     let { rating, comment } = req.body;
     if (!rating && !comment) {
       return next(
@@ -232,11 +273,17 @@ const updateProductReview = asyncHandler(
   }
 );
 
-// @Desc    delete  review
-// @Route   DELETE /api/products/:id/reviews
+// @Desc    delete review
+// @Route   DELETE /api/v1/products/:id/reviews
 // @Access  Private
 const deleteProductReview = asyncHandler(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (
+    req: Request<{
+      id: string;
+    }>,
+    res: Response,
+    next: NextFunction
+  ) => {
     const productId = req.params.id;
     const user = req.user._id;
     const product = await Product.findById(productId);
@@ -270,10 +317,19 @@ const deleteProductReview = asyncHandler(
 );
 
 // @Desc    Create new review
-// @Route   POST /api/products/:id/reviews/:reviewId
+// @Route   POST /api/v1/products/:id/reviews/:reviewId
 // @Access  Private
 const deleteProductReviewAdmin = asyncHandler(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (
+    req: Request<{
+      id: string;
+      reviewId: string;
+    }>,
+    res: Response<{
+      message: string;
+    }>,
+    next: NextFunction
+  ) => {
     const reviewId = req.params.reviewId;
     const product = await Product.findById(req.params.id);
     if (!product) {
@@ -308,22 +364,49 @@ const deleteProductReviewAdmin = asyncHandler(
 );
 
 // @Desc    Get top rated products
-// @Route   GET /api/products/top
+// @Route   GET /api/v1/products/top
 // @Access  Public
 const getTopProducts = asyncHandler(
-  async (req: Request, res: Response, next: NextFunction) => {
-    const products = await Product.find({}).sort({ rating: -1 }).limit(4);
+  async (
+    req: Request<{}, {}, { limit?: number }>,
+    res: Response<IProdcut[]>,
+    next: NextFunction
+  ) => {
+    let limit = Number(req.query.limit || 4);
+    if (isNaN(limit))
+      return next(
+        new ErrorResponse(`${req.query.limit} is not a valid number`)
+      );
 
+    const products = await Product.find({}).sort({ rating: -1 }).limit(limit);
     res.json(products);
   }
 );
 
 // @Desc    Get top rated products
-// @Route   GET /api/products/top
+// @Route   GET /api/v1/products/top
 // @Access  Public
 const getNewProducts = asyncHandler(
-  async (req: Request, res: Response, next: NextFunction) => {
-    const products = await Product.find({}).sort({ createdAt: -1 }).limit(4);
+  async (
+    req: Request<
+      {},
+      {},
+      {
+        limit?: number;
+      }
+    >,
+    res: Response<IProdcut[]>,
+    next: NextFunction
+  ) => {
+    let limit = Number(req.query.limit || 4);
+    if (isNaN(limit))
+      return next(
+        new ErrorResponse(`${req.query.limit} is not a valid number`)
+      );
+
+    const products = await Product.find({})
+      .sort({ createdAt: -1 })
+      .limit(limit);
 
     res.json(products);
   }
