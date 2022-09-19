@@ -1,13 +1,45 @@
 import asyncHandler from "express-async-handler";
-import Order from "../models/Order";
+import Order, { IOrder } from "../models/Order";
 import ErrorResponse from "../utils/ErrorResponse";
 import { Request, Response, NextFunction } from "express";
 
 // @Desc    Create new order
-// @Route   POST /api/orders
+// @Route   POST /api/v1/orders
 // @Access  Private
 const addOrderItems = asyncHandler(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (
+    req: Request<
+      {},
+      {
+        orderItems: {
+          name: string;
+          qty: number;
+          image: string;
+          price: string;
+          product: string;
+        };
+        shippingAddress: {
+          address: string;
+          city: string;
+          postalCode: string;
+          country: string;
+          apartment: string;
+          firstName: string;
+          lastName: string;
+        };
+        paymentMethod: string;
+        shippingMethod: {
+          name: string;
+          cost: string;
+        };
+        txPrice: number;
+        shippingPrice: number;
+        totalPrice: number;
+      }
+    >,
+    res: Response<IOrder>,
+    next: NextFunction
+  ) => {
     const {
       orderItems,
       shippingAddress,

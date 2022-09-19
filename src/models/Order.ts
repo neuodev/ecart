@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema, InferSchemaType, ObjectId, Model } from "mongoose";
 
 const orderSchema = new Schema(
   {
@@ -49,8 +49,8 @@ const orderSchema = new Schema(
       status: {
         type: String,
       },
-      update_time: { type: String },
-      email_address: { type: String },
+      update_time: { type: String }, // To match the Paypal api result
+      email_address: { type: String }, // The same as update_time
     },
     taxPrice: {
       type: Number,
@@ -89,6 +89,8 @@ const orderSchema = new Schema(
   }
 );
 
-const Order = mongoose.model("Order", orderSchema);
+export type IOrder = InferSchemaType<typeof orderSchema> & { _id: ObjectId };
+type OrderModel = Model<IOrder, {}, {}>;
 
+const Order = mongoose.model<IOrder, OrderModel>("Order", orderSchema);
 export default Order;
