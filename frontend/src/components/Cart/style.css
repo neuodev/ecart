@@ -1,0 +1,46 @@
+#open {
+  opacity: 1;
+  transform: scale(1);
+  transition: all 150ms ease-in-out;
+  animation: show 150ms ease;
+  transform-origin: top right;
+}
+
+#close {
+  opacity: 0;
+  transform: scale(.25);
+  transition: all 300ms ease-in-out;
+  animation: show 600ms ease;
+  transform-origin: top right;
+}
+
+#scroll::-webkit-scrollbar {
+  display: none;
+}
+#scroll {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+@keyframes show {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes disapear {
+  from {
+    opacity: 1;
+
+    transform: scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
