@@ -23,7 +23,7 @@
 
 For full documentaiton try to import [this collection](./Wallet%20e-commerce.postman_collection.json) into your postman
 
-# User API
+# User
 
 <details>
 <summary>PUT /api/v1/users/:id  </summary>
@@ -341,7 +341,7 @@ For full documentaiton try to import [this collection](./Wallet%20e-commerce.pos
 
 <br />
 
-# Product API
+# Product
 
 <details>
 <summary>PUT /api/v1/products/:id</summary>
@@ -630,7 +630,7 @@ For full documentaiton try to import [this collection](./Wallet%20e-commerce.pos
 
 <br />
 
-# Reviews API
+# Reviews
 
 <details>
 <summary>POST /api/v1/products/:id/reviews</summary>
@@ -727,6 +727,99 @@ For full documentaiton try to import [this collection](./Wallet%20e-commerce.pos
 
 <br />
 
-# Database Model
+# Database Models
 
-todo
+## User
+
+```ts
+type User = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  isAdmin: boolean;
+  resetPasswordToken: string;
+  resetPasswordExpire: string;
+  createAt: Date;
+  updatedAt: Date;
+};
+```
+
+## Product
+
+```ts
+type Product = {
+  user: User;
+  name: string;
+  images: string[];
+  brand: string;
+  category: string[];
+  description: string;
+  reviews: Reviews[];
+  rating: number;
+  numReviews: number;
+  discount: number;
+  price: number;
+  countInStock: number;
+  createdAt: Date;
+  updatedAt: Date;
+};
+```
+
+## Review
+
+```ts
+type Reivew = {
+  name: string;
+  rating: number;
+  comment: string;
+  user: User;
+  createdAt: Date;
+  updatedAt: Date;
+};
+```
+
+## Order
+
+```ts
+type OrderItem = {
+  name: string;
+  qty: number;
+  image: string;
+  price: number;
+  product: Product;
+};
+type Order = {
+  user: User;
+  orderItems: OrderItem[];
+  shippingAddress: {
+    address: string;
+    city: string;
+    postalCode: string;
+    country: string;
+    apartment: string;
+    firstName: string;
+    lastName: string;
+  };
+  paymentMethod: string;
+  shippingMethod: {
+    name: string;
+    cost: string;
+  };
+  paymentResult: {
+    id: string;
+    status: string;
+    update_time: Date;
+    email_address: string;
+  };
+  taxPrice: number;
+  shippingPrice: number;
+  totalPrice: number;
+  isPaid: boolean;
+  paidAt: Date;
+  isDelivered: boolean;
+  deliveredAt: Date;
+  createdAt: Date;
+  updatedAt: Date;
+};
+```
