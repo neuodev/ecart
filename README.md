@@ -764,7 +764,11 @@ type Body = {
 <details>
 <summary>POST /api/v1/orders</summary>
 
-Create new order
+<br />
+
+**Description:** Create new order
+
+**Access:** Private/user
 
 ### Request
 
@@ -845,7 +849,11 @@ Create new order
 <details>
 <summary>GET /api/v1/orders/:id</summary>
 
-Get order by `id`
+<br />
+
+**Description:** Get order by `id`
+
+**Access:** Private/user
 
 ### Response
 
@@ -906,7 +914,11 @@ Get order by `id`
 
 <br />
 
-Pay an order
+<br />
+
+**Description:** Pay an order
+
+**Access:** Private/user
 
 ### Request
 
@@ -977,7 +989,11 @@ Pay an order
 
 <br />
 
-Set an order to be **delivered**
+<br />
+
+**Description:** Set an order to be **delivered**
+
+**Access:** Private/admin
 
 ### Response
 
@@ -1035,7 +1051,11 @@ Set an order to be **delivered**
 
 <br />
 
-Get user orders
+<br />
+
+**Description:** Get user orders
+
+**Access:** Private/user
 
 ### Response
 
@@ -1158,7 +1178,11 @@ Get user orders
 
 <br />
 
-Get all orders
+<br />
+
+**Description:** Get all orders
+
+**Access:** Private/admin
 
 ### Response
 
