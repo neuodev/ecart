@@ -96,7 +96,7 @@ const registerUser = asyncHandler(
 );
 
 // @Desc    Get user account
-// @Route   GET /api/api/users/account
+// @Route   GET /api/v1/users/account
 // @Access  Private
 const getUserAccount = asyncHandler(
   async (

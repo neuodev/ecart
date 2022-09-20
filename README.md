@@ -23,7 +23,7 @@
 
 For full documentaiton try to import **[this collection](./Wallet%20e-commerce.postman_collection.json)** into your **[postman](https://www.postman.com/)**
 
-# User API
+# User
 
 <details>
 <summary>PUT /api/v1/users/:id</summary>
@@ -31,6 +31,12 @@ For full documentaiton try to import **[this collection](./Wallet%20e-commerce.p
 <br />
 
 Update user info by the `admin`
+
+<br />
+
+**Description:** Update user account
+
+**Access:** Private/Admin
 
 ### Request
 
@@ -65,7 +71,15 @@ type body = {
 <details>
 <summary>GET /api/v1/users </summary>
 
+<br />
+
+**Description:** Get all users
+
+**Access:** Private/Admin
+
 ### Request
+
+#### Headers
 
 `Authorization: Bearer <TOKEN>`
 
@@ -108,11 +122,13 @@ type body = {
 
 <br />
 
-Desc: Delete a user
+**Description:** Delete a user by `id`
 
-Access: Private/Admin
+**Access:** Private/Admin
 
 ### Request
+
+#### Headers
 
 `Authorization: Bearer <TOKEN>`
 
@@ -130,11 +146,13 @@ Access: Private/Admin
 
 <br />
 
-Desc: Delete Account form user itself
+**Description:** Delete user account by the user itself
 
-Access: Private user
+**Access:** Private/user
 
 ### Request
+
+#### Headers
 
 `Authorization: Bearer <TOKEN>`
 
@@ -151,7 +169,15 @@ Access: Private user
 <details>
 <summary>GET /api/v1/users/:id </summary>
 
+<br />
+
+**Description:** Get user by Id
+
+**Access:** Private/Admin
+
 ### Request
+
+#### Headers
 
 `Authorization: Bearer <TOKEN>`
 
@@ -177,9 +203,9 @@ Access: Private user
 
 <br />
 
-Desc: Auth user and get auth token
+**Description:** Authorize user for login
 
-Access: Public
+**Access:** Public
 
 ### Request
 
@@ -217,8 +243,11 @@ type Body = {
 
 <br />
 
-Desc: Get all users
-Access: Private/Admin
+**Description:** Register a new user
+
+**Access:** Public
+
+### Request
 
 ### Response
 
@@ -259,7 +288,15 @@ Access: Private/Admin
 <details>
 <summary>GET /api/v1/users/account</summary>
 
+<br />
+
+**Description:** Get user account
+
+**Access:** Private/user
+
 ### Request
+
+#### Headers
 
 `Authorization: Bearer <TOKEN>`
 
@@ -281,7 +318,15 @@ Access: Private/Admin
 <details>
 <summary>PUT /api/v1/account </summary>
 
+<br />
+
+**Description:** Update user account
+
+**Access:** Private/user
+
 ### Request
+
+#### Headers
 
 `Authorization: Bearer <TOKEN>`
 
@@ -303,7 +348,15 @@ Access: Private/Admin
 <details>
 <summary>POST /api/v1/users/forgetpassword</summary>
 
+<br />
+
+**Description:** An endpoint to send an email to user incase he forget the password
+
+**Access:** Public
+
 ### Request
+
+#### Headers
 
 `Authorization: Bearer <TOKEN>`
 
@@ -320,12 +373,16 @@ Access: Private/Admin
 
 <br />
 
-# Product API
+# Product
 
 <details>
 <summary>PUT /api/v1/products/:id</summary>
 
-Update a product by `id`
+<br />
+
+**Description:** UUpdate a product by `id`
+
+**Access:** Private/Admin
 
 ### Request
 
@@ -364,7 +421,11 @@ Update a product by `id`
 <details>
 <summary>POST /api/v1/products</summary>
 
-Create new product
+<br />
+
+**Description:** Create new product
+
+**Access:** Private/Admin
 
 ### Request
 
@@ -409,7 +470,11 @@ Create new product
 <details>
 <summary>DELETE /api/v1/products/:id</summary>
 
-Delete a product by `ID`
+<br />
+
+**Description:** Delete a product by `ID`
+
+**Access:** Private/Admin
 
 ### Headers
 
@@ -428,7 +493,11 @@ Delete a product by `ID`
 <details>
 <summary>GET /api/v1/products</summary>
 
-Get all products
+<br />
+
+**Description:** Get all products
+
+**Access:** Public
 
 ### Response
 
@@ -488,7 +557,11 @@ Get all products
 <details>
 <summary>GET /api/v1/products/:id</summary>
 
-Get product by `id`
+<br />
+
+**Description:** Get product by `id`
+
+**Access:** Public
 
 ### Response
 
@@ -518,7 +591,11 @@ Get product by `id`
 <details>
 <summary>GET /api/v1/products/top</summary>
 
-Get top rated products
+<br />
+
+**Description:** Get top rated products
+
+**Access:** Public
 
 ### Response
 
@@ -550,7 +627,11 @@ Get top rated products
 <details>
 <summary>GET /api/v1/products/new</summary>
 
-Get new published products
+<br />
+
+**Description:** Get new published products
+
+**Access:** Public
 
 ### Response
 
@@ -581,12 +662,16 @@ Get new published products
 
 <br />
 
-# Reviews API
+# Reviews
 
 <details>
 <summary>POST /api/v1/products/:id/reviews</summary>
 
-Add product review
+<br />
+
+**Description:** Add product review
+
+**Access:** Private/user
 
 ### Request
 
@@ -610,7 +695,11 @@ Add product review
 <details>
 <summary>PUT /api/v1/products/:id/reviews</summary>
 
-Update product review by the user
+<br />
+
+**Description:** Update product review by the user
+
+**Access:** Private/user
 
 ### Request
 
@@ -633,7 +722,11 @@ Update product review by the user
 <details>
 <summary>DELETE /api/v1/products/:id/reviews</summary>
 
-Delete product review by the user
+<br />
+
+**Description:** Delete product review by the user
+
+**Access:** Private/user
 
 ### Response
 
@@ -648,7 +741,11 @@ Delete product review by the user
 <details>
 <summary>DELTE /api/v1/products/:productId/reviews/:reviewId</summary>
 
-Delete product review by the admin
+<br />
+
+**Description:** Delete product review by the admin
+
+**Access:** Private/admin
 
 ### Response
 
@@ -667,7 +764,11 @@ Delete product review by the admin
 <details>
 <summary>POST /api/v1/orders</summary>
 
-Create new order
+<br />
+
+**Description:** Create new order
+
+**Access:** Private/user
 
 ### Request
 
@@ -748,7 +849,11 @@ Create new order
 <details>
 <summary>GET /api/v1/orders/:id</summary>
 
-Get order by `id`
+<br />
+
+**Description:** Get order by `id`
+
+**Access:** Private/user
 
 ### Response
 
@@ -809,7 +914,11 @@ Get order by `id`
 
 <br />
 
-Pay an order
+<br />
+
+**Description:** Pay an order
+
+**Access:** Private/user
 
 ### Request
 
@@ -880,7 +989,11 @@ Pay an order
 
 <br />
 
-Set an order to be **delivered**
+<br />
+
+**Description:** Set an order to be **delivered**
+
+**Access:** Private/admin
 
 ### Response
 
@@ -938,7 +1051,11 @@ Set an order to be **delivered**
 
 <br />
 
-Get user orders
+<br />
+
+**Description:** Get user orders
+
+**Access:** Private/user
 
 ### Response
 
@@ -1061,7 +1178,11 @@ Get user orders
 
 <br />
 
-Get all orders
+<br />
+
+**Description:** Get all orders
+
+**Access:** Private/admin
 
 ### Response
 
@@ -1193,4 +1314,97 @@ Get all orders
 
 # Database Model
 
-todo
+## User
+
+```ts
+type User = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  isAdmin: boolean;
+  resetPasswordToken: string;
+  resetPasswordExpire: string;
+  createAt: Date;
+  updatedAt: Date;
+};
+```
+
+## Product
+
+```ts
+type Product = {
+  user: User;
+  name: string;
+  images: string[];
+  brand: string;
+  category: string[];
+  description: string;
+  reviews: Reviews[];
+  rating: number;
+  numReviews: number;
+  discount: number;
+  price: number;
+  countInStock: number;
+  createdAt: Date;
+  updatedAt: Date;
+};
+```
+
+## Review
+
+```ts
+type Reivew = {
+  name: string;
+  rating: number;
+  comment: string;
+  user: User;
+  createdAt: Date;
+  updatedAt: Date;
+};
+```
+
+## Order
+
+```ts
+type OrderItem = {
+  name: string;
+  qty: number;
+  image: string;
+  price: number;
+  product: Product;
+};
+type Order = {
+  user: User;
+  orderItems: OrderItem[];
+  shippingAddress: {
+    address: string;
+    city: string;
+    postalCode: string;
+    country: string;
+    apartment: string;
+    firstName: string;
+    lastName: string;
+  };
+  paymentMethod: string;
+  shippingMethod: {
+    name: string;
+    cost: string;
+  };
+  paymentResult: {
+    id: string;
+    status: string;
+    update_time: Date;
+    email_address: string;
+  };
+  taxPrice: number;
+  shippingPrice: number;
+  totalPrice: number;
+  isPaid: boolean;
+  paidAt: Date;
+  isDelivered: boolean;
+  deliveredAt: Date;
+  createdAt: Date;
+  updatedAt: Date;
+};
+```
