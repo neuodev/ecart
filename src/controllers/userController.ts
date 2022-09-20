@@ -5,11 +5,6 @@ import { isEmptyObj } from "../utils";
 import ErrorResponse from "../utils/ErrorResponse";
 import sendEmail from "../utils/sendEmail";
 
-type AuthReqBody = {
-  email: string;
-  password: string;
-};
-
 type UserRes = {
   _id: string;
   firstName: string;
@@ -24,7 +19,14 @@ type UserRes = {
 // @Access  Public
 const authUser = asyncHandler(
   async (
-    req: Request<{}, AuthReqBody>,
+    req: Request<
+      {},
+      {},
+      {
+        email: string;
+        password: string;
+      }
+    >,
     res: Response<UserRes>,
     next: NextFunction
   ) => {
@@ -128,11 +130,13 @@ const getUserAccount = asyncHandler(
 // @Desc    Get all users
 // @Route   GET /api/api/users
 // @Access  Private/Admin
-const getUsers = asyncHandler(async (req, res, next) => {
-  const count = await User.countDocuments();
-  const users = await User.find({});
-  res.json({ users, count });
-});
+const getUsers = asyncHandler(
+  async (_req: Request, res: Response, _next: NextFunction) => {
+    const count = await User.countDocuments();
+    const users = await User.find({});
+    res.json({ users, count });
+  }
+);
 
 // @Desc    Delete user
 // @Route   DELETE /api/v1/users/:id
@@ -154,9 +158,9 @@ const deleteUser = asyncHandler(
   }
 );
 
-// @Desc    Delete Account form user it self
-// @Route   DELETE /api/users/account
-// @Access  Private User
+// @Desc    Delete Account form user itself
+// @Route   DELETE /api/v1/users/account
+// @Access  Private user
 const deleteUserAccount = asyncHandler(async (req, res, next) => {
   const id = req.user._id;
   const user = await User.findById(id);
