@@ -28,6 +28,12 @@ For full documentaiton try to import [this collection](./Wallet%20e-commerce.pos
 <details>
 <summary>PUT /api/v1/users/:id  </summary>
 
+<br />
+
+**Description:** Update user account
+
+**Access:** Private/Admin
+
 ### Request
 
 ```json
@@ -52,7 +58,15 @@ For full documentaiton try to import [this collection](./Wallet%20e-commerce.pos
 <details>
 <summary>GET /api/v1/users </summary>
 
+<br />
+
+**Description:** Get all users
+
+**Access:** Private/Admin
+
 ### Request
+
+#### Headers
 
 `Authorization: Bearer <TOKEN>`
 
@@ -93,7 +107,15 @@ For full documentaiton try to import [this collection](./Wallet%20e-commerce.pos
 <details>
 <summary>DELETE /api/v1/users/:id </summary>
 
+<br />
+
+**Description:** Delete a user by `id`
+
+**Access:** Private/Admin
+
 ### Request
+
+#### Headers
 
 `Authorization: Bearer <TOKEN>`
 
@@ -109,7 +131,15 @@ For full documentaiton try to import [this collection](./Wallet%20e-commerce.pos
 <details>
 <summary>DELETE /api/v1/users/account </summary>
 
+<br />
+
+**Description:** Delete user account by the user itself
+
+**Access:** Private/user
+
 ### Request
+
+#### Headers
 
 `Authorization: Bearer <TOKEN>`
 
@@ -126,7 +156,15 @@ For full documentaiton try to import [this collection](./Wallet%20e-commerce.pos
 <details>
 <summary>GET /api/v1/users/:id </summary>
 
+<br />
+
+**Description:** Get user by Id
+
+**Access:** Private/Admin
+
 ### Request
+
+#### Headers
 
 `Authorization: Bearer <TOKEN>`
 
@@ -149,6 +187,12 @@ For full documentaiton try to import [this collection](./Wallet%20e-commerce.pos
 
 <details>
 <summary>POST /api/v1/users/login</summary>
+
+<br />
+
+**Description:** Authorize user for login
+
+**Access:** Public
 
 ### Request
 
@@ -176,6 +220,12 @@ For full documentaiton try to import [this collection](./Wallet%20e-commerce.pos
 
 <details>
 <summary>POST /api/v1/users</summary>
+
+<br />
+
+**Description:** Register a new user
+
+**Access:** Public
 
 ### Request
 
@@ -206,7 +256,15 @@ For full documentaiton try to import [this collection](./Wallet%20e-commerce.pos
 <details>
 <summary>GET /api/v1/users/account</summary>
 
+<br />
+
+**Description:** Get user account
+
+**Access:** Private/user
+
 ### Request
+
+#### Headers
 
 `Authorization: Bearer <TOKEN>`
 
@@ -228,7 +286,15 @@ For full documentaiton try to import [this collection](./Wallet%20e-commerce.pos
 <details>
 <summary>PUT /api/v1/account </summary>
 
+<br />
+
+**Description:** Update user account
+
+**Access:** Private/user
+
 ### Request
+
+#### Headers
 
 `Authorization: Bearer <TOKEN>`
 
@@ -250,7 +316,15 @@ For full documentaiton try to import [this collection](./Wallet%20e-commerce.pos
 <details>
 <summary>POST /api/v1/users/forgetpassword</summary>
 
+<br />
+
+**Description:** An endpoint to send an email to user incase he forget the password
+
+**Access:** Public
+
 ### Request
+
+#### Headers
 
 `Authorization: Bearer <TOKEN>`
 
@@ -272,7 +346,11 @@ For full documentaiton try to import [this collection](./Wallet%20e-commerce.pos
 <details>
 <summary>PUT /api/v1/products/:id</summary>
 
-Update a product by `id`
+<br />
+
+**Description:** UUpdate a product by `id`
+
+**Access:** Private/Admin
 
 ### Request
 
@@ -311,7 +389,11 @@ Update a product by `id`
 <details>
 <summary>POST /api/v1/products</summary>
 
-Create new product
+<br />
+
+**Description:** Create new product
+
+**Access:** Private/Admin
 
 ### Request
 
@@ -356,7 +438,11 @@ Create new product
 <details>
 <summary>DELETE /api/v1/products/:id</summary>
 
-Delete a product by `ID`
+<br />
+
+**Description:** Delete a product by `ID`
+
+**Access:** Private/Admin
 
 ### Headers
 
@@ -375,7 +461,11 @@ Delete a product by `ID`
 <details>
 <summary>GET /api/v1/products</summary>
 
-Get all products
+<br />
+
+**Description:** Get all products
+
+**Access:** Public
 
 ### Response
 
@@ -435,7 +525,11 @@ Get all products
 <details>
 <summary>GET /api/v1/products/:id</summary>
 
-Get product by `id`
+<br />
+
+**Description:** Get product by `id`
+
+**Access:** Public
 
 ### Response
 
@@ -465,7 +559,11 @@ Get product by `id`
 <details>
 <summary>GET /api/v1/products/top</summary>
 
-Get top rated products
+<br />
+
+**Description:** Get top rated products
+
+**Access:** Public
 
 ### Response
 
@@ -497,7 +595,11 @@ Get top rated products
 <details>
 <summary>GET /api/v1/products/new</summary>
 
-Get new published products
+<br />
+
+**Description:** Get new published products
+
+**Access:** Public
 
 ### Response
 
@@ -533,7 +635,11 @@ Get new published products
 <details>
 <summary>POST /api/v1/products/:id/reviews</summary>
 
-Add product review
+<br />
+
+**Description:** Add product review
+
+**Access:** Private/user
 
 ### Request
 
@@ -557,7 +663,11 @@ Add product review
 <details>
 <summary>PUT /api/v1/products/:id/reviews</summary>
 
-Update product review by the user
+<br />
+
+**Description:** Update product review by the user
+
+**Access:** Private/user
 
 ### Request
 
@@ -580,7 +690,11 @@ Update product review by the user
 <details>
 <summary>DELETE /api/v1/products/:id/reviews</summary>
 
-Delete product review by the user
+<br />
+
+**Description:** Delete product review by the user
+
+**Access:** Private/user
 
 ### Response
 
@@ -595,7 +709,11 @@ Delete product review by the user
 <details>
 <summary>DELTE /api/v1/products/:productId/reviews/:reviewId</summary>
 
-Delete product review by the admin
+<br />
+
+**Description:** Delete product review by the admin
+
+**Access:** Private/admin
 
 ### Response
 
