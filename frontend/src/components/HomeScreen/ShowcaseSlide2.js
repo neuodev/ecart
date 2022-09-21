@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Button } from "@mui/material";
 import "./style.css";
 
 const ShowcaseSlide2 = () => {
@@ -23,12 +24,14 @@ const ShowcaseSlide2 = () => {
             - Accessories-
           </h1>
 
-          <Link
+          <Button
+            LinkComponent={Link}
+            variant="dark"
             to="/products"
             className="bg-gray-800 text-white  py-3 px-4 text-lg uppercase focus:outline-none focus:ring-2 hover:opacity-90 mt-5 inline-block"
           >
             Shop All sale
-          </Link>
+          </Button>
         </div>
       </div>
     </div>

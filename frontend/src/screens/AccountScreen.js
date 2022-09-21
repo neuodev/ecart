@@ -1,13 +1,12 @@
-import { Link, Route, Switch } from "react-router-dom";
+import { Link } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { BsChevronCompactRight } from "react-icons/bs";
-import Orders from "../components/account/Orders";
 import { useSelector } from "react-redux";
-import Settings from "../components/account/Settings";
-import WishList from "../components/account/WishList";
 import MainNavbar from "../components/HomeScreen/MainNavbar";
+import { useNavigate, Outlet } from "react-router-dom";
 
-const AccountScreen = ({ history }) => {
+const AccountScreen = () => {
+  const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.userLogin);
   const wishlist = useSelector((state) => state.wishlist);
 
@@ -24,7 +23,7 @@ const AccountScreen = ({ history }) => {
 
   useEffect(() => {
     if (!userInfo || !userInfo._id) {
-      history.push("/login");
+      navigate("/login");
     }
   }, [userInfo]);
 
@@ -32,7 +31,7 @@ const AccountScreen = ({ history }) => {
 
   return (
     <>
-      <MainNavbar history={history} />
+      <MainNavbar />
       <div className="container mx-auto px-4">
         <div className=""></div>
         <div className="flex items-center   space-x-2 mb-2 mt-5 text-sm">
@@ -55,13 +54,7 @@ const AccountScreen = ({ history }) => {
           ))}
         </div>
         <div>
-          {activeRoute === "/account/orders" ? (
-            <Orders />
-          ) : activeRoute === "/account/wishlist" ? (
-            <WishList history={history} />
-          ) : activeRoute === "/account/settings" ? (
-            <Settings />
-          ) : null}
+          <Outlet />
         </div>
       </div>
     </>

@@ -16,6 +16,9 @@ import Shipping from "./components/checkouts/Shipping";
 import Payment from "./components/checkouts/Payment";
 import { ThemeProvider } from "@mui/material";
 import theme from "./theme";
+import Orders from "./components/account/Orders";
+import WishList from "./components/account/WishList";
+import Settings from "./components/account/Settings";
 
 const router = createBrowserRouter([
   {
@@ -69,6 +72,20 @@ const router = createBrowserRouter([
       {
         path: "account",
         element: <AccountScreen />,
+        children: [
+          {
+            path: "/account/",
+            element: <Orders />,
+          },
+          {
+            path: "/account/wishlist/",
+            element: <WishList />,
+          },
+          {
+            path: "/account/settings/",
+            element: <Settings />,
+          },
+        ],
       },
     ],
   },
