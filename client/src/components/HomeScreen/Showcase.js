@@ -1,9 +1,11 @@
-import React from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import SwiperCore, { Pagination } from 'swiper';
-import 'swiper/swiper-bundle.css';
-import ShowcaseSlide1 from './ShowcaseSlide1';
-import ShowcaseSlide2 from './ShowcaseSlide2';
+import React from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import SwiperCore from "swiper";
+// Todo: fix this css
+import "swiper/css";
+import ShowcaseSlide1 from "./ShowcaseSlide1";
+import ShowcaseSlide2 from "./ShowcaseSlide2";
+
 SwiperCore.use([]);
 
 const Showcase = () => {

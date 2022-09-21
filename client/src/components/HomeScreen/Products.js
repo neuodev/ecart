@@ -1,38 +1,38 @@
-import React, { useState } from 'react';
-import { Link, Route } from 'react-router-dom';
-import FeaturedProducts from './FeaturedProducts';
-import LatestProducts from './LatestProducts';
+import React, { useState } from "react";
+import FeaturedProducts from "./FeaturedProducts";
+import LatestProducts from "./LatestProducts";
 
 const links = [
   {
-    title: 'Featured Products',
-    path: '/',
+    title: "Featured Products",
+    path: "/",
   },
   {
-    title: 'Latest Products',
-    path: '/latestProducts',
+    title: "Latest Products",
+    path: "/latestProducts",
   },
 ];
 const Products = ({ history }) => {
-  const [activeTab, setActiveTab] = useState('/');
+  const [activeTab, setActiveTab] = useState("/");
   return (
-    <div className=' '>
-      <div className='border-gray-200 mb-4 bg-gray-100  '>
-        <div className='container mx-auto -mb-0.5 '>
-          <div className='flex items-center space-x-1 font-medium uppercase tracking-wide  '>
-            {links.map(link => (
+    <div className=" ">
+      <div className="border-gray-200 mb-4 bg-gray-100  ">
+        <div className="container mx-auto -mb-0.5 ">
+          <div className="flex items-center space-x-1 font-medium uppercase tracking-wide  ">
+            {links.map((link) => (
               <button
                 onClick={() => setActiveTab(link.path)}
                 className={`${
                   activeTab === link.path
-                    ? ' bg-green-300 font-medium text-green-900  '
-                    : ''
+                    ? " bg-green-300 font-medium text-green-900  "
+                    : ""
                 } ${
-                  activeTab !== link.path && 'hover:bg-green-100'
+                  activeTab !== link.path && "hover:bg-green-100"
                 }  py-4 text-gray-800 
                 focus:outline-none px-3
                 origin-right rounded-md 
-                `}>
+                `}
+              >
                 {link.title}
               </button>
             ))}
@@ -40,10 +40,10 @@ const Products = ({ history }) => {
         </div>
       </div>
       <div>
-        {activeTab === '/' ? (
+        {activeTab === "/" ? (
           <FeaturedProducts history={history} />
         ) : (
-          activeTab === '/latestProducts' && (
+          activeTab === "/latestProducts" && (
             <LatestProducts history={history} />
           )
         )}

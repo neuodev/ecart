@@ -1,11 +1,5 @@
-import "./index.css";
 import HomeScreen from "./screens/HomeScreen";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import SearchScreen from "./screens/SearchScreen";
-import Ad from "./components/HomeScreen/Ad";
-import MiniNav from "./components/HomeScreen/MiniNav";
-import MainNavbar from "./components/HomeScreen/MainNavbar";
-import Footer from "./components/HomeScreen/Footer";
 import ProductScreen from "./screens/ProductScreen";
 import CartScreen from "./screens/CartScreen";
 import Checkouts from "./screens/Checkouts";
@@ -14,24 +8,95 @@ import RegisterScreen from "./screens/RegisterScreen";
 import AccountScreen from "./screens/AccountScreen";
 import store from "./store";
 import { Provider } from "react-redux";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Root from "./components/Layout/Root";
+import ErrorScreen from "./screens/ErrorScreen";
+import Information from "./components/checkouts/Information";
+import Shipping from "./components/checkouts/Shipping";
+import Payment from "./components/checkouts/Payment";
+import { ThemeProvider } from "@mui/material";
+import theme from "./theme";
+import Orders from "./components/account/Orders";
+import WishList from "./components/account/WishList";
+import Settings from "./components/account/Settings";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Root />,
+    errorElement: <ErrorScreen />,
+    children: [
+      {
+        path: "/",
+        element: <HomeScreen />,
+      },
+      {
+        path: "products",
+        element: <SearchScreen />,
+      },
+
+      {
+        path: "product/:id",
+        element: <ProductScreen />,
+      },
+      {
+        path: "cart/:id",
+        element: <CartScreen />,
+      },
+      {
+        path: "checkouts",
+        element: <Checkouts />,
+        children: [
+          {
+            path: "/checkouts/",
+            element: <Information />,
+          },
+          {
+            path: "/checkouts/shipping/",
+            element: <Shipping />,
+          },
+          {
+            path: "/checkouts/payment/",
+            element: <Payment />,
+          },
+        ],
+      },
+      {
+        path: "login",
+        element: <LoginScreen />,
+      },
+      {
+        path: "register",
+        element: <RegisterScreen />,
+      },
+      {
+        path: "account",
+        element: <AccountScreen />,
+        children: [
+          {
+            path: "/account/",
+            element: <Orders />,
+          },
+          {
+            path: "/account/wishlist/",
+            element: <WishList />,
+          },
+          {
+            path: "/account/settings/",
+            element: <Settings />,
+          },
+        ],
+      },
+    ],
+  },
+]);
+
 function App() {
   return (
     <Provider store={store}>
-      <Router>
-        <Ad />
-        <MiniNav />
-        <Switch>
-          <Route path="/" exact component={HomeScreen} />
-          <Route path="/products" exact component={SearchScreen} />
-          <Route path="/product/:id" exact component={ProductScreen} />
-          <Route path="/cart/:id" exact component={CartScreen} />
-          <Route path="/checkouts" component={Checkouts} />
-          <Route path="/login" component={LoginScreen} />
-          <Route path="/register" component={RegisterScreen} />
-          <Route path="/account" component={AccountScreen} />
-        </Switch>
-        <Footer />
-      </Router>
+      <ThemeProvider theme={theme}>
+        <RouterProvider router={router} />
+      </ThemeProvider>
     </Provider>
   );
 }
