@@ -8,12 +8,14 @@ import RegisterScreen from "./screens/RegisterScreen";
 import AccountScreen from "./screens/AccountScreen";
 import store from "./store";
 import { Provider } from "react-redux";
-import { createBrowserRouter, RouterProvider, Route } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Root from "./components/Layout/Root";
 import ErrorScreen from "./screens/ErrorScreen";
 import Information from "./components/checkouts/Information";
 import Shipping from "./components/checkouts/Shipping";
 import Payment from "./components/checkouts/Payment";
+import { ThemeProvider } from "@mui/material";
+import theme from "./theme";
 
 const router = createBrowserRouter([
   {
@@ -75,7 +77,9 @@ const router = createBrowserRouter([
 function App() {
   return (
     <Provider store={store}>
-      <RouterProvider router={router} />
+      <ThemeProvider theme={theme}>
+        <RouterProvider router={router} />
+      </ThemeProvider>
     </Provider>
   );
 }
