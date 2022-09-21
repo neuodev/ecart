@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addToCart, removeFromCart } from "../../actions/cart";
 import { Link } from "react-router-dom";
-import { Close } from "@material-ui/icons";
+import { Close } from "@mui/icons-material";
 
 const CartItems = ({ cartItem }) => {
   const quantities = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];

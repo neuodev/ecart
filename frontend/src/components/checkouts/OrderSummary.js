@@ -1,31 +1,31 @@
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-} from "@material-ui/core";
+import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { BiCart, BiCartAlt, BiChevronDown } from "react-icons/bi";
+import { BiCart, BiChevronDown } from "react-icons/bi";
 import OrderSummaryItem from "./OrderSummaryItem";
-import { useSelector, useDispatch } from "react-redux";
-import { calcTotal } from "../../utils/cost";
+import { useSelector } from "react-redux";
 import { calcTotalPrice } from "../../utils/calcTotalPrice";
 import { calcSubTotal } from "../../utils/calcSubTotal";
+
 const OrderSummary = () => {
   const { cartItems, shippingMethod } = useSelector((state) => state.cart);
   const [currentShppingCost, setCurrentShppingCost] = useState("--,--");
   let subTotal = calcSubTotal(cartItems);
   let total;
+
   if (shippingMethod) {
     total = calcTotalPrice(cartItems, shippingMethod);
   } else {
     total = calcTotalPrice(cartItems);
   }
+
   total = total.toFixed(2);
+
   useEffect(() => {
     if (shippingMethod) {
       setCurrentShppingCost(shippingMethod.cost.toFixed());
     }
   }, [shippingMethod]);
+
   return (
     <Accordion square>
       <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
