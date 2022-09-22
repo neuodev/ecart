@@ -8,25 +8,25 @@ const list = [
     icon: <FaHeadset />,
     h1: "CUSTOMER SUPPORT",
     subHeading: "Need Assistence?",
-    p: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis nec vestibulum magna, et dapib.",
+    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis nec vestibulum magna, et dapib.",
   },
   {
     icon: <MdPayment />,
     h1: "SECURED PAYMENT",
     subHeading: "Safe & Fast",
-    p: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis nec vestibulum magna, et dapibus lacus. Lorem ipsum dolor sit amet.",
+    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis nec vestibulum magna, et dapibus lacus. Lorem ipsum dolor sit amet.",
   },
   {
     icon: <TiArrowBackOutline />,
     h1: "RETURNS",
     subHeading: "Easy & Free",
-    p: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis nec vestibulum magna, et dapib.",
+    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis nec vestibulum magna, et dapib.",
   },
 ];
 
 const Features2 = () => {
   return (
-    <div className="container mx-auto mt-12 ">
+    <div className="container mx-auto mt-12 mb-24">
       <div className="grid grid-cols-12 gap-4 mb-4">
         {list.map((item, idx) => (
           <div
@@ -42,7 +42,7 @@ const Features2 = () => {
             <h2 className="text-sm font-medium text-gray-500 mb-4">
               {item.subHeading}
             </h2>
-            <p className="font-light  ">{item.p}</p>
+            <p className="font-light">{item.desc}</p>
           </div>
         ))}
       </div>

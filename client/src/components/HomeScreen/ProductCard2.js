@@ -11,8 +11,8 @@ const ProductCard2 = ({ product }) => {
         <Link to={`/product/${_id}`}>
           <img
             src={images[0]}
-            className=" h-48 w-48   lg:h-32  flex-none block  overflow-hidden mb-2 rounded-sm border object-cover transition-all delay-75  duration-1000 mr-2"
-            alt=""
+            className="h-48 w-48 lg:h-32 flex-none block overflow-hidden mb-2 p-1.5 rounded-sm border object-contain transition-all delay-75  duration-1000 mr-2"
+            alt={name}
           />
         </Link>
       </div>

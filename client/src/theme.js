@@ -55,5 +55,15 @@ export default createTheme({
         },
       ],
     },
+    MuiTooltip: {
+      styleOverrides: {
+        tooltip: {
+          backgroundColor: defaultTheme.palette.grey[900],
+        },
+        arrow: {
+          color: defaultTheme.palette.grey[900],
+        },
+      },
+    },
   },
 });

@@ -9,18 +9,20 @@ import {
 } from "../../actions/products";
 
 const ProductsCategories = () => {
+  const dispatch = useDispatch();
+
   const { topRatedProducts, bestSellingProducts, latestProducts } = useSelector(
     (state) => state
   );
-  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getTopRatedProducts());
     dispatch(getBestSellingProducts());
     dispatch(getLatestProducts());
   }, []);
+
   return (
-    <div className="border-t border-b  py-12">
+    <div className="py-12">
       <div className="grid grid-cols-12 container mx-auto">
         <div className="mb-8 col-span-12 md:col-span-6 lg:col-span-4 ">
           <h1 className="uppercase mx-4 font-medium tracking-wide text-xl text-gray-600">
@@ -59,8 +61,8 @@ const ProductsCategories = () => {
               <Skeleton variant="text" width={210} />
             </div>
           )}
-          {bestSellingProducts.products.map((product) => (
-            <ProductCard2 product={product} />
+          {bestSellingProducts.products.map((product, idx) => (
+            <ProductCard2 product={product} key={idx} />
           ))}
         </div>
         <div className=" col-span-12 md:col-span-6 lg:col-span-4">
@@ -80,8 +82,8 @@ const ProductsCategories = () => {
               <Skeleton variant="text" width={210} />
             </div>
           )}
-          {latestProducts.products.map((product) => (
-            <ProductCard2 product={product} />
+          {latestProducts.products.map((product, idx) => (
+            <ProductCard2 product={product} key={idx} />
           ))}
         </div>
       </div>

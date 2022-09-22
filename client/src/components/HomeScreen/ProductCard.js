@@ -24,6 +24,7 @@ const StyledDiv = styled.div`
 `;
 
 const ProductCard = ({ product, screen, history }) => {
+  const dispatch = useDispatch();
   const [moveImgUp, setMoveImgUp] = useState(false);
   const wishlist = useSelector((state) => state.wishlist);
   const { price, images, rating, name, category, _id } = product;
@@ -39,27 +40,34 @@ const ProductCard = ({ product, screen, history }) => {
     setShow(false);
     setMoveImgUp(false);
   };
-  const dispatch = useDispatch();
   const addToWishlistHandler = () => {
     dispatch(addToWishlist(product));
   };
+
   const addToCard = () => {
     history.push(`/cart/${_id}?qty=1`);
   };
+
   return (
     <StyledDiv
       screen={screen}
-      className=" text-centerr mt-2 relative overflowd-hidden   rounded-xl  transform scale-95 transition-all duration-300 card-container shadow-md hover:shadow-xl  mb-4 bg-gray-5000 pb-4 "
+      className=" text-centerr mt-2 relative overflowd-hidden rounded-xl transform scale-95 transition-all duration-300 card-container shadow-md hover:shadow-xl mb-4 bg-gray-5000 pb-4"
     >
       <Link to={`/product/${_id}`}>
         <div
-          className={` relativee h-4/5 ${
+          className={`relative h-4/5 ${
             moveImgUp ? "moveUp" : "moveDown"
-          }  transform translate-x-0 transition-all duration-300 border rounded-t-xl`}
-          style={{
-            background: `url(${images && images[0]}) center center/cover`,
-          }}
-        ></div>
+          }  transform translate-x-0 transition-all duration-300 border-b rounded-t-xl`}
+          // style={{
+          //   background: `url(${images && images[0]}) center center/cover`,
+          // }}
+        >
+          <img
+            className="h-full inline-block object-contain p-3"
+            src={images[0]}
+            alt={name}
+          />
+        </div>
       </Link>
       <div className=" text-center flex items-center justify-center py-3 space-x-3 -mt-12 absolute top-10 left-3 ">
         <button
