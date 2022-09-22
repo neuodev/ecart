@@ -10,7 +10,8 @@ const LatestProducts = ({ history }) => {
     (state) => state.featuredProducts
   );
 
-  products = products.reverse();
+  const reversed = [...products].reverse();
+
   return (
     <div className="container mx-auto">
       <div className="block md:hidden">
@@ -22,8 +23,8 @@ const LatestProducts = ({ history }) => {
           spaceBetween={20}
           loop={true}
         >
-          {products.map((product) => (
-            <SwiperSlide>
+          {reversed.map((product, idx) => (
+            <SwiperSlide key={idx}>
               <ProductCard product={product} history={history} />
             </SwiperSlide>
           ))}
@@ -38,8 +39,8 @@ const LatestProducts = ({ history }) => {
           spaceBetween={20}
           loop={true}
         >
-          {products.map((product) => (
-            <SwiperSlide>
+          {reversed.map((product, idx) => (
+            <SwiperSlide key={idx}>
               <ProductCard product={product} history={history} />
             </SwiperSlide>
           ))}
@@ -48,14 +49,14 @@ const LatestProducts = ({ history }) => {
       <div className="hidden lg:block xl:hidden">
         <Swiper
           style={{
-            padding: "20px 0 0  0px",
+            padding: "20px 0 0 0px",
           }}
           slidesPerView={4}
           spaceBetween={20}
           loop={true}
         >
-          {products.map((product) => (
-            <SwiperSlide>
+          {reversed.map((product, idx) => (
+            <SwiperSlide key={idx}>
               <ProductCard product={product} history={history} />
             </SwiperSlide>
           ))}
@@ -70,7 +71,7 @@ const LatestProducts = ({ history }) => {
           spaceBetween={20}
           loop={true}
         >
-          {products.map((product) => (
+          {reversed.map((product) => (
             <SwiperSlide>
               <ProductCard product={product} history={history} />
             </SwiperSlide>

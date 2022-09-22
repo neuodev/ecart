@@ -35,5 +35,20 @@ export default createTheme({
         },
       ],
     },
+    MuiTab: {
+      styleOverrides: {
+        root: {},
+      },
+      variants: [
+        {
+          props: { variant: "main" },
+          style: {
+            "&.Mui-selected": {
+              color: "#34d399",
+            },
+          },
+        },
+      ],
+    },
   },
 });

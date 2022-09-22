@@ -1,7 +1,8 @@
 import {
+  FEATURED_PRODUCTS_FAIL,
   FEATURED_PRODUCTS_REQUEST,
   FEATURED_PRODUCTS_SUCCESS,
-} from '../actions/actionTypes';
+} from "../actions/actionTypes";
 
 export const featuredProducts = (
   state = { products: [] },
@@ -13,14 +14,13 @@ export const featuredProducts = (
         ...state,
         loading: true,
       };
-
     case FEATURED_PRODUCTS_SUCCESS:
       return {
         ...state,
         loading: false,
         products: payload,
       };
-    case FEATURED_PRODUCTS_SUCCESS:
+    case FEATURED_PRODUCTS_FAIL:
       return {
         ...state,
         loading: false,

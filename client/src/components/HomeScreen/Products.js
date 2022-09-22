@@ -1,52 +1,41 @@
+import { Tab, Tabs } from "@mui/material";
 import React, { useState } from "react";
 import FeaturedProducts from "./FeaturedProducts";
 import LatestProducts from "./LatestProducts";
+import { TabContext, TabList, TabPanel } from "@mui/lab";
+import { Box } from "@mui/system";
 
-const links = [
-  {
-    title: "Featured Products",
-    path: "/",
-  },
-  {
-    title: "Latest Products",
-    path: "/latestProducts",
-  },
-];
-const Products = ({ history }) => {
-  const [activeTab, setActiveTab] = useState("/");
+const Products = () => {
+  const [activeTab, setActiveTab] = useState(1);
+
   return (
-    <div className=" ">
-      <div className="border-gray-200 mb-4 bg-gray-100  ">
-        <div className="container mx-auto -mb-0.5 ">
-          <div className="flex items-center space-x-1 font-medium uppercase tracking-wide  ">
-            {links.map((link) => (
-              <button
-                onClick={() => setActiveTab(link.path)}
-                className={`${
-                  activeTab === link.path
-                    ? " bg-green-300 font-medium text-green-900  "
-                    : ""
-                } ${
-                  activeTab !== link.path && "hover:bg-green-100"
-                }  py-4 text-gray-800 
-                focus:outline-none px-3
-                origin-right rounded-md 
-                `}
-              >
-                {link.title}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
+    <div className="">
       <div>
-        {activeTab === "/" ? (
-          <FeaturedProducts history={history} />
-        ) : (
-          activeTab === "/latestProducts" && (
-            <LatestProducts history={history} />
-          )
-        )}
+        <TabContext value={activeTab}>
+          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+            <TabList
+              onChange={(_, value) => {
+                setActiveTab(value);
+              }}
+              centered
+              aria-label="Products list"
+              sx={{
+                "& .MuiTabs-indicator": {
+                  bgcolor: "#34d399",
+                },
+              }}
+            >
+              <Tab variant="main" label="Featured Products" value={1} />
+              <Tab variant="main" label="Latest Products" value={2} />
+            </TabList>
+          </Box>
+          <TabPanel value={1}>
+            <FeaturedProducts />
+          </TabPanel>
+          <TabPanel value={2}>
+            <LatestProducts />
+          </TabPanel>
+        </TabContext>
       </div>
     </div>
   );
