@@ -1,6 +1,8 @@
-import React from 'react';
-import { useState } from 'react';
-import Item from './Order';
+import { Tooltip, Typography } from "@mui/material";
+import React from "react";
+import { useState } from "react";
+import Item from "./Order";
+import moment from "moment";
 
 const OrderItem = ({ order, idx }) => {
   const [toggleId, setToggleId] = useState(false);
@@ -16,68 +18,63 @@ const OrderItem = ({ order, idx }) => {
     shippingMethod,
     _id,
   } = order;
-  return (
-    <div className=' bg-gray-100 shadow-lg  mb-4 border rounded-lg col-span-12 md:col-span-6 lg:col-span-4'>
-      <div className='bg-gray-200 w-full py-4 px-4 rounded-t-md'>
-        <div className='flex items-center justify-start space-x-2'>
-          <h1 className='text-base uppercase tracking-wider font-extrabold text-gray-700'>
-            Order {idx + 1}
-          </h1>
-          <div className='flex text-sm'>
-            <button
-              onClick={() => setToggleId(!toggleId)}
-              className='text-blue-500 focus:outline-none '>
-              {toggleId ? 'Hide Id' : 'Show Id'}
-            </button>
-            {toggleId && <p>: {_id}</p>}
-          </div>
-        </div>
-      </div>
-      <div className='flex flex-col   my-3 pb-4 px-4 rounded-md'>
-        <div className='flex items-center space-x-1 mb-1.5'>
-          <h1 className='font-light  text-gray-400 '>Price : </h1>
-          <p className='font-medium'>${totalPrice.toFixed(2)}</p>
-        </div>
-        <div className='flex items-center font-light mb-1.5 text-gray-400 '>
-          <h1 className='inline-block'>Paid :</h1>
-          {isPaid ? (
-            <div className='py-1 px-2 mx-2 font-medium text-green-800  bg-green-200 uppercase rounded-lg'>
-              <p>Done</p>
-            </div>
-          ) : (
-            <div className='py-1 px-2 mx-2 font-medium text-red-800  bg-red-200 uppercase rounded-lg'>
-              <p>Not Yet</p>
-            </div>
-          )}
-        </div>
-        <div className='flex items-center mb-1.5 '>
-          <h1 className='font-light  text-gray-400 '>Delivered :</h1>
-          {isDelivered ? (
-            <div className='py-1 px-2 mx-2 font-medium text-green-800  bg-green-200 uppercase rounded-lg'>
-              <p>Done</p>
-            </div>
-          ) : (
-            <div className='py-1 px-2 mx-2 font-medium text-red-800  bg-red-200 uppercase rounded-lg'>
-              <p>Not Yet</p>
-            </div>
-          )}
-        </div>
-        <div className='flex items-center mb-1.5 '>
-          <h1 className='font-light  text-gray-400 '>Date : </h1>
-          <p className='font-medium'> {createdAt.slice(0,10)}</p>
-        </div>
-        <div className='flex items-center mb-1.5'>
-          <h1 className='font-light  text-gray-400 '>Payment Method : </h1>
-          <p className='font-medium'>{paymentMethod}</p>
-        </div>
-        <div className='flex items-center  mb-3  '>
-          <h1 className='font-light  text-gray-400 '>Shipping : </h1>
-          <p className='font-medium'>
-            {shippingMethod.name} - ${shippingMethod.cost.toFixed(2)}
-          </p>
-        </div>
 
-        <div className=''>
+  return (
+    <div className=" bg-gray-100 shadow-lg  mb-4 border rounded-lg col-span-12 md:col-span-6 lg:col-span-4">
+      <div className="bg-gray-200 w-full py-4 px-4 rounded-t-md">
+        <Tooltip
+          arrow
+          placement="top"
+          title={<Typography>Order Id: {_id}</Typography>}
+        >
+          <div className="flex items-center justify-start space-x-2">
+            <h1 className="text-base uppercase tracking-wider font-extrabold text-gray-700">
+              #{idx + 1}
+            </h1>
+          </div>
+        </Tooltip>
+      </div>
+      <div className="flex flex-col my-3 pb-4 px-4 rounded-md">
+        <p className="leading-relaxed">
+          You made an order
+          <Tooltip
+            arrow
+            followCursor
+            placement="top"
+            title={
+              <Typography>{moment(createdAt).format("MMM Do YY")}</Typography>
+            }
+          >
+            <span className="font-medium mx-1">
+              {moment(createdAt).fromNow()}
+            </span>
+          </Tooltip>
+          using {<span className="font-medium mx-1">{paymentMethod}</span>}
+          with total of
+          <span className="font-medium ml-1">${totalPrice.toFixed(2)}</span>
+          <Tooltip
+            arrow
+            followCursor
+            placement="top"
+            title={
+              <Typography>
+                {isPaid
+                  ? moment(paidAt).format("MMM Do YY")
+                  : "Please consider finishing your payment as the order with not delivered until the payment is confirmed"}
+              </Typography>
+            }
+          >
+            <span className="font-medium mx-1">
+              {isPaid ? `paid ${moment(paidAt).fromNow()}` : "(not yet paid)"}.
+            </span>
+          </Tooltip>
+          Will be shipped by
+          <span className="font-medium mx-1">
+            {shippingMethod.name}(${shippingMethod.cost.toFixed(2)}).
+          </span>
+        </p>
+
+        <div className="mt-4">
           {orderItems.map((order, idx) => (
             <Item order={order} key={idx} />
           ))}

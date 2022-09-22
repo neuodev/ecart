@@ -6,6 +6,9 @@ module.exports = {
       spacing: {
         100: 500,
       },
+      fontFamily: {
+        rubik: ["Rubik", "sans-serif"],
+      },
     },
   },
   plugins: [],
