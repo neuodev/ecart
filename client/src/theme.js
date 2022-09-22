@@ -3,6 +3,11 @@ import { createTheme } from "@mui/material";
 const defaultTheme = createTheme();
 
 export default createTheme({
+  palette: {
+    primary: {
+      main: "#6ee7b7",
+    },
+  },
   components: {
     MuiButton: {
       styleOverrides: {

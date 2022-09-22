@@ -20,7 +20,7 @@ const banners = [
 
 const SaveUpTo = () => {
   return (
-    <div className="grid grid-cols-12 gap-8 container mx-auto py-4 mb-4">
+    <div className="grid grid-cols-12 gap-8 container mx-auto py-4 my-8">
       {banners.map((banner) => (
         <div className="col-span-12 md:col-span-6 lg:col-span-4 relative rounded-xl my-4 overflow-hidden mx-4 max-w-md shadow-2xl cursor-pointer">
           <img
