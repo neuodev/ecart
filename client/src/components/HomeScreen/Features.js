@@ -21,10 +21,11 @@ const list = [
     icon: <Ri24HoursFill />,
   },
 ];
+
 const Features = () => {
   return (
-    <div id="features">
-      <div className="container mx-auto px-4 border-t-2 border-b-2 lg:flex justify-between items-center lg:py-7 ">
+    <div id="features" className="border-y-2">
+      <div className="container mx-auto px-4 lg:flex justify-between items-center lg:py-7 ">
         {list.map((item) => (
           <div className="flex flex-row items-center justify-start py-2">
             <div className="text-3xl lg:text-2xl text-gray-800 p-2 m-2 border bg-gray-50 rounded-full ">
