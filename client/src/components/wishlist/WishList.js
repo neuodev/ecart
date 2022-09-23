@@ -4,6 +4,8 @@ import WishListItem from "./WishListItem";
 import { Link } from "react-router-dom";
 import { clearWishlist } from "../../actions/whishlist";
 import { Button } from "@mui/material";
+import { Box } from "@mui/system";
+import Modal from "../common/Modal";
 
 const WishList = ({ children, history }) => {
   const dispatch = useDispatch();
@@ -50,9 +52,58 @@ const WishList = ({ children, history }) => {
           {children}
         </button>
       </div>
+      <Modal
+        minWidth={400}
+        width={600}
+        open={true}
+        onClose={() => alert("closed")}
+      >
+        <div>
+          {wishlist.length === 0 ? (
+            <div className="w-full  text-center bg-yellow-200 h-full flex flex-col items-center justify-center rounded-lg uppercase tracking-wider">
+              <h1 className="text-xl text-yellow-800 font-medium">
+                You Wishlist Is Empty
+              </h1>
+              <Link
+                onClick={handleClose}
+                className="inline-block font-medium bg-yellow-300 rounded-full py-2 px-3 my-2 text-yellow-800 focus:outline-none"
+                to="/products"
+              >
+                Start Shopping
+              </Link>
+            </div>
+          ) : (
+            <div>
+              <div className="flex items-center justify-between my-2 mb-3">
+                <h1 className="text-3xl font-medium">Wishlist </h1>
+                <Button
+                  variant="outlined"
+                  color="error"
+                  onClick={clearWishlistHandler}
+                  sx={{
+                    width: "150px",
+                    minWidth: "150px",
+                  }}
+                >
+                  Clear
+                </Button>
+              </div>
+              {wishlist.map((product) => (
+                <WishListItem
+                  handleClose={handleClose}
+                  history={history}
+                  key={product._id}
+                  product={product}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+      </Modal>
+
       {open && (
         <div
-          className="absolute  left-1/2 w-11/12  lg:w-8/12 bg-gray-100 overflow-y-scroll z-50 shadow-2xl rounded-lg border transform -translate-x-1/2 
+          className="absolute left-1/2 w-11/12 lg:w-8/12 bg-gray-100 overflow-y-scroll z-50 shadow-2xl rounded-lg border transform -translate-x-1/2 
           -translate-y-1/2
           p-4
       "
@@ -66,7 +117,7 @@ const WishList = ({ children, history }) => {
               </h1>
               <Link
                 onClick={handleClose}
-                className="inline-block font-medium bg-yellow-300 rounded-full  py-2 px-3  my-2 text-yellow-800 focus:outline-none"
+                className="inline-block font-medium bg-yellow-300 rounded-full py-2 px-3 my-2 text-yellow-800 focus:outline-none"
                 to="/products"
               >
                 Start Shopping
