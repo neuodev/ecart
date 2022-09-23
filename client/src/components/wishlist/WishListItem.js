@@ -21,7 +21,7 @@ const WishListItem = ({ product, handleClose }) => {
   };
 
   return (
-    <div className="flex items-center">
+    <div className="flex items-center mb-4">
       <Link to={`/product/${_id}`} className="inline-block mr-3 shrink-0">
         <img
           className="w-24 h-24 border rounded-sm overflow-hidden inline-block flex-none object-contain p-1"

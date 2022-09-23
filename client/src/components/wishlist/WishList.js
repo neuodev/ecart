@@ -42,7 +42,7 @@ const WishList = ({ children, history }) => {
           {children}
         </button>
       </div>
-      <Modal minWidth={400} width={600} open={open} onClose={onClose}>
+      <Modal minWidth={400} width={700} open={open} onClose={onClose}>
         <div>
           {wishlist.length === 0 ? (
             <EmptyWishlist asCol onClose={onClose} />
