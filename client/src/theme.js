@@ -14,7 +14,6 @@ export default createTheme({
         root: {
           fontSize: "0.875rem",
           borderRadius: 0,
-          border: 0,
           fontWeight: 500,
           minHeight: 44,
           minWidth: 230,
