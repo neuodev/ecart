@@ -41,18 +41,7 @@ const AccountScreen = () => {
             Account
           </Link>
         </div>
-        <div className="flex items-center space-x-3">
-          {routes.map((route) => (
-            <button
-              className={`${
-                activeRoute === route.path ? "border-b border-gray-600 " : ""
-              } border-b border-transparent focus:outline-none text-xs sm:text-sm font-medium text-gray-800 mb-1`}
-              onClick={() => setActiveRoute(route.path)}
-            >
-              {route.title}
-            </button>
-          ))}
-        </div>
+
         <div>
           <Outlet />
         </div>

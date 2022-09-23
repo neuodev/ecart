@@ -1,11 +1,9 @@
 import { Tooltip, Typography } from "@mui/material";
 import React from "react";
-import { useState } from "react";
 import Item from "./Order";
 import moment from "moment";
 
 const OrderItem = ({ order, idx }) => {
-  const [toggleId, setToggleId] = useState(false);
   const {
     totalPrice,
     isPaid,
@@ -25,7 +23,12 @@ const OrderItem = ({ order, idx }) => {
         <Tooltip
           arrow
           placement="top"
-          title={<Typography>Order Id: {_id}</Typography>}
+          title={
+            <Typography>
+              Order ID: {_id} - Will be required if you want to contact the
+              support
+            </Typography>
+          }
         >
           <div className="flex items-center justify-start space-x-2">
             <h1 className="text-base uppercase tracking-wider font-extrabold text-gray-700">
@@ -37,40 +40,35 @@ const OrderItem = ({ order, idx }) => {
       <div className="flex flex-col my-3 pb-4 px-4 rounded-md">
         <p className="leading-relaxed">
           You made an order
-          <Tooltip
-            arrow
-            followCursor
-            placement="top"
-            title={
-              <Typography>{moment(createdAt).format("MMM Do YY")}</Typography>
-            }
-          >
-            <span className="font-medium mx-1">
-              {moment(createdAt).fromNow()}
-            </span>
-          </Tooltip>
+          <TextSlice tooltip={moment(createdAt).format("MMM Do YY")}>
+            {moment(createdAt).fromNow()}
+          </TextSlice>
           using {<span className="font-medium mx-1">{paymentMethod}</span>}
           with total of
           <span className="font-medium ml-1">${totalPrice.toFixed(2)}</span>
-          <Tooltip
-            arrow
-            followCursor
-            placement="top"
-            title={
-              <Typography>
-                {isPaid
-                  ? moment(paidAt).format("MMM Do YY")
-                  : "Please consider finishing your payment as the order with not delivered until the payment is confirmed"}
-              </Typography>
+          <TextSlice
+            tooltip={
+              isPaid
+                ? moment(paidAt).format("MMM Do YY")
+                : "Please consider finishing your payment as the order will not delivered until the payment is confirmed ✅"
             }
           >
-            <span className="font-medium mx-1">
-              {isPaid ? `paid ${moment(paidAt).fromNow()}` : "(not yet paid)"}.
-            </span>
-          </Tooltip>
-          Will be shipped by
-          <span className="font-medium mx-1">
-            {shippingMethod.name}(${shippingMethod.cost.toFixed(2)}).
+            {isPaid ? `paid ${moment(paidAt).fromNow()}` : "(not yet paid ❓️)"}
+            .
+          </TextSlice>
+          <TextSlice
+            tooltip={
+              isDelivered
+                ? moment(deliveredAt).format("MMM Do YY")
+                : "Will be shipped after payment 🏃"
+            }
+          >
+            {isDelivered
+              ? `Shipped ${moment(deliveredAt).fromNow()} by`
+              : "Will be shipped by"}
+          </TextSlice>
+          <span className="font-medium mr-1">
+            {shippingMethod.name} (${shippingMethod.cost.toFixed(2)}).
           </span>
         </p>
 
@@ -85,3 +83,18 @@ const OrderItem = ({ order, idx }) => {
 };
 
 export default OrderItem;
+
+const TextSlice = ({ children, tooltip }) => {
+  return (
+    <Tooltip
+      arrow
+      followCursor
+      placement="top"
+      title={<Typography sx={{ textAlign: "center" }}>{tooltip}</Typography>}
+    >
+      <span className="font-medium mx-1 border-b border-dashed border-gray-700">
+        {children}
+      </span>
+    </Tooltip>
+  );
+};
