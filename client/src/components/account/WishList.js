@@ -2,6 +2,7 @@ import { Button, Typography } from "@mui/material";
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import EmptyWishlist from "../wishlist/EmptyWishlist";
 import WishListItem from "../wishlist/WishListItem";
 
 const WishList = () => {
@@ -15,24 +16,7 @@ const WishList = () => {
       <div className="my-10">
         {wishlist.length === 0 ? (
           <div className="min-h-500 flex items-center justify-center flex-row mb-20">
-            <img
-              className="h-96 inline-block"
-              src="/images/wishlist.png"
-              alt="Wishlist"
-            />
-            <div className="ml-12">
-              <Typography fontFamily="rubik" variant="h5" mt="30px">
-                Your wishlist is empty
-              </Typography>
-              <Button
-                LinkComponent={Link}
-                to="/products"
-                variant="dark"
-                sx={{ mt: "30px" }}
-              >
-                Start shopping
-              </Button>
-            </div>
+            <EmptyWishlist />
           </div>
         ) : (
           <div className="min-h-500">
