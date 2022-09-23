@@ -30,6 +30,7 @@ const Search = () => {
             </IconButton>
           }
           size="small"
+          sx={{ borderRadius: "0px" }}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="w-72 lg:w-80 xl:w-96"
@@ -37,20 +38,6 @@ const Search = () => {
         />
       </form>
     </Box>
-    // <div className="rounded-lg border overflow-hidden">
-    //   <form className="flex items-stretch" onSubmit={onSumit}>
-    //     <input
-    //       value={search}
-    //       onChange={(e) => setSearch(e.target.value)}
-    //       className=" w-72 lg:w-80 xl:w-96 py-2 lg:py-3 px-4 focus:outline-none "
-    //       type="text"
-    //       placeholder="Search For Products"
-    //     />
-    //     <button className="px-3 cursor-pointer text-gray-800  focus:outline-none hover:bg-gray-100">
-    //       <SearchOutlined />
-    //     </button>
-    //   </form>
-    // </div>
   );
 };
 

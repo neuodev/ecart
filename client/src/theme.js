@@ -38,6 +38,31 @@ export default createTheme({
           },
           defaultProps: { disableRipple: false },
         },
+        {
+          props: {
+            size: "small",
+            variant: "dark",
+          },
+          style: {
+            minWidth: "150px",
+            minHeight: "30px",
+            fontSize: "14px",
+          },
+        },
+        {
+          props: {
+            size: "small",
+            variant: "dark-outlined",
+          },
+          style: {
+            textTransform: "uppercase",
+            border: `1px solid ${defaultTheme.palette.common.black}`,
+            minWidth: "150px",
+            minHeight: "30px",
+            maxHeight: "40px",
+            fontSize: "14px",
+          },
+        },
       ],
     },
     MuiTab: {

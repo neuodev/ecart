@@ -2,7 +2,6 @@ import { Button, Typography } from "@mui/material";
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import Alert from "../../utils/Alert";
 import WishListItem from "../wishlist/WishListItem";
 
 const WishList = () => {
@@ -10,7 +9,7 @@ const WishList = () => {
 
   return (
     <div>
-      <h1 className="py-6 px-5 bg-gray-100 rounded-lg shadow-lg mb-5  mt-4  text-gray-700 font-medium ">
+      <h1 className="py-6 px-5 bg-gray-100 shadow-lg mb-5  mt-4 text-gray-700 font-medium ">
         Wishlist {wishlist.length !== 0 && `(${wishlist.length})`}
       </h1>
       <div className="my-10">
