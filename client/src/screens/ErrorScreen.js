@@ -19,7 +19,10 @@ const ErrorScreen = () => {
       >
         Sorry, an unexpected error has occurred
       </Typography>
-      <Typography variant="caption" className="text-gray-500">
+      <Typography
+        variant="caption"
+        className="text-gray-500 max-w-screen-lg text-center"
+      >
         {error.statusText || error.message}
       </Typography>
 
