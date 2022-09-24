@@ -1,18 +1,16 @@
 import React, { useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { useDispatch } from "react-redux";
-import { BRAND, CATEGORY, PRICE } from "../../actions/actionTypes";
-
-const SearchSmallScreen = ({ history }) => {
-  const [search, setSearch] = useState("");
+import { RESET_FILTERS } from "../../actions/actionTypes";
+import { useNavigate } from "react-router-dom";
+const SearchSmallScreen = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [search, setSearch] = useState("");
   const onSumit = (e) => {
     e.preventDefault();
-    history.push(`/products?q=${search}`);
-    // reset the filters
-    dispatch({ type: PRICE, payload: "" });
-    dispatch({ type: CATEGORY, payload: "" });
-    dispatch({ type: BRAND, payload: "" });
+    navigate(`/products?q=${search}`);
+    dispatch({ type: RESET_FILTERS });
   };
 
   return (

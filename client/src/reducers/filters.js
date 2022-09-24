@@ -5,12 +5,16 @@ import {
   CATEGORY,
   BRAND,
   NUMBER_PER_PAGE,
-} from '../actions/actionTypes';
+  RESET_FILTERS,
+} from "../actions/actionTypes";
 
 export const filters = (
   state = {
-    sort: 'name',
+    sort: "name",
     numPerPage: 6,
+    category: null,
+    price: null,
+    brand: null,
   },
   { type, payload }
 ) => {
@@ -18,12 +22,12 @@ export const filters = (
     case ASCENDING_ORDER:
       return {
         ...state,
-        sort: 'name',
+        sort: "name",
       };
     case DECENDING_ORDER:
       return {
         ...state,
-        sort: '-name',
+        sort: "-name",
       };
 
     case CATEGORY:
@@ -43,10 +47,17 @@ export const filters = (
       };
 
     case NUMBER_PER_PAGE:
-  
       return {
         ...state,
         numPerPage: payload,
+      };
+
+    case RESET_FILTERS:
+      return {
+        ...state,
+        category: null,
+        brand: null,
+        price: null,
       };
     default:
       return state;

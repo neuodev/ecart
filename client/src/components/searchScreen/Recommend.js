@@ -1,9 +1,14 @@
 import { Button } from "@mui/material";
 import React from "react";
-import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { RESET_FILTERS } from "../../actions/actionTypes";
 import ProductCard from "../HomeScreen/ProductCard";
 
-const Recommend = ({ recommendedProducts, q }) => {
+const Recommend = ({ recommendedProducts }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   return (
     <div>
       <div className="flex items-center flex-col lg:flex-row justify-center mb-10">
@@ -16,7 +21,13 @@ const Recommend = ({ recommendedProducts, q }) => {
 
         <div className="flex flex-col items-center justify-center lg:ml-2">
           <h1 className="text-2xl font-semibold mb-4">Products not found</h1>
-          <Button LinkComponent={Link} to="/products" variant="dark">
+          <Button
+            onClick={() => {
+              dispatch({ type: RESET_FILTERS });
+              navigate("/products");
+            }}
+            variant="dark"
+          >
             Browse Products
           </Button>
         </div>

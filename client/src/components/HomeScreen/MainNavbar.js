@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { BiUser } from "react-icons/bi";
 import Sidebar from "./Sidebar";
 import { FavoriteBorder } from "@mui/icons-material";
@@ -33,7 +33,7 @@ const MainNavbar = ({ history }) => {
               className="hover:text-gray-500"
             />
           </Link>
-          <WishList history={history}>
+          <WishList>
             <FavoriteBorder
               style={{ fontSize: "28px" }}
               className="hover:text-gray-500 focus:outline-none"

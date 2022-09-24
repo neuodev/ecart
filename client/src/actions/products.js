@@ -29,13 +29,13 @@ import {
   PRODUCTS_NEXT_PAGE_REQUREST,
   PRODUCTS_NEXT_PAGE_SUCCESS,
   PRODUCTS_NEXT_PAGE_FAIL,
-} from './actionTypes';
-import axios from 'axios';
-import { logout } from './user';
-export const getFeaturedProducts = () => async dispatch => {
+} from "./actionTypes";
+import axios from "axios";
+import { logout } from "./user";
+export const getFeaturedProducts = () => async (dispatch) => {
   try {
     dispatch({ type: FEATURED_PRODUCTS_REQUEST });
-    const { data } = await axios.get('/api/v1/products?limit=5');
+    const { data } = await axios.get("/api/v1/products?limit=5");
     dispatch({ type: FEATURED_PRODUCTS_SUCCESS, payload: data.products });
   } catch (error) {
     dispatch({
@@ -47,10 +47,10 @@ export const getFeaturedProducts = () => async dispatch => {
     });
   }
 };
-export const getTopRatedProducts = () => async dispatch => {
+export const getTopRatedProducts = () => async (dispatch) => {
   try {
     dispatch({ type: TOP_RATED_PRODUCTS_REQUEST });
-    const { data } = await axios.get('/api/v1/products?limit=3&sort=-rating');
+    const { data } = await axios.get("/api/v1/products?limit=3&sort=-rating");
     dispatch({ type: TOP_RATED_PRODUCTS_SUCCESS, payload: data.products });
   } catch (error) {
     dispatch({
@@ -62,11 +62,11 @@ export const getTopRatedProducts = () => async dispatch => {
     });
   }
 };
-export const getBestSellingProducts = () => async dispatch => {
+export const getBestSellingProducts = () => async (dispatch) => {
   try {
     dispatch({ type: BEST_SELLING_PRODUCTS_REQUEST });
     const { data } = await axios.get(
-      '/api/v1/products?limit=3&sort=-rating,numReviews'
+      "/api/v1/products?limit=3&sort=-rating,numReviews"
     );
     dispatch({ type: BEST_SELLING_PRODUCTS_SUCCESS, payload: data.products });
   } catch (error) {
@@ -80,11 +80,11 @@ export const getBestSellingProducts = () => async dispatch => {
   }
 };
 
-export const getLatestProducts = () => async dispatch => {
+export const getLatestProducts = () => async (dispatch) => {
   try {
     dispatch({ type: LATEST_PRODUCTS_REQUEST });
     const { data } = await axios.get(
-      '/api/v1/products?limit=3&sort=-createdAt'
+      "/api/v1/products?limit=3&sort=-createdAt"
     );
     dispatch({ type: LATEST_PRODUCTS_SUCCESS, payload: data.products });
   } catch (error) {
@@ -97,75 +97,84 @@ export const getLatestProducts = () => async dispatch => {
     });
   }
 };
-export const serachProducts = (
-  q,
-  category,
-  price,
-  sort,
-  brand,
-  page,
-  limit
-) => async dispatch => {
-  try {
-    dispatch({ type: SEARCH_PRODUCTS_REQUEST });
-    let url = '/api/v1/products?';
-    if (!q && !price) {
-      url = '/api/v1/products?';
-      if (page) {
-        url = url + `&page=${page}`;
-      }
-      if (limit) {
-        url = url + `&limit=${limit}`;
-      }
-    } else if (!q || price || category || brand) {
-      if (sort) {
-        url = url + `&sort=${sort}`;
-      }
-      if (category) {
-        url = url + `&category=${category}`;
-      }
-      if (price) {
-        url = url + `&${price}`;
-      }
-      if (brand && brand !== 'SelectNoBrand') {
-        url = url + `&brand=${brand}`;
-      }
-    } else if (q) {
-      url = `api/v1/products?q=${`${q}`}`;
+export const serachProducts =
+  (q, category, price, sort, brand, page, limit) => async (dispatch) => {
+    try {
+      dispatch({ type: SEARCH_PRODUCTS_REQUEST });
 
-      if (sort) {
-        url = url + `&sort=${sort}`;
-      }
-      if (category) {
-        url = url + `&category=${category}`;
-      }
-      if (price) {
-        url = url + `&${price}`;
-      }
-      if (brand && brand !== 'SelectNoBrand') {
-        url = url + `&brand=${brand}`;
-      }
-      if (page) {
-        url = url + `&page=${page}`;
-      }
-      if (limit) {
-        url = url + `&limit=${limit}`;
-      }
+      console.log({
+        q,
+        category,
+        price,
+        sort,
+        brand,
+        page,
+        limit,
+      });
+      // const params = {};
+      // if (!q && !price) {
+      //   url = '/api/v1/products?';
+      //   if (page) {
+      //     url = url + `&page=${page}`;
+      //   }
+      //   if (limit) {
+      //     url = url + `&limit=${limit}`;
+      //   }
+      // } else if (!q || price || category || brand) {
+      //   if (sort) {
+      //     url = url + `&sort=${sort}`;
+      //   }
+      //   if (category) {
+      //     url = url + `&category=${category}`;
+      //   }
+      //   if (price) {
+      //     url = url + `&${price}`;
+      //   }
+      //   if (brand && brand !== 'SelectNoBrand') {
+      //     url = url + `&brand=${brand}`;
+      //   }
+      // } else if (q) {
+      //   url = `api/v1/products?q=${`${q}`}`;
+
+      //   if (sort) {
+      //     url = url + `&sort=${sort}`;
+      //   }
+      //   if (category) {
+      //     url = url + `&category=${category}`;
+      //   }
+      //   if (price) {
+      //     url = url + `&${price}`;
+      //   }
+      //   if (brand && brand !== 'SelectNoBrand') {
+      //     url = url + `&brand=${brand}`;
+      //   }
+      //   if (page) {
+      //     url = url + `&page=${page}`;
+      //   }
+      //   if (limit) {
+      //     url = url + `&limit=${limit}`;
+      //   }
+      // }
+      const { data } = await axios.get("/api/v1/products", {
+        params: {
+          q,
+          category,
+          brand,
+        },
+      });
+      dispatch({ type: SEARCH_PRODUCTS_SUCCESS, payload: data });
+    } catch (error) {
+      dispatch({
+        type: SEARCH_PRODUCTS_FAIL,
+        payload:
+          error.response && error.response.data.error
+            ? error.response.data.error
+            : error.message,
+      });
     }
-    const { data } = await axios.get(url);
-    dispatch({ type: SEARCH_PRODUCTS_SUCCESS, payload: data });
-  } catch (error) {
-    dispatch({
-      type: SEARCH_PRODUCTS_FAIL,
-      payload:
-        error.response && error.response.data.error
-          ? error.response.data.error
-          : error.message,
-    });
-  }
-};
+  };
 
-export const getProductAction = id => async dispatch => {
+export const getProductAction = (id) => async (dispatch) => {
   try {
     dispatch({ type: GET_PRODUCT_REQUEST });
 
@@ -184,11 +193,11 @@ export const getProductAction = id => async dispatch => {
   }
 };
 
-export const recommend = () => async dispatch => {
+export const recommend = () => async (dispatch) => {
   try {
     dispatch({ type: RECOMMEND_PRODUCTS_RQUIEST });
 
-    let url = '/api/v1/products?limit=3&sort=-name&rating[gte]=4';
+    let url = "/api/v1/products?limit=3&sort=-name&rating[gte]=4";
 
     const { data } = await axios.get(url);
 
@@ -204,45 +213,43 @@ export const recommend = () => async dispatch => {
   }
 };
 
-export const createProductReview = (productId, review) => async (
-  dispatch,
-  getState
-) => {
-  try {
-    dispatch({
-      type: PRODUCT_CREATE_REVIEW_REQUEST,
-    });
+export const createProductReview =
+  (productId, review) => async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: PRODUCT_CREATE_REVIEW_REQUEST,
+      });
 
-    const {
-      userLogin: { userInfo },
-    } = getState();
+      const {
+        userLogin: { userInfo },
+      } = getState();
 
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
 
-    await axios.post(`/api/v1/products/${productId}/reviews`, review, config);
+      await axios.post(`/api/v1/products/${productId}/reviews`, review, config);
 
-    dispatch({
-      type: PRODUCT_CREATE_REVIEW_SUCCESS,
-    });
-  } catch (error) {
-    const message =
-      error.response && error.response.data.error
-        ? error.response.data.error
-        : error.message;
-    if (message === 'Not authorized, token failed') {
-      dispatch(logout());
+      dispatch({
+        type: PRODUCT_CREATE_REVIEW_SUCCESS,
+      });
+    } catch (error) {
+      const message =
+        error.response && error.response.data.error
+          ? error.response.data.error
+          : error.message;
+      if (message === "Not authorized, token failed") {
+        dispatch(logout());
+      }
+      dispatch({
+        type: PRODUCT_CREATE_REVIEW_FAIL,
+        payload: message,
+      });
     }
-    dispatch({
-      type: PRODUCT_CREATE_REVIEW_FAIL,
-      payload: message,
-    });
-  }
-};
+  };
 
 export const deleteProductReview = () => async (dispatch, getState) => {
   try {
@@ -257,7 +264,7 @@ export const deleteProductReview = () => async (dispatch, getState) => {
     const productId = product._id;
     const config = {
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
@@ -272,7 +279,7 @@ export const deleteProductReview = () => async (dispatch, getState) => {
       error.response && error.response.data.error
         ? error.response.data.error
         : error.message;
-    if (message === 'Not authorized, token failed') {
+    if (message === "Not authorized, token failed") {
       dispatch(logout());
     }
     dispatch({
@@ -282,7 +289,7 @@ export const deleteProductReview = () => async (dispatch, getState) => {
   }
 };
 
-export const nextPageProducts = (page, numPerPage) => async dispatch => {
+export const nextPageProducts = (page, numPerPage) => async (dispatch) => {
   try {
     dispatch({ type: PRODUCTS_NEXT_PAGE_REQUREST });
     if (!numPerPage) {

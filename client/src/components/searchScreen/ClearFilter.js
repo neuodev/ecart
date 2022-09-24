@@ -9,13 +9,15 @@ const ClearFilter = ({ resetFunc, disabled }) => {
       placement="top"
       title={<Typography>Clear filter</Typography>}
     >
-      <IconButton
-        onClick={() => resetFunc(null)}
-        size="small"
-        disabled={disabled}
-      >
-        <HighlightOffIcon />
-      </IconButton>
+      <span>
+        <IconButton
+          onClick={() => resetFunc(null)}
+          size="small"
+          disabled={disabled}
+        >
+          <HighlightOffIcon />
+        </IconButton>
+      </span>
     </Tooltip>
   );
 };
