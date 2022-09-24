@@ -19,14 +19,18 @@ const useStyle = makeStyles({
 });
 
 const FilterSidebar = () => {
+  const dispatch = useDispatch();
   const classes = useStyle();
   const [open, setOpen] = useState(false);
   const [openCategories, setOpenCategories] = useState(true);
   const [openPrice, setOpenPrice] = useState(true);
   const [priceValue, setPriceValue] = useState("");
+
   const handleChange = () => {
     setOpen(!open);
   };
+
+  // Todo: Should be extracted from current products or fetched from the backend
   const categories = [
     "Electronics",
     "Computers",
@@ -34,6 +38,7 @@ const FilterSidebar = () => {
     "Fashion",
     "Dress",
   ];
+
   const prices = [
     {
       text: "Below $100.00",
@@ -52,7 +57,7 @@ const FilterSidebar = () => {
       query: "price[gte]=500",
     },
   ];
-  const dispatch = useDispatch();
+
   const setCategory = (category) => {
     dispatch({ type: CATEGORY, payload: category });
   };

@@ -59,8 +59,6 @@ const SearchScreen = () => {
     }
   }, [products]);
 
-  const placeholder = [1, 2, 3, 4];
-
   const fetchData = (nextPage) => {
     if (page === nextPage) return;
     dispatch(nextPageProducts(nextPage, numPerPage));
@@ -91,89 +89,87 @@ const SearchScreen = () => {
   };
 
   return (
-    <StyledDiv className="mt-5 container mx-auto  px-4">
+    <div>
       <div className="mb-2">
         <MainNavbar />
       </div>
-      <Header />
-      <div className="flex items-start flex-row">
-        <div className="hidden md:block ">
-          <FilterSidebarLargeScreen />
-        </div>
-        <div className="flex   items-center justify-center w-full">
-          <div className="grid col-span-12 mx-auto md:row-start-4 md:row-end-6 md:col-span-8  grid-cols-12 lg:col-span-9 xl:col-span-10 ">
-            {recommendLoading ? (
-              placeholder.map((skeleton) => {
-                // todo: Check out this logic
-                if (skeleton < 3) {
+      <StyledDiv className="mt-5 container mx-auto px-4">
+        <Header />
+        <div className="flex items-start flex-row">
+          <div className="hidden md:block">
+            <FilterSidebarLargeScreen />
+          </div>
+          <div className="flex items-center justify-center w-full">
+            <div className="grid col-span-12 mx-auto md:row-start-4 md:row-end-6 md:col-span-8  grid-cols-12 lg:col-span-9 xl:col-span-10 min-h-600">
+              {recommendLoading ? (
+                new Array(3).fill(0).map((_, idx) => {
                   return (
-                    <div className="col-span-12 mx-auto  lg:col-span-6 xl:col-span-4 ">
-                      <ProductSkeleton key={skeleton} />
+                    <div className="col-span-12 mx-auto  lg:col-span-6 xl:col-span-4">
+                      <ProductSkeleton key={idx * 2} />
                     </div>
                   );
-                }
-              })
-            ) : products.length === 0 ? (
-              <div className="col-span-12 mx-auto  lg:col-span-12 xl:col-span-12 ">
-                <Recommend recommendedProducts={recommendedProducts} q={q} />
-              </div>
-            ) : loading ? (
-              placeholder.map((skeleton) => (
-                <div className="col-span-12 mx-auto  lg:col-span-6 xl:col-span-4 ">
-                  <ProductSkeleton key={skeleton} />
+                })
+              ) : products.length === 0 ? (
+                <div className="col-span-12 mx-auto  lg:col-span-12 xl:col-span-12 min-h-500">
+                  <Recommend recommendedProducts={recommendedProducts} q={q} />
                 </div>
-              ))
-            ) : (
-              products.map((product, idx) => (
-                <div className="grid col-span-12 mx-auto  lg:col-span-6 xl:col-span-4 ">
-                  <ProductCard key={idx} product={product} screen="search" />
-                </div>
-              ))
-            )}
-            <div className="col-span-12 mx-auto my-4 flex justify-center items-center">
-              <Stack direction="row" spacing={1}>
-                <PaginationBtn
-                  color="default"
-                  disabled={page === 1}
-                  onClick={() => fetchData(1)}
-                >
-                  <BsChevronDoubleLeft />
-                </PaginationBtn>
-                <PaginationBtn
-                  disabled={page === 1}
-                  color="default"
-                  onClick={prevPage}
-                >
-                  <BsChevronLeft />
-                </PaginationBtn>
-                {numOfBts.map((_, idx) => (
+              ) : loading ? (
+                new Array(6).fill(0).map((_, idx) => (
+                  <div className="col-span-12 mx-auto lg:col-span-6 xl:col-span-4">
+                    <ProductSkeleton key={idx} />
+                  </div>
+                ))
+              ) : (
+                products.map((product, idx) => (
+                  <div className="grid col-span-12 mx-auto lg:col-span-6 xl:col-span-4">
+                    <ProductCard key={idx} product={product} screen="search" />
+                  </div>
+                ))
+              )}
+              <div className="col-span-12 mx-auto my-4 flex justify-center items-center">
+                <Stack direction="row" spacing={1}>
                   <PaginationBtn
-                    onClick={() => fetchData(idx + 1)}
-                    color={page === idx + 1 ? "primary" : "default"}
-                    sx={{
-                      border: page === idx + 1 ? 1 : 0,
-                    }}
+                    color="default"
+                    disabled={page === 1}
+                    onClick={() => fetchData(1)}
                   >
-                    {idx + 1}
+                    <BsChevronDoubleLeft />
                   </PaginationBtn>
-                ))}
-                <PaginationBtn
-                  color="default"
-                  disabled={page === numOfBts.length}
-                  onClick={() => fetchData(numOfBts.length)}
-                >
-                  <BsChevronRight />
-                </PaginationBtn>
-                <PaginationBtn
-                  disabled={page === numOfBts.length}
-                  color="default"
-                  onClick={nextPage}
-                >
-                  <BsChevronDoubleRight />
-                </PaginationBtn>
-              </Stack>
-            </div>
-            {/* <div className="col-span-12 mx-auto my-4 flex items-center">
+                  <PaginationBtn
+                    disabled={page === 1}
+                    color="default"
+                    onClick={prevPage}
+                  >
+                    <BsChevronLeft />
+                  </PaginationBtn>
+                  {numOfBts.map((_, idx) => (
+                    <PaginationBtn
+                      onClick={() => fetchData(idx + 1)}
+                      color={page === idx + 1 ? "primary" : "default"}
+                      sx={{
+                        border: page === idx + 1 ? 1 : 0,
+                      }}
+                    >
+                      {idx + 1}
+                    </PaginationBtn>
+                  ))}
+                  <PaginationBtn
+                    color="default"
+                    disabled={page === numOfBts.length}
+                    onClick={() => fetchData(numOfBts.length)}
+                  >
+                    <BsChevronRight />
+                  </PaginationBtn>
+                  <PaginationBtn
+                    disabled={page === numOfBts.length}
+                    color="default"
+                    onClick={nextPage}
+                  >
+                    <BsChevronDoubleRight />
+                  </PaginationBtn>
+                </Stack>
+              </div>
+              {/* <div className="col-span-12 mx-auto my-4 flex items-center">
               <button
                 onClick={() => fetchData(1)}
                 className="px-3 py-2.5 bg-gray-200 mr-2 rounded-lg focus:outline-none text-gray-700 font-medium focus:ring focus:ring-gray-400 "
@@ -209,10 +205,11 @@ const SearchScreen = () => {
                 <BsChevronDoubleRight />
               </button>
             </div> */}
+            </div>
           </div>
         </div>
-      </div>
-    </StyledDiv>
+      </StyledDiv>
+    </div>
   );
 };
 
