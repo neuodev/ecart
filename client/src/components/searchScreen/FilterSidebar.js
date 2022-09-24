@@ -30,18 +30,50 @@ export const PRICES = [
   {
     text: "Below $100.00",
     query: "price[lte]=100",
+    queryObj: [
+      {
+        key: "price[lte]",
+        value: 100,
+      },
+    ],
   },
   {
     text: "$100.00-199.00",
     query: "price[gte]=100&price[lte]=199",
+    queryObj: [
+      {
+        key: "price[gte]",
+        value: 100,
+      },
+      {
+        key: "price[lte]",
+        value: 199,
+      },
+    ],
   },
   {
     text: "$200.00-299.00",
     query: "price[gte]=200&price[lte]=299",
+    queryObj: [
+      {
+        key: "price[gte]",
+        value: 200,
+      },
+      {
+        key: "price[lte]",
+        value: 399,
+      },
+    ],
   },
   {
     text: "Above $500",
     query: "price[gte]=500",
+    queryObj: [
+      {
+        key: "price[gte]",
+        value: 500,
+      },
+    ],
   },
 ];
 
@@ -135,10 +167,10 @@ const FilterSidebar = () => {
             >
               {PRICES.map((p) => (
                 <div
-                  key={p.query}
+                  key={p.text}
                   className="text-gray-700 -mb-4 font-medium cursor-pointer rounded-md py-1 px-4 text-sm flex items-center space-x-1"
                 >
-                  <Radio value={p.query} color="default" />
+                  <Radio value={p.queryObj} color="default" />
                   <div>{p.text}</div>
                 </div>
               ))}

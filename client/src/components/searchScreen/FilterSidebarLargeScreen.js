@@ -65,15 +65,15 @@ const FilterSidebar = () => {
             />
           </div>
           <RadioGroup
-            value={filters.price}
-            onChange={(e) => setPrice(e.target.value)}
+            value={JSON.stringify(filters.price)}
+            onChange={(e) => setPrice(JSON.parse(e.target.value))}
           >
             {PRICES.map((p) => (
               <div
-                key={p.query}
+                key={p.text}
                 className="text-gray-700 -mb-4 font-medium cursor-pointer rounded-md py-1 px-4 text-sm flex items-center space-x-1"
               >
-                <Radio value={p.query} color="default" />
+                <Radio value={JSON.stringify(p.queryObj)} color="default" />
                 <div>{p.text}</div>
               </div>
             ))}

@@ -101,66 +101,27 @@ export const serachProducts =
   (q, category, price, sort, brand, page, limit) => async (dispatch) => {
     try {
       dispatch({ type: SEARCH_PRODUCTS_REQUEST });
-
       console.log({
+        price,
+      });
+
+      const params = {
         q,
         category,
-        price,
-        sort,
         brand,
-        page,
+        sort,
         limit,
-      });
-      // const params = {};
-      // if (!q && !price) {
-      //   url = '/api/v1/products?';
-      //   if (page) {
-      //     url = url + `&page=${page}`;
-      //   }
-      //   if (limit) {
-      //     url = url + `&limit=${limit}`;
-      //   }
-      // } else if (!q || price || category || brand) {
-      //   if (sort) {
-      //     url = url + `&sort=${sort}`;
-      //   }
-      //   if (category) {
-      //     url = url + `&category=${category}`;
-      //   }
-      //   if (price) {
-      //     url = url + `&${price}`;
-      //   }
-      //   if (brand && brand !== 'SelectNoBrand') {
-      //     url = url + `&brand=${brand}`;
-      //   }
-      // } else if (q) {
-      //   url = `api/v1/products?q=${`${q}`}`;
+        page,
+      };
 
-      //   if (sort) {
-      //     url = url + `&sort=${sort}`;
-      //   }
-      //   if (category) {
-      //     url = url + `&category=${category}`;
-      //   }
-      //   if (price) {
-      //     url = url + `&${price}`;
-      //   }
-      //   if (brand && brand !== 'SelectNoBrand') {
-      //     url = url + `&brand=${brand}`;
-      //   }
-      //   if (page) {
-      //     url = url + `&page=${page}`;
-      //   }
-      //   if (limit) {
-      //     url = url + `&limit=${limit}`;
-      //   }
-      // }
+      if (price !== null) {
+        price.forEach((p) => {
+          params[p.key] = p.value;
+        });
+      }
+
       const { data } = await axios.get("/api/v1/products", {
-        params: {
-          q,
-          category,
-          brand,
-        },
+        params,
       });
       dispatch({ type: SEARCH_PRODUCTS_SUCCESS, payload: data });
     } catch (error) {

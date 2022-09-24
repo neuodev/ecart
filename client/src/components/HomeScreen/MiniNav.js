@@ -41,6 +41,7 @@ const MiniNav = () => {
           {links.map((link, idx) => {
             return (
               <Tooltip
+                key={idx}
                 arrow
                 followCursor
                 title={
