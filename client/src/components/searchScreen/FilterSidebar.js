@@ -18,6 +18,33 @@ const useStyle = makeStyles({
   },
 });
 
+export const CATEGORIES = [
+  "Electronics",
+  "Computers",
+  "Accessories",
+  "Fashion",
+  "Dress",
+];
+
+export const PRICES = [
+  {
+    text: "Below $100.00",
+    query: "price[lte]=100",
+  },
+  {
+    text: "$100.00-199.00",
+    query: "price[gte]=100&price[lte]=199",
+  },
+  {
+    text: "$200.00-299.00",
+    query: "price[gte]=200&price[lte]=299",
+  },
+  {
+    text: "Above $500",
+    query: "price[gte]=500",
+  },
+];
+
 const FilterSidebar = () => {
   const dispatch = useDispatch();
   const classes = useStyle();
@@ -31,33 +58,6 @@ const FilterSidebar = () => {
   };
 
   // Todo: Should be extracted from current products or fetched from the backend
-  const categories = [
-    "Electronics",
-    "Computers",
-    "Accessories",
-    "Fashion",
-    "Dress",
-  ];
-
-  const prices = [
-    {
-      text: "Below $100.00",
-      query: "price[lte]=100",
-    },
-    {
-      text: "$100.00-199.00",
-      query: "price[gte]=100&price[lte]=199",
-    },
-    {
-      text: "$200.00-299.00",
-      query: "price[gte]=200&price[lte]=299",
-    },
-    {
-      text: "Above $500",
-      query: "price[gte]=500",
-    },
-  ];
-
   const setCategory = (category) => {
     dispatch({ type: CATEGORY, payload: category });
   };
@@ -98,7 +98,7 @@ const FilterSidebar = () => {
               <AiOutlineMinus className="font-medium text-lg text-gray-900" />
             </div>
             <Collapse in={openCategories}>
-              {categories.map((cat) => (
+              {CATEGORIES.map((cat) => (
                 <div
                   className="text-gray-700 text-sm   mb-1  hover:bg-gray-200 rounded-md  py-1 cursor-pointer px-6 "
                   onClick={() => setCategory(cat)}
@@ -121,16 +121,14 @@ const FilterSidebar = () => {
             <Collapse in={openPrice}>
               <RadioGroup
                 value={priceValue}
-                // onChange={e => setPriceValue(e.target.value)}
+                onChange={(e) => setPriceValue(e.target.value)}
               >
-                {prices.map((p) => (
+                {PRICES.map((p) => (
                   <div
                     className="text-gray-700 -mb-4 font-medium cursor-pointer rounded-md  py-1  px-4 text-sm flex items-center space-x-1"
                     onClick={() => updatePrice(p)}
                   >
-                    <div>
-                      <Radio value={p.text} color="default" />
-                    </div>
+                    <Radio value={p.text} color="default" />
                     <div>{p.text}</div>
                   </div>
                 ))}

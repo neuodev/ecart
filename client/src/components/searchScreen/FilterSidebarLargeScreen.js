@@ -6,16 +6,15 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { makeStyles } from "@mui/styles";
 import { useDispatch, useSelector } from "react-redux";
 import { CATEGORY, PRICE, BRAND } from "../../actions/actionTypes";
 import getBrands from "../../utils/getBrands";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import { CATEGORIES, PRICES } from "./FilterSidebar";
 
 const FilterSidebar = () => {
   const dispatch = useDispatch();
   const { products } = useSelector((state) => state.searchProducts);
-  const [priceValue, setPriceValue] = useState(null);
   const [brands, setBrands] = useState([]);
   const filters = useSelector((state) => state.filters);
 
@@ -23,34 +22,6 @@ const FilterSidebar = () => {
     const brandList = getBrands(products);
     setBrands(brandList);
   }, [products]);
-
-  // todo: remove duplicated objects
-  const categories = [
-    "Electronics",
-    "Computers",
-    "Accessories",
-    "Fashion",
-    "Dress",
-  ];
-
-  const prices = [
-    {
-      text: "Below $100.00",
-      query: "price[lte]=100",
-    },
-    {
-      text: "$100.00-199.00",
-      query: "price[gte]=100&price[lte]=199",
-    },
-    {
-      text: "$200.00-299.00",
-      query: "price[gte]=200&price[lte]=299",
-    },
-    {
-      text: "Above $500",
-      query: "price[gte]=500",
-    },
-  ];
 
   const setCategory = (category) => {
     dispatch({ type: CATEGORY, payload: category });
@@ -86,7 +57,7 @@ const FilterSidebar = () => {
               </IconButton>
             </Tooltip>
           </div>
-          {categories.map((cat) => (
+          {CATEGORIES.map((cat) => (
             <div
               key={cat}
               className={`text-gray-700 text-sm hover:bg-gray-200  py-2 cursor-pointer px-6 ${
@@ -118,7 +89,7 @@ const FilterSidebar = () => {
             </Tooltip>
           </div>
           <RadioGroup value={filters.price}>
-            {prices.map((p) => (
+            {PRICES.map((p) => (
               <div
                 className="text-gray-700 -mb-4 font-medium cursor-pointer rounded-md  py-1  px-4 text-sm flex items-center space-x-1"
                 onClick={() => setPrice(p.query)}
