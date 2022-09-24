@@ -89,7 +89,7 @@ const SearchScreen = () => {
   };
 
   return (
-    <div>
+    <div className="mb-10">
       <div className="mb-2">
         <MainNavbar />
       </div>

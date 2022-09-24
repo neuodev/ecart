@@ -11,6 +11,7 @@ import { CATEGORY, PRICE, BRAND } from "../../actions/actionTypes";
 import getBrands from "../../utils/getBrands";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { CATEGORIES, PRICES } from "./FilterSidebar";
+import ClearFilter from "./ClearFilter";
 
 const FilterSidebar = () => {
   const dispatch = useDispatch();
@@ -43,19 +44,10 @@ const FilterSidebar = () => {
             <h1 className="font-medium text-lg tracking-wide text-white px-2 capitalize">
               Categories
             </h1>
-            <Tooltip
-              arrow
-              placement="top"
-              title={<Typography>Clear filter</Typography>}
-            >
-              <IconButton
-                disabled={filters.category === null}
-                onClick={() => setCategory(null)}
-                size="small"
-              >
-                <HighlightOffIcon />
-              </IconButton>
-            </Tooltip>
+            <ClearFilter
+              resetFunc={setCategory}
+              disabled={filters.category === null}
+            />
           </div>
           {CATEGORIES.map((cat) => (
             <div
@@ -74,19 +66,10 @@ const FilterSidebar = () => {
             <h1 className="font-medium text-lg tracking-wide text-white px-2 capitalize">
               Prices
             </h1>
-            <Tooltip
-              arrow
-              placement="top"
-              title={<Typography>Clear filter</Typography>}
-            >
-              <IconButton
-                disabled={filters.price === null}
-                onClick={() => setPrice(null)}
-                size="small"
-              >
-                <HighlightOffIcon />
-              </IconButton>
-            </Tooltip>
+            <ClearFilter
+              resetFunc={setPrice}
+              disabled={filters.price === null}
+            />
           </div>
           <RadioGroup value={filters.price}>
             {PRICES.map((p) => (
@@ -108,19 +91,10 @@ const FilterSidebar = () => {
               <h1 className="font-medium text-lg tracking-wide text-white px-2 capitalize">
                 Brands
               </h1>
-              <Tooltip
-                arrow
-                placement="top"
-                title={<Typography>Clear filter</Typography>}
-              >
-                <IconButton
-                  disabled={filters.brand === null}
-                  onClick={() => setBrand(null)}
-                  size="small"
-                >
-                  <HighlightOffIcon />
-                </IconButton>
-              </Tooltip>
+              <ClearFilter
+                resetFunc={setBrand}
+                disabled={filters.brand === null}
+              />
             </div>
             {brands.map(({ brand, count }, idx) => (
               <div
