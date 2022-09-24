@@ -8,7 +8,7 @@ import {
   PRODUCTS_NEXT_PAGE_REQUREST,
   PRODUCTS_NEXT_PAGE_SUCCESS,
   PRODUCTS_NEXT_PAGE_FAIL,
-} from '../actions/actionTypes';
+} from "../actions/actionTypes";
 
 export const searchProducts = (state = { products: [] }, { payload, type }) => {
   switch (type) {
@@ -17,7 +17,6 @@ export const searchProducts = (state = { products: [] }, { payload, type }) => {
         ...state,
         loading: true,
       };
-
     case SEARCH_PRODUCTS_SUCCESS:
       return {
         ...state,
@@ -71,7 +70,6 @@ export const recommendProducts = (state = {}, { payload, type }) => {
         loading: false,
         error: payload,
       };
-
     default:
       return state;
   }

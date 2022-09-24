@@ -24,7 +24,7 @@ const Header = () => {
       dispatch({ type: DECENDING_ORDER });
     }
   };
-  const numbers = [5, 10, 15, 20, 30];
+  const numbers = [1, 5, 10, 15, 20, 30];
   const updateNumPerPage = (num) => {
     dispatch({ type: NUMBER_PER_PAGE, payload: num });
     setNumberPage(num);

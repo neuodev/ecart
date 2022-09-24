@@ -19,6 +19,9 @@ import {
 } from "react-icons/bs";
 import MainNavbar from "../components/HomeScreen/MainNavbar";
 import { useLocation } from "react-router-dom";
+import { IconButton } from "@mui/material";
+import { Box, Stack, styled as MuiStyled } from "@mui/system";
+import theme from "../theme";
 
 const StyledDiv = styled.div`
   @media (min-width: 1450px) {
@@ -28,12 +31,13 @@ const StyledDiv = styled.div`
 `;
 
 const SearchScreen = () => {
+  const dispatch = useDispatch();
   let [page, setPage] = useState(1);
   let [numOfBts, setNumOfBts] = useState([]);
   const loc = useLocation();
   const params = new URLSearchParams(loc.search);
   const q = params.get("q");
-  const dispatch = useDispatch();
+  // todo: Handle error states
   const {
     searchProducts: { error, loading, products, count },
   } = useSelector((state) => state);
@@ -44,6 +48,7 @@ const SearchScreen = () => {
   const { sort, price, category, brand, numPerPage } = useSelector(
     (state) => state.filters
   );
+
   useEffect(() => {
     dispatch(serachProducts(q, category, price, sort, brand, page, numPerPage));
   }, [q, category, price, sort, brand, page, numPerPage]);
@@ -53,6 +58,7 @@ const SearchScreen = () => {
       dispatch(recommend());
     }
   }, [products]);
+
   const placeholder = [1, 2, 3, 4];
 
   const fetchData = (nextPage) => {
@@ -69,18 +75,21 @@ const SearchScreen = () => {
     }
     setNumOfBts(countOfPages);
   }, [numPerPage, count]);
+
   const prevPage = () => {
     if (page === 1) return;
     let prevPage = page - 1;
     setPage(prevPage);
     fetchData(prevPage);
   };
+
   const nextPage = () => {
     if (page === numOfBts.length) return;
     let nextPage = page + 1;
     setPage(nextPage);
     fetchData(nextPage);
   };
+
   return (
     <StyledDiv className="mt-5 container mx-auto  px-4">
       <div className="mb-2">
@@ -92,10 +101,10 @@ const SearchScreen = () => {
           <FilterSidebarLargeScreen />
         </div>
         <div className="flex   items-center justify-center w-full">
-          {}
           <div className="grid col-span-12 mx-auto md:row-start-4 md:row-end-6 md:col-span-8  grid-cols-12 lg:col-span-9 xl:col-span-10 ">
             {recommendLoading ? (
               placeholder.map((skeleton) => {
+                // todo: Check out this logic
                 if (skeleton < 3) {
                   return (
                     <div className="col-span-12 mx-auto  lg:col-span-6 xl:col-span-4 ">
@@ -115,13 +124,56 @@ const SearchScreen = () => {
                 </div>
               ))
             ) : (
-              products.map((product) => (
+              products.map((product, idx) => (
                 <div className="grid col-span-12 mx-auto  lg:col-span-6 xl:col-span-4 ">
-                  <ProductCard product={product} screen="search" />
+                  <ProductCard key={idx} product={product} screen="search" />
                 </div>
               ))
             )}
-            <div className="col-span-12 mx-auto my-4 flex items-center">
+            <div className="col-span-12 mx-auto my-4 flex justify-center items-center">
+              <Stack direction="row" spacing={1}>
+                <PaginationBtn
+                  color="default"
+                  disabled={page === 1}
+                  onClick={() => fetchData(1)}
+                >
+                  <BsChevronDoubleLeft />
+                </PaginationBtn>
+                <PaginationBtn
+                  disabled={page === 1}
+                  color="default"
+                  onClick={prevPage}
+                >
+                  <BsChevronLeft />
+                </PaginationBtn>
+                {numOfBts.map((_, idx) => (
+                  <PaginationBtn
+                    onClick={() => fetchData(idx + 1)}
+                    color={page === idx + 1 ? "primary" : "default"}
+                    sx={{
+                      border: page === idx + 1 ? 1 : 0,
+                    }}
+                  >
+                    {idx + 1}
+                  </PaginationBtn>
+                ))}
+                <PaginationBtn
+                  color="default"
+                  disabled={page === numOfBts.length}
+                  onClick={() => fetchData(numOfBts.length)}
+                >
+                  <BsChevronRight />
+                </PaginationBtn>
+                <PaginationBtn
+                  disabled={page === numOfBts.length}
+                  color="default"
+                  onClick={nextPage}
+                >
+                  <BsChevronDoubleRight />
+                </PaginationBtn>
+              </Stack>
+            </div>
+            {/* <div className="col-span-12 mx-auto my-4 flex items-center">
               <button
                 onClick={() => fetchData(1)}
                 className="px-3 py-2.5 bg-gray-200 mr-2 rounded-lg focus:outline-none text-gray-700 font-medium focus:ring focus:ring-gray-400 "
@@ -156,7 +208,7 @@ const SearchScreen = () => {
               >
                 <BsChevronDoubleRight />
               </button>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -165,3 +217,9 @@ const SearchScreen = () => {
 };
 
 export default SearchScreen;
+
+const PaginationBtn = MuiStyled(IconButton)({
+  width: "40px",
+  height: "40px",
+  fontSize: "16px",
+});
