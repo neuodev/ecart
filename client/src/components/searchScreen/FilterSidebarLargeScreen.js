@@ -1,15 +1,8 @@
 import React, { useEffect, useState } from "react";
-import {
-  IconButton,
-  Radio,
-  RadioGroup,
-  Tooltip,
-  Typography,
-} from "@mui/material";
+import { Radio, RadioGroup } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { CATEGORY, PRICE, BRAND } from "../../actions/actionTypes";
 import getBrands from "../../utils/getBrands";
-import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { CATEGORIES, PRICES } from "./FilterSidebar";
 import ClearFilter from "./ClearFilter";
 
@@ -71,15 +64,16 @@ const FilterSidebar = () => {
               disabled={filters.price === null}
             />
           </div>
-          <RadioGroup value={filters.price}>
+          <RadioGroup
+            value={filters.price}
+            onChange={(e) => setPrice(e.target.value)}
+          >
             {PRICES.map((p) => (
               <div
-                className="text-gray-700 -mb-4 font-medium cursor-pointer rounded-md  py-1  px-4 text-sm flex items-center space-x-1"
-                onClick={() => setPrice(p.query)}
+                key={p.query}
+                className="text-gray-700 -mb-4 font-medium cursor-pointer rounded-md py-1 px-4 text-sm flex items-center space-x-1"
               >
-                <div>
-                  <Radio value={p.query} color="default" />
-                </div>
+                <Radio value={p.query} color="default" />
                 <div>{p.text}</div>
               </div>
             ))}

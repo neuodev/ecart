@@ -1,15 +1,7 @@
 import React, { useState } from "react";
 import { IoOptionsOutline } from "react-icons/io5";
-import {
-  Button,
-  Collapse,
-  Drawer,
-  Radio,
-  RadioGroup,
-  Typography,
-} from "@mui/material";
+import { Button, Collapse, Drawer, Radio, RadioGroup } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { AiOutlineMinus } from "react-icons/ai";
 import { CATEGORY, PRICE } from "../../actions/actionTypes";
 import { useDispatch, useSelector } from "react-redux";
 import ClearFilter from "./ClearFilter";
@@ -112,6 +104,7 @@ const FilterSidebar = () => {
           <Collapse in={openCategories}>
             {CATEGORIES.map((cat) => (
               <div
+                key={cat}
                 className={`text-gray-700 text-sm hover:bg-gray-200 rounded-md py-1.5 cursor-pointer px-6 ${
                   filters.category === cat && "bg-gray-200"
                 }`}
@@ -136,12 +129,14 @@ const FilterSidebar = () => {
           <Collapse in={openPrice}>
             <RadioGroup
               value={filters.price}
-              onChange={(e) => setPrice(e.target.value)}
+              onChange={(e) => {
+                setPrice(e.target.value);
+              }}
             >
               {PRICES.map((p) => (
                 <div
-                  className="text-gray-700 -mb-4 font-medium cursor-pointer rounded-md  py-1  px-4 text-sm flex items-center space-x-1"
-                  onClick={() => setPrice(p.query)}
+                  key={p.query}
+                  className="text-gray-700 -mb-4 font-medium cursor-pointer rounded-md py-1 px-4 text-sm flex items-center space-x-1"
                 >
                   <Radio value={p.query} color="default" />
                   <div>{p.text}</div>

@@ -104,25 +104,34 @@ const SearchScreen = () => {
               {recommendLoading ? (
                 new Array(3).fill(0).map((_, idx) => {
                   return (
-                    <div className="col-span-12 mx-auto  lg:col-span-6 xl:col-span-4">
-                      <ProductSkeleton key={idx * 2} />
+                    <div
+                      key={idx * 2}
+                      className="col-span-12 mx-auto  lg:col-span-6 xl:col-span-4"
+                    >
+                      <ProductSkeleton />
                     </div>
                   );
                 })
               ) : products.length === 0 ? (
-                <div className="col-span-12 mx-auto  lg:col-span-12 xl:col-span-12 min-h-500">
-                  <Recommend recommendedProducts={recommendedProducts} q={q} />
+                <div className="col-span-12 mx-auto lg:col-span-12 xl:col-span-12 min-h-500">
+                  <Recommend recommendedProducts={recommendedProducts} />
                 </div>
               ) : loading ? (
                 new Array(6).fill(0).map((_, idx) => (
-                  <div className="col-span-12 mx-auto lg:col-span-6 xl:col-span-4">
-                    <ProductSkeleton key={idx} />
+                  <div
+                    key={idx}
+                    className="col-span-12 mx-auto lg:col-span-6 xl:col-span-4"
+                  >
+                    <ProductSkeleton />
                   </div>
                 ))
               ) : (
                 products.map((product, idx) => (
-                  <div className="grid col-span-12 mx-auto lg:col-span-6 xl:col-span-4">
-                    <ProductCard key={idx} product={product} screen="search" />
+                  <div
+                    key={idx}
+                    className="grid col-span-12 mx-auto lg:col-span-6 xl:col-span-4"
+                  >
+                    <ProductCard product={product} screen="search" />
                   </div>
                 ))
               )}
@@ -144,6 +153,7 @@ const SearchScreen = () => {
                   </PaginationBtn>
                   {numOfBts.map((_, idx) => (
                     <PaginationBtn
+                      key={idx}
                       onClick={() => fetchData(idx + 1)}
                       color={page === idx + 1 ? "primary" : "default"}
                       sx={{
