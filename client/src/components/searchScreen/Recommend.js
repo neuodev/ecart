@@ -21,20 +21,23 @@ const Recommend = ({ recommendedProducts, q }) => {
           </Button>
         </div>
       </div>
-
-      <div className="px-4">
-        <h1 className="uppercase tracking-wider font-medium text-gray-700 text-xl mx-1.5">
-          Recommendation
-        </h1>
-        <div className="col-span-12 mx-auto md:row-start-4 md:row-end-6 md:col-span-8 grid grid-cols-12 lg:col-span-9 xl:col-span-10">
-          {recommendedProducts &&
-            recommendedProducts.map((product) => (
-              <div className="col-span-12 mx-auto  lg:col-span-6 xl:col-span-4 ">
+      {recommendedProducts && (
+        <div className="px-4">
+          <h1 className="uppercase tracking-wider font-medium text-gray-700 text-xl mx-1.5">
+            Recommendation
+          </h1>
+          <div className="col-span-12 mx-auto md:row-start-4 md:row-end-6 md:col-span-8 grid grid-cols-12 lg:col-span-9 xl:col-span-10">
+            {recommendedProducts.map((product) => (
+              <div
+                key={product._id}
+                className="col-span-12 mx-auto  lg:col-span-6 xl:col-span-4 "
+              >
                 <ProductCard product={product} screen="search" />
               </div>
             ))}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
