@@ -88,12 +88,7 @@ const LoginScreen = () => {
               </Link>
             </Tooltip>
 
-            <Button
-              onClick={submitHandler}
-              sx={{ mb: "24px" }}
-              variant="dark"
-              fullWidth
-            >
+            <Button type="submit" sx={{ mb: "24px" }} variant="dark" fullWidth>
               Login
             </Button>
           </form>

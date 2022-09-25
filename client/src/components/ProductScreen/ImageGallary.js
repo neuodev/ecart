@@ -1,13 +1,5 @@
 import React, { useState } from "react";
-import styled from "styled-components";
 
-// const StyledDiv = styled.div`
-//   background: url(${images[activeImg]}) no-repeat center center/cover;
-//   height: 350px;
-//   width: 90%;
-//   margin: auto;
-//   object-fit: contain;
-// `;
 const ImageGallary = ({ images, name }) => {
   const [activeImgIdx, setActiveImg] = useState(0);
 
