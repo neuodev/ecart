@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import ImageGallary from "../components/ProductScreen/ImageGallary";
 import ProductDetails from "../components/ProductScreen/ProductDetails";
 import MoreInfo from "../components/ProductScreen/MoreInfo";
@@ -8,14 +8,16 @@ import ProductScreenSkeleton from "../components/ProductScreen/ProductScreenSkel
 import MainNavbar from "../components/HomeScreen/MainNavbar";
 import { useParams } from "react-router-dom";
 
-const ProductScreen = ({ history, match }) => {
+const ProductScreen = () => {
   const dispatch = useDispatch();
   const productId = useParams().id;
   const { product, error, loading } = useSelector((state) => state.product);
+  const createReview = useSelector((state) => state.createReview);
+  const deleteReview = useSelector((state) => state.deleteReview);
 
   useEffect(() => {
     dispatch(getProductAction(productId));
-  }, [dispatch, productId]);
+  }, [dispatch, productId, createReview.success, deleteReview.success]);
 
   return (
     <>

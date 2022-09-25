@@ -35,7 +35,7 @@ const MoreInfo = ({ product }) => {
   };
 
   return (
-    <div>
+    <div className="min-h-500">
       <TabContext value={value}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <TabList onChange={handleChange} aria-label="lab API tabs example">

@@ -1,9 +1,36 @@
-import { Rating } from "@mui/material";
+import { Avatar, Rating } from "@mui/material";
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { deleteProductReview } from "../../actions/products";
 
-const ReviewItem = ({ review, history }) => {
+function stringToColor(string) {
+  let hash = 0;
+  let i;
+
+  for (i = 0; i < string.length; i += 1) {
+    hash = string.charCodeAt(i) + ((hash << 5) - hash);
+  }
+
+  let color = "#";
+
+  for (i = 0; i < 3; i += 1) {
+    const value = (hash >> (i * 8)) & 0xff;
+    color += `00${value.toString(16)}`.slice(-2);
+  }
+
+  return color;
+}
+
+function stringAvatar(name) {
+  return {
+    sx: {
+      bgcolor: stringToColor(name),
+    },
+    children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
+  };
+}
+
+const ReviewItem = ({ review }) => {
   const { userInfo } = useSelector((state) => state.userLogin);
   let {
     name,
@@ -14,16 +41,13 @@ const ReviewItem = ({ review, history }) => {
   } = review;
   updatedAt = updatedAt.slice(0, 10);
   const dispatch = useDispatch();
-  const [fn, ln] = name.split(" ");
-  const avatar = fn[0] + ln[0];
   const deleteReviewHandler = () => {
     dispatch(deleteProductReview(review._id));
   };
+
   return (
     <div className="my-2 flex  space-x-3 bg-gray-100 rounded-md px-2 py-3">
-      <div className="p-2 px-3 text-sm font-bold text-blue-800 bg-blue-200 self-start rounded-full ">
-        <span>{avatar}</span>
-      </div>
+      <Avatar {...stringAvatar(name)} />
       <div className="w-full">
         <div className="flex items-center justify-between w-full  ">
           <h1 className="font-medium text-gray-800 ">
@@ -47,7 +71,7 @@ const ReviewItem = ({ review, history }) => {
             {updatedAt}
           </span>
         </div>
-        <p className="leading-relaxed text-sm " style={{ fontWeight: "500" }}>
+        <p className="leading-relaxed text-sm" style={{ fontWeight: "500" }}>
           {comment}
         </p>
       </div>

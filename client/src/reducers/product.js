@@ -11,7 +11,14 @@ import {
   PRODUCT_DELETE_REVIEW_SUCCESS,
 } from "../actions/actionTypes";
 
-export const getProduct = (state = {}, { type, payload }) => {
+export const getProduct = (
+  state = {
+    loading: false,
+    error: null,
+    product: null,
+  },
+  { type, payload }
+) => {
   switch (type) {
     case GET_PRODUCT_REQUEST:
       return {
@@ -35,7 +42,13 @@ export const getProduct = (state = {}, { type, payload }) => {
   }
 };
 
-export const productReviewCreateReducer = (state = {}, action) => {
+const initState = {
+  loading: false,
+  success: false,
+  error: null,
+};
+
+export const productReviewCreateReducer = (state = initState, action) => {
   switch (action.type) {
     case PRODUCT_CREATE_REVIEW_REQUEST:
       return { loading: true };
@@ -44,13 +57,20 @@ export const productReviewCreateReducer = (state = {}, action) => {
     case PRODUCT_CREATE_REVIEW_FAIL:
       return { loading: false, error: action.payload };
     case PRODUCT_CREATE_REVIEW_RESET:
-      return {};
+      return initState;
     default:
       return state;
   }
 };
 
-export const productReviewDeleteReducer = (state = {}, action) => {
+export const productReviewDeleteReducer = (
+  state = {
+    loading: false,
+    success: false,
+    error: null,
+  },
+  action
+) => {
   switch (action.type) {
     case PRODUCT_DELETE_REVIEW_REQUEST:
       return { loading: true };

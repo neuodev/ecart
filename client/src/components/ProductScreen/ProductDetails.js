@@ -29,11 +29,8 @@ const ProductDetails = ({ product, history }) => {
     discount,
   } = product;
 
-  // todo: Change this
-  const qty = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const [dot, setDot] = useState(true);
   const [more, setMore] = useState(false);
-  // Todo: Should be updated
   const [quantity, setQuantity] = useState(1);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);

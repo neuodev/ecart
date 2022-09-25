@@ -18,9 +18,7 @@ const AddReview = ({ productId }) => {
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState(null);
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-
+  const reviewHandler = () => {
     if (!userInfo || !userInfo._id) {
       navigate("/login");
       return;
@@ -34,7 +32,7 @@ const AddReview = ({ productId }) => {
   const { product } = useSelector((state) => state.product);
 
   return (
-    <form onSubmit={onSubmit}>
+    <form>
       <div className="flex flex-col  container mx-auto">
         <div className="mb-2">
           {loading ? (
@@ -90,6 +88,7 @@ const AddReview = ({ productId }) => {
       <Button
         variant="dark"
         disabled={!review || !rating}
+        onClick={reviewHandler}
         sx={{ minWidth: "200px" }}
       >
         Submit
@@ -97,5 +96,4 @@ const AddReview = ({ productId }) => {
     </form>
   );
 };
-
 export default AddReview;
