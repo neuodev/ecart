@@ -1,18 +1,18 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Alert from "../../utils/Alert";
 import AddReview from "./AddReview";
 import ReviewItem from "./ReviewItem";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import Loader from "../../utils/Loader";
 
-const Reviews = ({ productId, reviews, history }) => {
+const Reviews = ({ productId, reviews }) => {
   const { loading, error, success } = useSelector(
     (state) => state.deleteReview
   );
 
   return (
-    <div className="px-3 max-w-5xl ">
-      <AddReview history={history} productId={productId} />
+    <div className="px-3 max-w-5xl">
+      <AddReview productId={productId} />
 
       <div className="mt-4">
         <div className="mb-8">
@@ -32,9 +32,7 @@ const Reviews = ({ productId, reviews, history }) => {
         {reviews.length === 0 ? (
           <Alert type="warning" message="No Reviews Yet " />
         ) : (
-          reviews.map((review, idx) => (
-            <ReviewItem history={history} review={review} key={idx} />
-          ))
+          reviews.map((review, idx) => <ReviewItem review={review} key={idx} />)
         )}
       </div>
     </div>

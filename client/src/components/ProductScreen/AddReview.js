@@ -1,46 +1,41 @@
-import { Rating } from "@mui/material";
+import { Button, Rating, TextField, Tooltip, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { createProductReview } from "../../actions/products";
 import Alert from "../../utils/Alert";
 import Loader from "../../utils/Loader";
 
-const AddReview = ({ productId, history }) => {
+const AddReview = ({ productId }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const { error, loading, success } = useSelector(
     (state) => state.createReview
   );
+
   const { userInfo } = useSelector((state) => state.userLogin);
   const [rating, setRating] = useState(0);
-  const [ratingAlert, setRatingAlert] = useState("");
-  const [reviewAlert, setReviewAlert] = useState("");
-  const [review, setReview] = useState("");
-  const dispatch = useDispatch();
+  const [review, setReview] = useState(null);
+
   const onSubmit = (e) => {
     e.preventDefault();
-    if (!rating) {
-      setRatingAlert("Rating is requried");
-      setReviewAlert("");
-      return;
-    } else if (!review) {
-      setReviewAlert("Review is required");
-      setRatingAlert("");
-      return;
-    }
 
     if (!userInfo || !userInfo._id) {
-      history.push("/login");
+      navigate("/login");
       return;
     }
 
     dispatch(createProductReview(productId, { rating, comment: review }));
-    setReviewAlert("");
-    setRatingAlert("");
-    setReview("");
+    setReview(null);
     setRating(0);
   };
+
+  const { product } = useSelector((state) => state.product);
+
   return (
     <form onSubmit={onSubmit}>
-      <div className="flex flex-col  container mx-auto mt-8">
+      <div className="flex flex-col  container mx-auto">
         <div className="mb-2">
           {loading ? (
             <div className="flex items-center justify-center">
@@ -55,37 +50,50 @@ const AddReview = ({ productId, history }) => {
           )}
         </div>
         <div className="mb-1">
-          <Rating
-            name="simple-controlled"
-            value={rating}
-            onChange={(event, newValue) => {
-              setRating(newValue);
-            }}
-          />
-          {ratingAlert && (
-            <p className="text-xs  px-2 text-red-600 font-medium">
-              *{ratingAlert}
-            </p>
-          )}
+          <Tooltip
+            followCursor
+            placement="top"
+            arrow
+            title={
+              <Typography fontWeight={300}>
+                Rate{" "}
+                {product ? (
+                  <Typography fontWeight={500} display="inline-block">
+                    {product.name}
+                  </Typography>
+                ) : (
+                  "this product"
+                )}
+              </Typography>
+            }
+          >
+            <Rating
+              name="simple-controlled"
+              value={rating}
+              onChange={(_event, newValue) => {
+                setRating(newValue);
+              }}
+            />
+          </Tooltip>
         </div>
         <div className="my-2 mb-3 w-full">
-          <textarea
-            className="border py-2 rounded-md   px-4 text-sm text-gray-700 focus:outline-none focus:ring-1 font-medium  w-full"
-            type="text"
-            placeholder="You Review"
+          <TextField
+            multiline
+            fullWidth
             value={review}
             onChange={(e) => setReview(e.target.value)}
+            placeholder="Share your experience with us"
           />
-          {reviewAlert && (
-            <p className="text-xs  px-2 text-red-600 font-medium">
-              *{reviewAlert}
-            </p>
-          )}
         </div>
       </div>
-      <button className="text-gray-700 py-2 px-3 bg-gray-100 rounded-md uppercase tracking-wider font-medium  hover:bg-gray-200 focus:outline-none focus:ring-1">
+
+      <Button
+        variant="dark"
+        disabled={!review || !rating}
+        sx={{ minWidth: "200px" }}
+      >
         Submit
-      </button>
+      </Button>
     </form>
   );
 };
