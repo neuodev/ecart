@@ -51,7 +51,9 @@ const MoreInfo = ({ product }) => {
           <Description />
         </TabPanel>
         <TabPanel value={SHIPPING_TAB}>
-          <Shipping />
+          <div className="max-w-md leading-loose">
+            <Shipping />
+          </div>
         </TabPanel>
       </TabContext>
     </div>

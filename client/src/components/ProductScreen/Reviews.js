@@ -5,17 +5,43 @@ import ReviewItem from "./ReviewItem";
 import { useSelector } from "react-redux";
 import Loader from "../../utils/Loader";
 import { Typography } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const Reviews = ({ productId, reviews }) => {
   const { loading, error, success } = useSelector(
     (state) => state.deleteReview
   );
 
+  const { userInfo } = useSelector((state) => state.userLogin);
+
+  const {
+    product,
+    loading: loadingProduct,
+    error: productError,
+  } = useSelector((state) => state.product);
+
+  const displayReview = () => {
+    if (loadingProduct || productError) return null;
+    if (!userInfo || !userInfo._id)
+      return (
+        <div>
+          <p>
+            Want to add a review ? you need to{" "}
+            <Link className="underline font-medium" to="/login">
+              login
+            </Link>{" "}
+            first
+          </p>
+        </div>
+      );
+    if (product.reviews.some((r) => r.user._id === userInfo._id)) return null;
+    return <AddReview productId={productId} />;
+  };
+
   return (
     <div>
       <div className="px-3 max-w-5xl">
-        <AddReview productId={productId} />
-
+        {displayReview()}
         <div className="mt-4">
           <div className="mb-8">
             {loading ? (
