@@ -1,7 +1,8 @@
-import { Avatar, Rating } from "@mui/material";
+import { Avatar, IconButton, Rating } from "@mui/material";
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { deleteProductReview } from "../../actions/products";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 function stringToColor(string) {
   let hash = 0;
@@ -46,7 +47,7 @@ const ReviewItem = ({ review }) => {
   };
 
   return (
-    <div className="my-2 flex  space-x-3 bg-gray-100 rounded-md px-2 py-3">
+    <div className="my-2 flex  space-x-3 bg-gray-50 px-2 py-3">
       <Avatar {...stringAvatar(name)} />
       <div className="w-full">
         <div className="flex items-center justify-between w-full  ">
@@ -57,12 +58,9 @@ const ReviewItem = ({ review }) => {
             </span>
           </h1>
           {userInfo._id === _id && (
-            <button
-              onClick={deleteReviewHandler}
-              className="border border-red-200 p-2 focus:outline-none text-xs rounded-full text-red-500 font-medium uppercase focus:ring focus:ring-red-200 "
-            >
-              Delete
-            </button>
+            <IconButton onClick={deleteReviewHandler} color="error">
+              <DeleteIcon />
+            </IconButton>
           )}
         </div>
         <div className="-mb-1 flex items-center ">
