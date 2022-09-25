@@ -15,7 +15,7 @@ const ProductScreen = ({ history, match }) => {
 
   useEffect(() => {
     dispatch(getProductAction(productId));
-  }, [dispatch]);
+  }, [dispatch, productId]);
 
   return (
     <>
@@ -24,9 +24,7 @@ const ProductScreen = ({ history, match }) => {
       </div>
       <div className=" py-5 container mx-auto">
         {loading ? (
-          <>
-            <ProductScreenSkeleton />
-          </>
+          <ProductScreenSkeleton />
         ) : error ? (
           <div>
             <h1>Error</h1>
@@ -35,13 +33,13 @@ const ProductScreen = ({ history, match }) => {
           product && (
             <div className="grid grid-cols-12 mb-20">
               <div className="col-span-12 md:col-span-5 lg:col-span-5 xl:col-span-4">
-                <ImageGallary images={product.images} />
+                <ImageGallary images={product.images} name={product.name} />
               </div>
               <div className="col-span-12 md:col-span-7 lg:col-span-7 xl:col-span-8 mb-20">
-                <ProductDetails history={history} product={product} />
+                <ProductDetails product={product} />
               </div>
               <div className="col-span-12">
-                <MoreInfo history={history} product={product} />
+                <MoreInfo product={product} />
               </div>
             </div>
           )

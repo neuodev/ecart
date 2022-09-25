@@ -1,4 +1,4 @@
-import { Rating } from "@mui/material";
+import { Button, IconButton, Rating, Tooltip, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { FavoriteBorderOutlined, Favorite } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,6 +21,7 @@ const ProductDetails = ({ product, history }) => {
     discount,
   } = product;
 
+  // todo: Change this
   const qty = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const [dot, setDot] = useState(true);
   const [more, setMore] = useState(false);
@@ -81,10 +82,10 @@ const ProductDetails = ({ product, history }) => {
         </div>
         <div className="mt-6 ">
           <p className="font-light text-gray-500">
-            Brand : <span className="font-bold text-gray-800"> {brand}</span>
+            From : <span className="font-bold text-gray-800"> {brand}</span>
           </p>
           <p className="font-light text-gray-500">
-            status :{" "}
+            Status :{" "}
             <span
               className={`font-bold ${
                 countInStock > 0 ? "text-green-700" : "text-red-700"
@@ -97,7 +98,9 @@ const ProductDetails = ({ product, history }) => {
             Categories :{" "}
             <span className="font-bold text-gray-700">
               {category.map((category) => (
-                <span className="mr-1">{category}</span>
+                <span className="mr-1 capitalize" key={category}>
+                  {category}
+                </span>
               ))}
             </span>
           </p>
@@ -131,19 +134,37 @@ const ProductDetails = ({ product, history }) => {
               ))}
             </ul>
           </div>
-          <button
-            disabled={countInStock === 0}
+          <Button
+            variant="dark"
             onClick={addToCard}
-            className={` py-3 px-4 bg-gray-700 font-medium uppercase  rounded text-white focus:outline-none  focus:ring-2 text-lg hover:bg-gray-300 hover:text-gray-700 transition-all duration-300`}
+            disabled={countInStock === 0}
           >
-            Add To Cart{" "}
-          </button>
-          <button
+            Add to cart
+          </Button>
+          <Tooltip
+            arrow
+            placement="top"
+            followCursor
+            title={
+              <Typography sx={{ textAlign: "center", fontWeight: "300" }}>
+                {isWished ? "Remove " : "Add "}
+                <Typography sx={{ fontWeight: "500", display: "inline" }}>
+                  {name}
+                </Typography>{" "}
+                {isWished ? "from" : "to"} your wishlist{" "}
+              </Typography>
+            }
+          >
+            <IconButton size="large" onClick={addToWishlistHandler}>
+              {isWished ? <Favorite /> : <FavoriteBorderOutlined />}
+            </IconButton>
+          </Tooltip>
+          {/* <button
             onClick={addToWishlistHandler}
             className="rounded-full p-4 focus:outline-none focus:ring-2 bg-gray-700  text-white hover:text-gray-700 hover:bg-gray-300 "
           >
             {isWished ? <Favorite /> : <FavoriteBorderOutlined />}
-          </button>
+          </button> */}
         </div>
       </div>
     </div>

@@ -7,12 +7,12 @@ import { Link } from "react-router-dom";
 import WishList from "../wishlist/WishList";
 import Search from "./Search";
 
-const MainNavbar = ({ history }) => {
+const MainNavbar = () => {
   return (
     <div className=" bg-gray-50  ">
       <div className="flex items-center justify-between px-5  container mx-auto">
         <div className="block cursor-pointer ">
-          <Sidebar history={history} />
+          <Sidebar />
         </div>
         <div className="mr-auto flex items-center space-x-1 py-5">
           <Link
@@ -23,7 +23,7 @@ const MainNavbar = ({ history }) => {
           </Link>
         </div>
         <div className="hidden md:block mr-auto  ">
-          <Search history={history} />
+          <Search />
         </div>
 
         <div className="flex items-center justify-between space-x-3 text-gray-700">
