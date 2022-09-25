@@ -31,8 +31,12 @@ export default createTheme({
             backgroundColor: defaultTheme.palette.grey[900],
             color: defaultTheme.palette.common.white,
             textTransform: "uppercase",
-            ":hover": {
+            "&:hover": {
               backgroundColor: defaultTheme.palette.grey[800],
+            },
+            "&.Mui-disabled": {
+              color: defaultTheme.palette.grey[100],
+              backgroundColor: defaultTheme.palette.grey[600],
             },
           },
           defaultProps: { disableRipple: false },

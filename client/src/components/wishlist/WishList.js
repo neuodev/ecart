@@ -1,17 +1,15 @@
 import { useSelector, useDispatch } from "react-redux";
 import React, { useState } from "react";
 import WishListItem from "./WishListItem";
-import { Link } from "react-router-dom";
 import { clearWishlist } from "../../actions/whishlist";
 import { Button } from "@mui/material";
-import { Box } from "@mui/system";
 import Modal from "../common/Modal";
 import EmptyWishlist from "./EmptyWishlist";
 
 const WishList = ({ children, history }) => {
   const dispatch = useDispatch();
   const wishlist = useSelector((state) => state.wishlist);
-  const [open, setOpen] = useState();
+  const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
     setOpen(true);
@@ -65,7 +63,6 @@ const WishList = ({ children, history }) => {
               {wishlist.map((product) => (
                 <WishListItem
                   handleClose={onClose}
-                  history={history}
                   key={product._id}
                   product={product}
                 />

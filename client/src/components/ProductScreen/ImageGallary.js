@@ -1,31 +1,28 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import React, { useState } from "react";
 
-const ImageGallary = ({ images }) => {
-  const [activeImg, setActiveImg] = useState(0);
-  const StyledDiv = styled.div`
-    background: url(${images[activeImg]}) no-repeat center center/cover;
-    height: 350px;
-    width: 90%;
-    margin: auto;
-    object-fit: 'fill';
-  `;
+const ImageGallary = ({ images, name }) => {
+  const [activeImgIdx, setActiveImg] = useState(0);
 
   return (
     <div>
-      <StyledDiv></StyledDiv>
-      <div className='flex items-center justify-between space-x-2 my-2 px-5 '>
+      <img
+        className="max-h-96 w-full inline-block overflow-hidden object-contain p-3"
+        src={images[activeImgIdx]}
+        alt={name}
+      />
+      <div className="flex items-center justify-between space-x-2 my-2 px-5 mt-8">
         {images.map((img, idx) => (
           <div
             key={idx}
-            className={` w-20  h-full cursor-pointer object-cover ${
-              activeImg === idx ? 'border border-gray-900' : ''
+            className={`w-16 h-16 cursor-pointer ${
+              activeImgIdx === idx ? "border border-gray-900" : ""
             } `}
-            onClick={() => setActiveImg(idx)}>
+            onClick={() => setActiveImg(idx)}
+          >
             <img
               src={img}
-              className='object-cover w-full h-full'
-              alt='Product Name'
+              className="object-contain p-1 w-full h-full rounded-sm"
+              alt={name}
             />
           </div>
         ))}

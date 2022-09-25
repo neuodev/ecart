@@ -29,6 +29,8 @@ import {
   PRODUCTS_NEXT_PAGE_REQUREST,
   PRODUCTS_NEXT_PAGE_SUCCESS,
   PRODUCTS_NEXT_PAGE_FAIL,
+  PRODUCT_CREATE_REVIEW_RESET,
+  PRODUCT_DELETE_REVIEW_RESET,
 } from "./actionTypes";
 import axios from "axios";
 import { logout } from "./user";
@@ -138,11 +140,11 @@ export const serachProducts =
 export const getProductAction = (id) => async (dispatch) => {
   try {
     dispatch({ type: GET_PRODUCT_REQUEST });
-
     let url = `/api/v1/products/${id}`;
-
     const { data } = await axios.get(url);
     dispatch({ type: GET_PRODUCT_SUCCESS, payload: data });
+    dispatch({ type: PRODUCT_CREATE_REVIEW_RESET });
+    dispatch({ type: PRODUCT_DELETE_REVIEW_RESET });
   } catch (error) {
     dispatch({
       type: GET_PRODUCT_FAIL,

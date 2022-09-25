@@ -1,21 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import "./style.css";
 import { register } from "../actions/user";
 import Alert from "../utils/Alert";
 import MainNavbar from "../components/HomeScreen/MainNavbar";
+import { Button } from "@mui/material";
 
-const RegsiterScreen = ({ history }) => {
+const RegsiterScreen = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [firstName, setFirstName] = useState("Ahmed");
   const [lastName, setLastName] = useState("Ibrahim");
   const [email, setEmail] = useState("ahmed@test.com");
-  const [password, setPassword] = useState("123456");
+  const [password, setPassword] = useState("1234567");
   const [alert, setAlert] = useState("");
-  const dispatch = useDispatch();
+
   const { loading, error, userInfo } = useSelector(
     (state) => state.userRegister
   );
+
   const submitHandler = (e) => {
     e.preventDefault();
     if (!firstName || !lastName || !email || !password) {
@@ -32,33 +36,30 @@ const RegsiterScreen = ({ history }) => {
       setAlert("");
     }
     if (userInfo) {
-      history.push("/");
+      navigate("/");
     }
   }, [error, userInfo]);
 
   return (
     <>
       <div className="">
-        <MainNavbar history={history} />
+        <MainNavbar />
       </div>
-      <div className="w-full grid grid-cols-12 py-2 container mx-auto my-10">
-        <div
-          className="w-full px-4 col-span-12  lg:col-span-4 xl:col-span-3 "
-          style={{ minHeight: "70vh" }}
-        >
+      <div className="w-full py-2 max-w-md container mx-auto my-10">
+        <div className="w-full px-4" style={{ minHeight: "70vh" }}>
           {loading ? (
             <div className="flex items-center justify-center">
               <p className="w-10 h-10 bg-blue-400 animate-ping text-center  rounded-full"></p>
             </div>
           ) : (
             alert && (
-              <div className="-mb-2">
+              <div className="mb-2 px-2">
                 <Alert message={alert} type="error" />
               </div>
             )
           )}
           <div className="px-2">
-            <h1 className="font-medium text-lg mb-2 mt-4 ">Register</h1>
+            <h1 className="font-medium text-3xl text-center my-6">Register</h1>
             <form onSubmit={submitHandler}>
               <div className="mb-6">
                 <p className="text-gray-400 text-sm mb-0.5">First Name</p>
@@ -81,7 +82,7 @@ const RegsiterScreen = ({ history }) => {
                 />
               </div>
               <div className="mb-6">
-                <p className="text-gray-400 text-sm mb-0.5">Email Address</p>
+                <p className="text-gray-400 text-sm mb-0.5">Email</p>
                 <input
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -90,8 +91,8 @@ const RegsiterScreen = ({ history }) => {
                   placeholder=""
                 />
               </div>
-              <div className="mb-5">
-                <p className="text-sm text-gray-400 mb-0.5">password</p>
+              <div className="mb-6">
+                <p className="text-sm text-gray-400 mb-0.5">Password</p>
                 <input
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -99,28 +100,21 @@ const RegsiterScreen = ({ history }) => {
                   type="password"
                 />
               </div>
-              {/* <Link className='inline-block  mb-6  font-medium  text-gray-600 border-b border-transparent hover:border-gray-700'>
-              Forgot your password ?
-            </Link> */}
-              <button className="block  bg-gray-700 w-full py-4 px-4 rounded-sm shadow-md text-white font-bold text-lg   focus:outline-none focus:ring-1 focus:ring-gray-400 mb-6 uppercase tracking-wider leading-tight">
+              <Button type="submit" variant="dark" fullWidth>
                 create an account
-              </button>
+              </Button>
+              <Button
+                LinkComponent={Link}
+                to="/login"
+                variant="dark"
+                fullWidth
+                sx={{ mt: "16px" }}
+              >
+                Login
+              </Button>
             </form>
-            <Link
-              to="/login"
-              className="block  bg-gray-700 w-full py-3 px-4 rounded-sm shadow-md text-white font-bold text-lg   focus:outline-none focus:ring-1 focus:ring-gray-400 uppercase tracking-wider text-center"
-            >
-              Login
-            </Link>
           </div>
         </div>
-        <div
-          className="hidden lg:block col-span-8 xl:col-span-9"
-          id="sideImg"
-          style={{
-            background: "url(/images/sideImage.jpg) center center/cover ",
-          }}
-        ></div>
       </div>
     </>
   );

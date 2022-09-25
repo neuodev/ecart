@@ -20,12 +20,10 @@ const useStyle = makeStyles(() => ({
   },
 }));
 
-const Sidebar = ({ toggle, history }) => {
+const Sidebar = () => {
   const classes = useStyle();
   const [open, setOpen] = useState(false);
-  const toggleDrawer = (event) => {
-    setOpen(!open);
-  };
+  const toggleDrawer = (event) => {};
 
   const list = [
     {
@@ -75,15 +73,15 @@ const Sidebar = ({ toggle, history }) => {
     <div>
       <FaBars
         className="mr-2 text-lg text-gray-500"
-        onClick={(e) => toggleDrawer(e)}
+        onClick={(e) => setOpen(!open)}
       />
       <SwipeableDrawer
-        className={classes.bg}
+        onOpen={() => {}}
         anchor="left"
         open={open}
         onClose={toggleDrawer}
       >
-        <div className="flex  flex-col h-full  pt-12 bg-gray-800">
+        <div className="flex flex-col h-full pt-12 bg-gray-800">
           <SearchSmallScreen />
           {list.map((link, idx) => (
             <Link

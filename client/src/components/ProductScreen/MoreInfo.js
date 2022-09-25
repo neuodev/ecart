@@ -2,57 +2,60 @@ import Description from "./Desctiption";
 import React, { useState } from "react";
 import Reviews from "./Reviews";
 import Shipping from "./Shipping";
+import Tab from "@mui/material/Tab";
+import TabContext from "@mui/lab/TabContext";
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
+import { Box } from "@mui/material";
 
-const MoreInfo = ({ product, history }) => {
-  let [activeTab, setActiveTab] = useState("reviews");
+const REVIEW_TAB = "reviews";
+const DESC_TAB = "desc";
+const SHIPPING_TAB = "shipping";
+
+const MoreInfo = ({ product }) => {
+  let numOfReviews = product.reviews.length;
+  const TABS = [
+    {
+      title: `Reviews ${numOfReviews !== 0 && `(${numOfReviews})`}`,
+      value: REVIEW_TAB,
+    },
+    {
+      title: "Description",
+      value: DESC_TAB,
+    },
+    {
+      title: "Shipping Delivery",
+      value: SHIPPING_TAB,
+    },
+  ];
+
+  const [value, setValue] = React.useState(REVIEW_TAB);
+  const handleChange = (_, newValue) => {
+    setValue(newValue);
+  };
 
   return (
-    <div>
-      <div className="flex flex-row items-center space-x-5 px-3 ">
-        <button
-          onClick={() => {
-            setActiveTab("reviews");
-          }}
-          className={`${
-            activeTab === "reviews" && "text-gray-800 border-gray-800"
-          } font-medium uppercase  tracking-wider border-b-2  text-gray-400 focus:outline-none  `}
-        >
-          Reviews ({product.reviews.length})
-        </button>
-        <button
-          onClick={() => {
-            setActiveTab("descrtiption");
-          }}
-          className={`${
-            activeTab === "descrtiption" && "text-gray-800 border-gray-800"
-          } font-medium uppercase  tracking-wider border-b-2  text-gray-400  focus:outline-none`}
-        >
-          Description
-        </button>
-
-        <button
-          onClick={() => {
-            setActiveTab("shipping");
-          }}
-          className={`${
-            activeTab === "shipping" && "text-gray-800 border-gray-800"
-          } font-medium uppercase  tracking-wider border-b-2  text-gray-400 focus:outline-none `}
-        >
-          Shipping Delivery
-        </button>
-      </div>
-
-      {activeTab === "descrtiption" ? (
-        <Description />
-      ) : activeTab === "reviews" ? (
-        <Reviews
-          history={history}
-          reviews={product.reviews}
-          productId={product._id}
-        />
-      ) : (
-        <Shipping />
-      )}
+    <div className="min-h-500">
+      <TabContext value={value}>
+        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+          <TabList onChange={handleChange} aria-label="lab API tabs example">
+            {TABS.map((t) => (
+              <Tab label={t.title} value={t.value} />
+            ))}
+          </TabList>
+        </Box>
+        <TabPanel value={REVIEW_TAB}>
+          <Reviews reviews={product.reviews} productId={product._id} />
+        </TabPanel>
+        <TabPanel value={DESC_TAB}>
+          <Description />
+        </TabPanel>
+        <TabPanel value={SHIPPING_TAB}>
+          <div className="max-w-md leading-loose">
+            <Shipping />
+          </div>
+        </TabPanel>
+      </TabContext>
     </div>
   );
 };

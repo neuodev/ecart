@@ -25,9 +25,16 @@ import {
   USER_UPDATE_SUCCESS,
   USER_UPDATE_FAIL,
   USER_UPDATE_PROFILE_RESET,
-} from '../actions/actionTypes';
+} from "../actions/actionTypes";
 
-export const userLoginReducer = (state = {}, action) => {
+export const userLoginReducer = (
+  state = {
+    loading: false,
+    error: null,
+    userInfo: null,
+  },
+  action
+) => {
   switch (action.type) {
     case USER_LOGIN_REQUEST:
       return { loading: true };

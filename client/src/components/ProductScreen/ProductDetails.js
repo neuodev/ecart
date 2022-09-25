@@ -1,4 +1,12 @@
-import { Rating } from "@mui/material";
+import {
+  Button,
+  IconButton,
+  Menu,
+  MenuItem,
+  Rating,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import React, { useState } from "react";
 import { FavoriteBorderOutlined, Favorite } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,22 +29,23 @@ const ProductDetails = ({ product, history }) => {
     discount,
   } = product;
 
-  const qty = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const [dot, setDot] = useState(true);
   const [more, setMore] = useState(false);
-  const [btn, setBtn] = useState("Read More");
   const [quantity, setQuantity] = useState(1);
-  const [showSelect, setShowSelect] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const readMore = () => {
     setDot(!dot);
     setMore(!more);
-    setBtn(btn === "Read More" ? "Read Less" : "Read More");
-  };
-
-  const updateQty = (qty) => {
-    setQuantity(qty);
-    setShowSelect(false);
   };
 
   const addToCard = () => {
@@ -56,7 +65,7 @@ const ProductDetails = ({ product, history }) => {
       </div>
       <div>
         <p className="text-gray-400 font-light  text-base line-through inline-block mt-4">
-          {price.toFixed(2)}
+          ${price.toFixed(2)}
         </p>
         <span className="text-gray-700  ml-1 font-semibold">{discount}%</span>
         <p className="text-gray-700 font-semibold text-2xl pb-4">
@@ -65,10 +74,9 @@ const ProductDetails = ({ product, history }) => {
 
         <div className="leading-relaxed tracking-wide  text-gray-500 mb-10  ">
           {description.slice(0, 100)}
-          <span
-            className={`${dot ? "inline-block" : "hidden"}`}
-            id="dots"
-          ></span>{" "}
+          <span className={`${dot ? "inline-block" : "hidden"}`} id="dots">
+            ...
+          </span>{" "}
           <span className={`${more ? "block" : "hidden"}`}>
             {product.description.slice(100)}
           </span>
@@ -76,15 +84,15 @@ const ProductDetails = ({ product, history }) => {
             className="text-gray-700 font-bold uppercase focus:outline-none hover:border-black border-b border-transparent"
             onClick={readMore}
           >
-            {btn}{" "}
+            {more ? "Read Less" : "Read More"}
           </button>
         </div>
         <div className="mt-6 ">
           <p className="font-light text-gray-500">
-            Brand : <span className="font-bold text-gray-800"> {brand}</span>
+            From : <span className="font-bold text-gray-800"> {brand}</span>
           </p>
           <p className="font-light text-gray-500">
-            status :{" "}
+            Status :{" "}
             <span
               className={`font-bold ${
                 countInStock > 0 ? "text-green-700" : "text-red-700"
@@ -97,7 +105,9 @@ const ProductDetails = ({ product, history }) => {
             Categories :{" "}
             <span className="font-bold text-gray-700">
               {category.map((category) => (
-                <span className="mr-1">{category}</span>
+                <span className="mr-1 capitalize" key={category}>
+                  {category}
+                </span>
               ))}
             </span>
           </p>
@@ -105,45 +115,68 @@ const ProductDetails = ({ product, history }) => {
       </div>
       <div>
         <div className="flex items-center justify-start space-x-5 py-5">
-          <div
-            onMouseEnter={() => setShowSelect(true)}
-            onMouseLeave={() => setShowSelect(false)}
-            className="relative w-20"
+          <Button
+            id="qty-btn"
+            aria-controls={open ? "qty-menu" : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? "true" : undefined}
+            onClick={handleClick}
+            sx={{
+              width: "100px",
+              minWidth: "unset",
+            }}
+            variant="dark-outlined"
+            size="small"
           >
-            <p className="border h-12 flex items-center justify-center rounded-md text-lg font-bold">
-              <span className="text-gray-200 text-sm uppercase mr-1">Qty:</span>{" "}
-              {quantity}
-            </p>
-            <ul
-              className={`${
-                showSelect ? "block" : "hidden"
-              } border w-20 text-center py-4  rounded-sm absolute top-10 left-0 h-32 overflow-y-scroll bg-gray-50`}
-            >
-              {qty.map((qty, idx) => (
-                <li
-                  onClick={() => updateQty(qty)}
-                  className="py-1 hover:bg-gray-100 cursor-pointer rounded-md"
-                  key={idx}
-                >
-                  {" "}
-                  {qty}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <button
-            disabled={countInStock === 0}
+            Qty: {quantity}
+          </Button>
+          <Menu
+            id="quty-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            MenuListProps={{
+              "aria-labelledby": "qty-btn",
+            }}
+          >
+            {new Array(10).fill(0).map((_, idx) => (
+              <MenuItem
+                sx={{ width: "150px" }}
+                key={idx}
+                onClick={() => {
+                  handleClose();
+                  setQuantity(idx + 1);
+                }}
+              >
+                {idx + 1}
+              </MenuItem>
+            ))}
+          </Menu>
+          <Button
+            variant="dark"
             onClick={addToCard}
-            className={` py-3 px-4 bg-gray-700 font-medium uppercase  rounded text-white focus:outline-none  focus:ring-2 text-lg hover:bg-gray-300 hover:text-gray-700 transition-all duration-300`}
+            disabled={countInStock === 0}
           >
-            Add To Cart{" "}
-          </button>
-          <button
-            onClick={addToWishlistHandler}
-            className="rounded-full p-4 focus:outline-none focus:ring-2 bg-gray-700  text-white hover:text-gray-700 hover:bg-gray-300 "
+            Add to cart
+          </Button>
+          <Tooltip
+            arrow
+            placement="top"
+            followCursor
+            title={
+              <Typography sx={{ textAlign: "center", fontWeight: "300" }}>
+                {isWished ? "Remove " : "Add "}
+                <Typography sx={{ fontWeight: "500", display: "inline" }}>
+                  {name}
+                </Typography>{" "}
+                {isWished ? "from" : "to"} your wishlist{" "}
+              </Typography>
+            }
           >
-            {isWished ? <Favorite /> : <FavoriteBorderOutlined />}
-          </button>
+            <IconButton size="large" onClick={addToWishlistHandler}>
+              {isWished ? <Favorite /> : <FavoriteBorderOutlined />}
+            </IconButton>
+          </Tooltip>
         </div>
       </div>
     </div>
