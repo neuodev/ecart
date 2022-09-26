@@ -7,8 +7,9 @@ import countries from "../../utils/countries";
 import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import { saveShippingAddress } from "../../actions/cart";
+import CheckoutSteps from "../common/CheckoutSteps";
 
-const ShippingForm = ({ history }) => {
+const ShippingForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -64,15 +65,8 @@ const ShippingForm = ({ history }) => {
 
   return (
     <div className="container mx-auto px-4">
-      <div className="py-4 ">
-        <Breadcrumbs separator={<BsChevronCompactRight />}>
-          <Link to="/cart/123">Cart</Link>
-          <Link to="/checkouts" className="text-green-500 font-semibold">
-            Information
-          </Link>
-          <Link to="/checkouts/shipping">Shipping</Link>
-          <Link to="/checkouts/payment">Payment</Link>
-        </Breadcrumbs>
+      <div className="py-4">
+        <CheckoutSteps currStep={2} />
       </div>
       <div>
         <div className="py-4">

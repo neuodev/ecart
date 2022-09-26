@@ -41,7 +41,10 @@ const CheckoutSteps = ({ currStep }) => {
               {step.label}
             </Link>
           ) : stepIdx + 1 > currStep ? (
-            <Link className="text-xs md:text-sm"> {step.label} </Link>
+            <Link className="text-xs md:text-sm cursor-not-allowed">
+              {" "}
+              {step.label}{" "}
+            </Link>
           ) : (
             <Link to={step.to} className="text-xs md:text-sm">
               {" "}
