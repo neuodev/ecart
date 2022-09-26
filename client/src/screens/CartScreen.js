@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../actions/cart";
 import MainNavbar from "../components/HomeScreen/MainNavbar";
 import { useLocation, useParams } from "react-router-dom";
+import CheckoutSteps from "../components/common/CheckoutSteps";
 
 const CartScreen = () => {
   const productId = useParams().id;
@@ -27,24 +28,12 @@ const CartScreen = () => {
       <div className="bg-gray-50">
         <div className="mx-auto max-w-screen-xl">
           <MainNavbar />
+          <div className="mx-5">
+            <CheckoutSteps currStep={1} />
+          </div>
         </div>
       </div>
       <div className="max-w-screen-xl mx-auto px-4 py-12 min-h-700">
-        <h1 className="text-xs md:text-sm tracking-wider mb-8 py-4 bg-gray-100 px-4 font-medium text-gray-900 shadow-lg">
-          <Breadcrumbs separator={<BsChevronCompactRight />}>
-            <Link className="text-gray-800 font-bold text-sm">Cart</Link>
-            <Link to="/checkouts" className="text-xs md:text-sm">
-              Information
-            </Link>
-            <Link to="/checkouts/shipping" className="text-xs md:text-sm">
-              Shipping{" "}
-            </Link>
-            <Link to="checkouts/payment" className="text-xs md:text-sm">
-              Payment
-            </Link>
-            <Link className="text-xs md:text-sm">Complete Order</Link>
-          </Breadcrumbs>
-        </h1>
         <div
           className="grid grid-cols-12 max-w-7xl relative"
           style={{ minHeight: "300px" }}
