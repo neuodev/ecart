@@ -29,7 +29,7 @@ const CartScreen = () => {
           <MainNavbar />
         </div>
       </div>
-      <div className="max-w-screen-xl mx-auto px-4 py-12">
+      <div className="max-w-screen-xl mx-auto px-4 py-12 min-h-700">
         <h1 className="text-xs md:text-sm tracking-wider mb-8 py-4 bg-gray-100 px-4 font-medium text-gray-900 shadow-lg">
           <Breadcrumbs separator={<BsChevronCompactRight />}>
             <Link className="text-gray-800 font-bold text-sm">Cart</Link>
