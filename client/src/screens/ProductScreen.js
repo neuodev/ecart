@@ -24,8 +24,8 @@ const ProductScreen = () => {
       <div>
         <MainNavbar />
       </div>
-      <div className=" py-5 container mx-auto">
-        {loading ? (
+      <div className="py-5 container mx-auto">
+        {loading || true ? (
           <ProductScreenSkeleton />
         ) : error ? (
           <div>
