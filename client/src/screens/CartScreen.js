@@ -7,9 +7,9 @@ import CartTotals from "../components/Cartscreen/CartTotals";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../actions/cart";
 import MainNavbar from "../components/HomeScreen/MainNavbar";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
-const CartScreen = ({ history, match }) => {
+const CartScreen = () => {
   const productId = useParams().id;
   const location = useLocation();
   const params = new URLSearchParams(location.search);
@@ -20,15 +20,17 @@ const CartScreen = ({ history, match }) => {
 
   useEffect(() => {
     dispatch(addToCart(productId, qty));
-  }, [dispatch, productId, qty, match]);
+  }, [dispatch, productId, qty]);
 
   return (
     <>
-      <div className="">
-        <MainNavbar history={history} />
+      <div className="bg-gray-50">
+        <div className="mx-auto max-w-screen-xl">
+          <MainNavbar />
+        </div>
       </div>
-      <div className="container mx-auto px-4  py-12">
-        <h1 className="text-xs md:text-sm  tracking-wider mb-8 py-4  bg-gray-100 px-4 font-medium text-gray-900 rounded-lg shadow-lg   ">
+      <div className="max-w-screen-xl mx-auto px-4 py-12">
+        <h1 className="text-xs md:text-sm tracking-wider mb-8 py-4 bg-gray-100 px-4 font-medium text-gray-900 shadow-lg">
           <Breadcrumbs separator={<BsChevronCompactRight />}>
             <Link className="text-gray-800 font-bold text-sm">Cart</Link>
             <Link to="/checkouts" className="text-xs md:text-sm">
@@ -44,10 +46,10 @@ const CartScreen = ({ history, match }) => {
           </Breadcrumbs>
         </h1>
         <div
-          className=" grid grid-cols-12 max-w-7xl relative  "
+          className="grid grid-cols-12 max-w-7xl relative"
           style={{ minHeight: "300px" }}
         >
-          <div className="col-span-12 md:col-span-7 lg:col-span-8 flex flex-col space-y-3 pr-6">
+          <div className="col-span-12 md:col-span-7 lg:col-span-9 flex flex-col space-y-3 pr-6">
             {cartItems.length === 0 && (
               <div className="w-full bg-gray-100 p-14 rounded-md">
                 <h1 className="text-gray-500 font-semibold mb-2 ">
@@ -79,7 +81,7 @@ const CartScreen = ({ history, match }) => {
             </div>
           </div>
           {cartItems.length > 0 && (
-            <div className="col-span-12 md:col-span-5 lg:col-span-4 lg:absolute top-0 right-0 z-10 ">
+            <div className="col-span-12 md:col-span-5 lg:col-span-3 lg:absolute top-0 right-0 z-10 ">
               <CartTotals cartItems={cartItems} />
             </div>
           )}
