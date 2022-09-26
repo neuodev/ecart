@@ -41,10 +41,7 @@ const CheckoutSteps = ({ currStep }) => {
               {step.label}
             </Link>
           ) : stepIdx + 1 > currStep ? (
-            <Link className="text-xs md:text-sm cursor-not-allowed">
-              {" "}
-              {step.label}{" "}
-            </Link>
+            <Link className="text-xs md:text-sm"> {step.label} </Link>
           ) : (
             <Link to={step.to} className="text-xs md:text-sm">
               {" "}
@@ -65,18 +62,6 @@ const CheckoutSteps = ({ currStep }) => {
           </Tooltip>
         );
       })}
-      {/* 
-      <Link className="text-gray-800 font-bold text-sm">Cart</Link>
-      <Link to="/checkouts" className="text-xs md:text-sm">
-        Information
-      </Link>
-      <Link to="/checkouts/shipping" className="text-xs md:text-sm">
-        Shipping{" "}
-      </Link>
-      <Link to="checkouts/payment" className="text-xs md:text-sm">
-        Payment
-      </Link>
-      <Link className="text-xs md:text-sm">Complete Order</Link> */}
     </Breadcrumbs>
   );
 };

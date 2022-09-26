@@ -9,6 +9,7 @@ import { addToCart } from "../actions/cart";
 import MainNavbar from "../components/HomeScreen/MainNavbar";
 import { useLocation, useParams } from "react-router-dom";
 import CheckoutSteps from "../components/common/CheckoutSteps";
+import EmptyCart from "../components/Cartscreen/EmptyCart";
 
 const CartScreen = () => {
   const productId = useParams().id;
@@ -34,44 +35,27 @@ const CartScreen = () => {
         </div>
       </div>
       <div className="max-w-screen-xl mx-auto px-4 py-12 min-h-700">
-        <div
-          className="grid grid-cols-12 max-w-7xl relative"
-          style={{ minHeight: "300px" }}
-        >
-          <div className="col-span-12 md:col-span-7 lg:col-span-9 flex flex-col space-y-3 pr-6">
-            {cartItems.length === 0 && (
-              <div className="w-full bg-gray-100 p-14 rounded-md">
-                <h1 className="text-gray-500 font-semibold mb-2 ">
-                  You cart is empty{" "}
-                </h1>
-                <div className="flex items-center space-x-2">
-                  <Link
-                    to="/products"
-                    className="text-gray-500 font-semibold uppercase tracking-wider border-b-2 pb-1 border-gray-600  "
-                  >
-                    Search for Products
-                  </Link>
-                  <span className="  p-2 font-semibold text-gray-500 ">or</span>
-                  <Link
-                    to="/"
-                    className="text-gray-500 font-semibold uppercase tracking-wider border-b-2 pb-1 border-gray-600 "
-                  >
-                    Go Home{" "}
-                  </Link>
+        <div className="grid grid-cols-12 max-w-7xl relative min-h-600">
+          {cartItems.length === 0 ? (
+            <div className="col-span-12 flex items-center justify-center h-full">
+              <EmptyCart />
+            </div>
+          ) : (
+            <div className="col-span-12 md:col-span-7 lg:col-span-9 flex flex-col space-y-3 pr-6">
+              <div>
+                <div className="mb-8">
+                  {cartItems.map((item, idx) => (
+                    <div key={idx} className="mb-4">
+                      <CartItems cartItem={item} />
+                    </div>
+                  ))}
                 </div>
               </div>
-            )}
-            <div className="mb-8">
-              {cartItems.map((item, idx) => (
-                <div key={idx} className="mb-4">
-                  <CartItems cartItem={item} />
+              {cartItems.length > 0 && (
+                <div className="col-span-12 md:col-span-5 lg:col-span-3 lg:absolute top-0 right-0 z-10 ">
+                  <CartTotals cartItems={cartItems} />
                 </div>
-              ))}
-            </div>
-          </div>
-          {cartItems.length > 0 && (
-            <div className="col-span-12 md:col-span-5 lg:col-span-3 lg:absolute top-0 right-0 z-10 ">
-              <CartTotals cartItems={cartItems} />
+              )}
             </div>
           )}
         </div>
