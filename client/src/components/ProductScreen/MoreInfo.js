@@ -40,7 +40,7 @@ const MoreInfo = ({ product }) => {
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <TabList onChange={handleChange} aria-label="lab API tabs example">
             {TABS.map((t) => (
-              <Tab label={t.title} value={t.value} />
+              <Tab label={t.title} value={t.value} key={t.value} />
             ))}
           </TabList>
         </Box>

@@ -19,6 +19,7 @@ import theme from "./theme";
 import Orders from "./components/account/Orders";
 import WishList from "./components/account/WishList";
 import Settings from "./components/account/Settings";
+import ScrollToTop from "./components/Layout/ScrollToTop";
 
 const router = createBrowserRouter([
   {
@@ -37,7 +38,11 @@ const router = createBrowserRouter([
 
       {
         path: "product/:id",
-        element: <ProductScreen />,
+        element: (
+          <ScrollToTop>
+            <ProductScreen />,
+          </ScrollToTop>
+        ),
       },
       {
         path: "cart/:id",

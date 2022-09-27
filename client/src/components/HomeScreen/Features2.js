@@ -31,7 +31,7 @@ const Features2 = () => {
         {list.map((item, idx) => (
           <div
             className="col-span-12 md:col-span-6 lg:col-span-4 flex flex-col items-center justify-between text-center mx-4"
-            ke={idx}
+            key={idx}
           >
             <div className="bg-green-50 p-5 rounded-full mb-4">
               <i className="text-2xl  text-green-400 ">{item.icon}</i>

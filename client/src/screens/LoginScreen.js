@@ -7,22 +7,23 @@ import { login } from "../actions/user";
 import MainNavbar from "../components/HomeScreen/MainNavbar";
 import { Button, Tooltip, Typography } from "@mui/material";
 import { Box } from "@mui/system";
+import { isValidEmail, isValidPass } from "../utils/validation";
 
 const LoginScreen = () => {
-  const [email, setEmail] = useState("jone@wallet.io");
-  const [password, setPassword] = useState("1234567");
-  const [alert, setAlert] = useState("");
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { loading, error, userInfo } = useSelector((state) => state.userLogin);
 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState({
+    email: null,
+    password: null,
+  });
+  const [alert, setAlert] = useState("");
+
   const submitHandler = (e) => {
     e.preventDefault();
-    if (!email || !password) {
-      setAlert("Eamil and password are required");
-      return;
-    }
     dispatch(login(email, password));
   };
 
@@ -36,13 +37,14 @@ const LoginScreen = () => {
     if (userInfo && userInfo._id) {
       navigate("/");
     }
-  }, [error, userInfo]);
+  }, [error, userInfo, navigate]);
 
   return (
     <>
       <MainNavbar />
       <div className="w-full flex items-center justify-center py-2 container mx-auto">
         <div className="px-4 relative w-96" style={{ minHeight: "70vh" }}>
+          <h1 className="font-medium text-3xl mb-4 mt-24 text-center">Login</h1>
           <div className="">
             {loading ? (
               <div className="flex items-center justify-center -mb-20 mt-10">
@@ -50,32 +52,58 @@ const LoginScreen = () => {
               </div>
             ) : (
               alert && (
-                <div className="-mb-20 mt-10">
+                <div className="mb-4">
                   <Alert message={alert} type="error" />
                 </div>
               )
             )}
           </div>
-          <h1 className="font-medium text-3xl mb-4 mt-24 text-center">Login</h1>
           <form onSubmit={submitHandler}>
             <div className="mb-6">
               <p className="text-gray-400 text-sm mb-0.5">Email</p>
               <input
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full  py-2 px-4 rounded-sm  focus:outline-none focus:ring-1 focus:ring-gray-400 border"
+                onChange={(e) => {
+                  const input = e.target.value.trim();
+                  if (isValidEmail(input) === true) {
+                    setErrors({ ...errors, email: null });
+                  } else {
+                    setErrors({ ...errors, email: "Invalid email" });
+                  }
+                  setEmail(input);
+                }}
+                className="w-full py-2 px-4 rounded-sm focus:outline-none focus:ring-1 focus:ring-gray-400 border"
                 type="text"
-                placeholder=""
+                placeholder="jone@wallet.io"
               />
+              <span className="h-1 text-xs text-red-500">
+                {errors.email || ""}
+              </span>
             </div>
             <div className="mb-5">
               <p className="text-sm text-gray-400 mb-0.5">Password</p>
               <input
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  const input = e.target.value.trim();
+                  if (isValidPass(input) === true) {
+                    setErrors({ ...errors, password: null });
+                  } else {
+                    setErrors({
+                      ...errors,
+                      password:
+                        "Password must be 8 characters with numbers and alphabet",
+                    });
+                  }
+                  setPassword(e.target.value);
+                }}
                 className="w-full  py-2 px-4 rounded-sm  focus:outline-none focus:ring-1 focus:ring-gray-400 border"
                 type="password"
+                placeholder="jone@123"
               />
+              <span className="h-1 text-xs text-red-500">
+                {errors.password || ""}
+              </span>
             </div>
             <Tooltip
               arrow
@@ -88,11 +116,22 @@ const LoginScreen = () => {
               </Link>
             </Tooltip>
 
-            <Button type="submit" sx={{ mb: "24px" }} variant="dark" fullWidth>
+            <Button
+              type="submit"
+              sx={{ mb: "12px" }}
+              variant="dark"
+              fullWidth
+              disabled={!email || !password}
+            >
               Login
             </Button>
           </form>
-          <Button LinkComponent={Link} to="/register" variant="dark" fullWidth>
+          <Button
+            LinkComponent={Link}
+            to="/register"
+            variant="dark-outlined"
+            fullWidth
+          >
             Register
           </Button>
         </div>

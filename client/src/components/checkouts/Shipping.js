@@ -87,6 +87,7 @@ const Shipping = () => {
     if (order) {
       navigate("/checkouts/payment");
     }
+
     if (!userInfo) {
       navigate("/login");
     }
@@ -98,7 +99,7 @@ const Shipping = () => {
         <OrderSummary />
       </div>
       <CheckoutSteps currStep={3} />
-      <div className="border shadow-sm p-3 mt-4">
+      <div className="shadow-sm py-3 mt-4">
         <div className="flex items-center justify-between border-b pb-1">
           <h1 className="text-gray-600">Contact</h1>
           <p className="text-left mr-auto ml-10">{email}</p>
@@ -117,18 +118,13 @@ const Shipping = () => {
           </IconButton>
         </div>
       </div>
-      <div className="py-4  mr-4 mb-10">
-        {alert && (
-          <div className="bg-blue-100 py-4 px-2 mb-4 rounded-md text-blue-700 font-semibold">
-            <p>{alert}</p>
-          </div>
-        )}
-        <h1 className="text-lg text-gray-700 mb-2 px-2">Shipping method</h1>
+      <div className="py-4 mr-4 mb-10">
+        <h1 className="text-lg text-gray-700 mb-2">Shipping method</h1>
         {shippingMethods.map((method, idx) => (
           <div
             key={idx}
             onClick={() => updateShippingMethod(method)}
-            className="flex items-center justify-between cursor-pointer px-4"
+            className="flex items-center justify-between cursor-pointer px-2"
           >
             <Radio
               color="default"

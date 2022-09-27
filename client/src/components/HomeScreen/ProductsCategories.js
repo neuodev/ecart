@@ -41,7 +41,7 @@ const ProductsCategories = () => {
             </div>
           )}
           {topRatedProducts.products.map((product) => (
-            <ProductCard2 product={product} />
+            <ProductCard2 key={product._id} product={product} />
           ))}
         </div>
         <div className="mb-8 col-span-12  md:col-span-6 lg:col-span-4">
@@ -66,7 +66,7 @@ const ProductsCategories = () => {
           ))}
         </div>
         <div className=" col-span-12 md:col-span-6 lg:col-span-4">
-          <h1 className="uppercase mx-4 font-medium tracking-wide  text-gray-600">
+          <h1 className="uppercase mx-4 font-medium tracking-wide text-gray-600">
             LATEST PRODUCTS
           </h1>
           {latestProducts.loading && (
