@@ -16,7 +16,7 @@ const CHECKOUT_STEPS = [
   },
   {
     label: "Shipping",
-    to: "/checkouts/payment",
+    to: "/checkouts/shipping/",
     tooltip: "Choose your shipping and payment method",
   },
   {
