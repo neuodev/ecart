@@ -7,6 +7,7 @@ import { getProductAction } from "../actions/products";
 import ProductScreenSkeleton from "../components/ProductScreen/ProductScreenSkeleton";
 import MainNavbar from "../components/HomeScreen/MainNavbar";
 import { useParams } from "react-router-dom";
+import ErrorScreen from "../components/ProductScreen/ErrorScreen";
 
 const ProductScreen = () => {
   const dispatch = useDispatch();
@@ -24,12 +25,12 @@ const ProductScreen = () => {
       <div>
         <MainNavbar />
       </div>
-      <div className=" py-5 container mx-auto">
+      <div className="py-5 container mx-auto">
         {loading ? (
           <ProductScreenSkeleton />
         ) : error ? (
           <div>
-            <h1>Error</h1>
+            <ErrorScreen />
           </div>
         ) : (
           product && (

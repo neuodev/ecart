@@ -6,27 +6,51 @@ import { register } from "../actions/user";
 import Alert from "../utils/Alert";
 import MainNavbar from "../components/HomeScreen/MainNavbar";
 import { Button } from "@mui/material";
+import { isValidEmail, isValidName, isValidPass } from "../utils/validation";
+import Input from "../components/common/Input";
+
+const validators = {
+  email: isValidEmail,
+  password: isValidPass,
+  firstName: isValidName,
+  lastName: isValidName,
+};
 
 const RegsiterScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [firstName, setFirstName] = useState("Ahmed");
-  const [lastName, setLastName] = useState("Ibrahim");
-  const [email, setEmail] = useState("ahmed@test.com");
-  const [password, setPassword] = useState("1234567");
-  const [alert, setAlert] = useState("");
+  const [state, setState] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+  });
 
+  const [errors, setErrors] = useState({
+    firstName: false,
+    lastName: false,
+    email: false,
+    password: false,
+  });
+
+  const [alert, setAlert] = useState("");
   const { loading, error, userInfo } = useSelector(
     (state) => state.userRegister
   );
 
+  const stateHandler = (e) => {
+    const field = e.target.name;
+    const value = e.target.value;
+
+    let validator = validators[field];
+    if (!validator) throw new Error("Invalid field");
+    setErrors({ ...errors, [field]: !validator(value) });
+    setState({ ...state, [field]: value });
+  };
+
   const submitHandler = (e) => {
     e.preventDefault();
-    if (!firstName || !lastName || !email || !password) {
-      setAlert("These fields are required");
-      return;
-    }
-    dispatch(register(firstName, lastName, email, password));
+    dispatch(register(state));
   };
 
   useEffect(() => {
@@ -38,7 +62,7 @@ const RegsiterScreen = () => {
     if (userInfo) {
       navigate("/");
     }
-  }, [error, userInfo]);
+  }, [error, userInfo, navigate]);
 
   return (
     <>
@@ -61,43 +85,52 @@ const RegsiterScreen = () => {
           <div className="px-2">
             <h1 className="font-medium text-3xl text-center my-6">Register</h1>
             <form onSubmit={submitHandler}>
-              <div className="mb-6">
-                <p className="text-gray-400 text-sm mb-0.5">First Name</p>
-                <input
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-                  className="w-full  py-2 px-4 rounded-sm  focus:outline-none focus:ring-1 focus:ring-gray-400 border"
-                  type="text"
-                  placeholder=""
+              <div className="mb-1">
+                <Input
+                  error={
+                    errors.firstName &&
+                    "first name must be at least 3 caracters"
+                  }
+                  value={state.firstName}
+                  name="firstName"
+                  label="First name"
+                  onChange={stateHandler}
+                  placeholder="Jone"
                 />
               </div>
-              <div className="mb-6">
-                <p className="text-gray-400 text-sm mb-0.5">Last Name</p>
-                <input
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                  className="w-full  py-2 px-4 rounded-sm  focus:outline-none focus:ring-1 focus:ring-gray-400 border"
-                  type="text"
-                  placeholder=""
+              <div className="mb-1">
+                <Input
+                  error={
+                    errors.lastName && "Last name must be at least 3 caracters"
+                  }
+                  value={state.lastName}
+                  name="lastName"
+                  label="Last name"
+                  onChange={stateHandler}
+                  placeholder="Doe"
                 />
               </div>
-              <div className="mb-6">
-                <p className="text-gray-400 text-sm mb-0.5">Email</p>
-                <input
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full  py-2 px-4 rounded-sm  focus:outline-none focus:ring-1 focus:ring-gray-400 border"
-                  type="text"
-                  placeholder=""
+              <div className="mb-1">
+                <Input
+                  error={errors.email && "Invalid email"}
+                  value={state.email}
+                  name="email"
+                  label="Email"
+                  onChange={stateHandler}
+                  placeholder="jone@wallet.io"
                 />
               </div>
-              <div className="mb-6">
-                <p className="text-sm text-gray-400 mb-0.5">Password</p>
-                <input
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full  py-2 px-4 rounded-sm  focus:outline-none focus:ring-1 focus:ring-gray-400 border"
-                  type="password"
+              <div className="mb-1">
+                <Input
+                  error={
+                    errors.password &&
+                    "Password must be 8 characters with numbers and alphabet"
+                  }
+                  value={state.password}
+                  name="password"
+                  label="Password"
+                  onChange={stateHandler}
+                  placeholder="jone#!123"
                 />
               </div>
               <Button type="submit" variant="dark" fullWidth>
@@ -106,7 +139,7 @@ const RegsiterScreen = () => {
               <Button
                 LinkComponent={Link}
                 to="/login"
-                variant="dark"
+                variant="dark-outlined"
                 fullWidth
                 sx={{ mt: "16px" }}
               >

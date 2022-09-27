@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import OrderSummaryItem from "./OrderSummaryItem";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { calcTotalPrice } from "../../utils/calcTotalPrice";
 import { calcSubTotal } from "../../utils/calcSubTotal";
+import { currFormat } from "../../utils/currency";
 
 const OrderSummaryLargScreen = () => {
   const { cartItems, shippingMethod } = useSelector((state) => state.cart);
-  const [currentShppingCost, setCurrentShppingCost] = useState("--,--");
+  // todo: Fix this
+  const [currentShppingCost, setCurrentShppingCost] = useState(null);
   const subTotal = calcSubTotal(cartItems);
 
   let total;
@@ -24,31 +26,32 @@ const OrderSummaryLargScreen = () => {
   }, [shippingMethod]);
 
   return (
-    <div className="py-4 rounded-md px-4 mt-4 shadow-sm">
+    <div className="p-4 my-4 h-full">
       {cartItems.map((product, idx) => (
         <OrderSummaryItem key={idx} product={product} />
       ))}
-      <div className="border-b"></div>
       <div className="py-4">
-        <div className="flex items-center justify-between mb-2">
-          <h1 className="font-light ">Subtotal</h1>
-          <p className="text-lg">${subTotal.toFixed(2)}</p>
-        </div>
-        <div className="flex items-center justify-between">
-          <h1 className="font-light">Shipping</h1>
-          <p className="text-lg">${currentShppingCost}</p>
-        </div>
-      </div>
-      <div className="border-b-2 border-gray-700 "></div>
-      <div className="flex items-center justify-between py-4">
-        <h1 className="font-light text-lg">Total</h1>
-        <p>
-          <span className="text-sm font-light">USD</span>
-          <span className="font-medium text-xl ml-1">${total}</span>
-        </p>
+        <LabelValue label="Subtotal" value={currFormat(subTotal)} />
+        <LabelValue
+          label="Shipping"
+          value={
+            currentShppingCost !== null ? currFormat(currentShppingCost) : "-"
+          }
+        />
+        <span className="inline-block w-full h-0.5 bg-gray-100 mb-2"></span>
+        <LabelValue label="Total" value={currFormat(total)} />
       </div>
     </div>
   );
 };
 
 export default OrderSummaryLargScreen;
+
+const LabelValue = ({ label, value }) => {
+  return (
+    <div className="flex items-center justify-between mb-2">
+      <h1 className="font-light">{label}</h1>
+      <p className="text-lg">{value}</p>
+    </div>
+  );
+};

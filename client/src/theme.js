@@ -66,6 +66,17 @@ export default createTheme({
             fontSize: "14px",
           },
         },
+        {
+          props: {
+            variant: "dark-outlined",
+          },
+          style: {
+            textTransform: "uppercase",
+            border: `1px solid ${defaultTheme.palette.common.black}`,
+            padding: "12px 20px",
+            fontSize: "14px",
+          },
+        },
       ],
     },
     MuiTab: {

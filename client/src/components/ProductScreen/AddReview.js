@@ -78,7 +78,7 @@ const AddReview = ({ productId }) => {
           <TextField
             multiline
             fullWidth
-            value={review}
+            value={review || ""}
             onChange={(e) => setReview(e.target.value)}
             placeholder="Share your experience with us"
           />

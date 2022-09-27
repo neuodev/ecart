@@ -1,6 +1,5 @@
-import { Radio } from "@mui/material";
+import { Button, IconButton, Radio } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { BsChevronCompactLeft, BsChevronCompactRight } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { saveShippingMethod } from "../../actions/cart";
@@ -9,15 +8,17 @@ import { calcTotal } from "../../utils/cost";
 import OrderSummary from "./OrderSummary";
 import { ORDER_PAY_RESET } from "../../actions/actionTypes";
 import { useNavigate } from "react-router-dom";
+import CheckoutSteps from "../common/CheckoutSteps";
+import EditIcon from "@mui/icons-material/Edit";
 
 const shippingMethods = [
   {
     name: "International Shipping",
-    cost: 20.0,
+    cost: 40.0,
   },
   {
     name: "Fast Shipping",
-    cost: 30.0,
+    cost: 60.0,
   },
 ];
 
@@ -28,14 +29,14 @@ const Shipping = () => {
   const [alert, setAlert] = useState("");
   const { cartItems, shippingAddress } = useSelector((state) => state.cart);
 
-  let [shippingMethod, setShippingMethod] = useState({});
+  let [shippingMethod, setShippingMethod] = useState(null);
   const { userInfo } = useSelector((state) => state.userLogin);
 
   useEffect(() => {
     if (cartItems.length === 0) {
       navigate("/");
     }
-  }, [cartItems]);
+  }, [cartItems, navigate]);
 
   const { email, address, city, postalCode, country, apartment } =
     shippingAddress;
@@ -51,15 +52,14 @@ const Shipping = () => {
     totalPriceBeforeShipping > 100
       ? 0
       : (totalPriceBeforeShipping * 0.1).toFixed(2);
-  let totalPrice =
-    Number(taxPrice) +
-    Number(totalPriceBeforeShipping) +
-    Number(shippingMethod.cost);
 
-  // get the order
   const { loading, order, error } = useSelector((state) => state.orderCreate);
   const submitHandler = () => {
-    if (shippingMethod && shippingMethod.cost) {
+    if (shippingMethod !== null) {
+      let totalPrice =
+        Number(taxPrice) +
+        Number(totalPriceBeforeShipping) +
+        Number(shippingMethod.cost);
       dispatch(
         createOrder({
           orderItems: cartItems,
@@ -77,6 +77,7 @@ const Shipping = () => {
       setAlert("Please select the shipping method");
     }
   };
+
   const updateShippingMethod = (method) => {
     setShippingMethod(method);
     dispatch(saveShippingMethod(method));
@@ -86,70 +87,52 @@ const Shipping = () => {
     if (order) {
       navigate("/checkouts/payment");
     }
+
     if (!userInfo) {
       navigate("/login");
     }
-  }, [order, userInfo]);
+  }, [order, userInfo, navigate]);
 
   return (
     <div className="py-4 px-4">
       <div className="block md:hidden">
         <OrderSummary />
       </div>
-      <div className="flex items-center text-lg  space-x-2 mb-10 mt-5">
-        <Link to="/cart/123">Cart</Link>
-        <BsChevronCompactRight />
-        <Link to="/checkouts">Information</Link>
-        <BsChevronCompactRight />
-        <Link
-          to="/checkouts/shipping"
-          className="text-green-500 font-sans font-medium"
-        >
-          Shipping
-        </Link>
-        <BsChevronCompactRight />
-        <Link to="/checkouts/payment">Payment</Link>
-      </div>
-      <div className="border  rounded-md  p-4 mr-3 mt-4 mb-10">
-        <div className="flex items-center justify-between  mb-2 border-b pb-3 ">
+      <CheckoutSteps currStep={3} />
+      <div className="shadow-sm py-3 mt-4">
+        <div className="flex items-center justify-between border-b pb-1">
           <h1 className="text-gray-600">Contact</h1>
           <p className="text-left mr-auto ml-10">{email}</p>
-          <Link
-            to="/checkouts"
-            className="text-green-400 hover:border-green-400 border-b border-transparent"
-          >
-            Change
-          </Link>
+          <IconButton LinkComponent={Link} to="/checkouts" size="small">
+            <EditIcon />
+          </IconButton>
         </div>
-        <div className="flex items-center justify-between  mb-2">
+        <div className="flex items-center justify-between pt-1">
           <h1 className="text-gray-600">Ship to </h1>
           <p className="text-left mr-auto ml-10 truncate">
             {`${address}, ${apartment}, ${postalCode}, ${city}, ${country}`}
           </p>
-          <Link
-            to="/checkouts"
-            className="text-green-400 hover:border-green-400 border-b border-transparent"
-          >
-            Change
-          </Link>
+
+          <IconButton LinkComponent={Link} to="/checkouts" size="small">
+            <EditIcon />
+          </IconButton>
         </div>
       </div>
-      <div className="py-4  mr-4 mb-10">
-        {alert && (
-          <div className="bg-blue-100 py-4 px-2 mb-4 rounded-md text-blue-700 font-semibold">
-            <p>{alert}</p>
-          </div>
-        )}
-        <h1 className="text-lg  text-gray-700 mb-2 px-2">Shipping method</h1>
+      <div className="py-4 mr-4 mb-10">
+        <h1 className="text-lg text-gray-700 mb-2">Shipping method</h1>
         {shippingMethods.map((method, idx) => (
           <div
             key={idx}
             onClick={() => updateShippingMethod(method)}
-            className="flex items-center justify-between cursor-pointer px-4"
+            className="flex items-center justify-between cursor-pointer px-2"
           >
             <Radio
               color="default"
-              checked={shippingMethod.name === method.name ? true : false}
+              checked={
+                shippingMethod !== null && shippingMethod.name === method.name
+                  ? true
+                  : false
+              }
             />
             <p className="mr-auto font-medium "> {method.name}</p>
             <p className="font-semibold ">${method.cost.toFixed(2)}</p>
@@ -157,24 +140,25 @@ const Shipping = () => {
         ))}
       </div>
       <div className="mr-4">
-        {loading ? (
-          " "
-        ) : (
-          <button
-            onClick={submitHandler}
-            to="/checkouts/payment"
-            className="block w-full bg-green-400 rounded-sm shadow-md  text-center  py-3 px-4  text-white font-semibold  hover:bg-green-300 transition-colors duration-300 focus:ring-1 focus:ring-green-500  mb-4 focus:outline-none "
-          >
-            Compelete Order & payment
-          </button>
-        )}
-        <Link
-          to="/checkouts"
-          className=" flex items-center justify-center w-full border rounded-sm shadow-md  text-center  py-3 px-4  text-green-500 font-semibold   focus:ring-1 focus:ring-green-500 mb-4 "
+        <Button
+          onClick={submitHandler}
+          disabled={shippingMethod === null || loading === true}
+          variant="dark"
+          fullWidth
+          sx={{ mb: "16px" }}
         >
-          <BsChevronCompactLeft />
-          Back to Information
-        </Link>
+          Compelete Order & payment
+        </Button>
+        <Button
+          variant="dark-outlined"
+          fullWidth
+          sx={{ "& input": { padding: "12px 20px" } }}
+          size="small"
+          LinkComponent={Link}
+          to="/checkouts"
+        >
+          Back to shpping information
+        </Button>
       </div>
     </div>
   );

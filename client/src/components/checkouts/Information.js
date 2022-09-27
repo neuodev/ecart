@@ -2,14 +2,17 @@ import React, { useEffect } from "react";
 import OrderSummary from "./OrderSummary";
 import ShippingForm from "./ShippingForm";
 import { useSelector } from "react-redux";
-const Information = ({ history }) => {
+import { useNavigate } from "react-router-dom";
+
+const Information = () => {
+  const navigate = useNavigate();
   const { cartItems } = useSelector((state) => state.cart);
   useEffect(() => {
-    // redirect if the cart is empty
+    // Redirect if the cart is empty
     if (cartItems.length === 0) {
-      history.push("/");
+      navigate("/");
     }
-  }, [cartItems]);
+  }, [cartItems, navigate]);
   return (
     <div className="container mx-auto">
       <div className="block md:hidden">
