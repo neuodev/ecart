@@ -25,13 +25,17 @@ import {
   USER_UPDATE_SUCCESS,
   USER_UPDATE_FAIL,
   USER_UPDATE_PROFILE_RESET,
+  USER_LOGIN_RESET,
 } from "../actions/actionTypes";
 
+let initState = {
+  loading: false,
+  error: null,
+  userInfo: null,
+};
 export const userLoginReducer = (
   state = {
-    loading: false,
-    error: null,
-    userInfo: null,
+    ...initState,
   },
   action
 ) => {
@@ -43,7 +47,13 @@ export const userLoginReducer = (
     case USER_LOGIN_FAIL:
       return { loading: false, error: action.payload };
     case USER_LOGOUT:
-      return {};
+      return { ...initState };
+    case USER_LOGIN_RESET:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+      };
     default:
       return state;
   }

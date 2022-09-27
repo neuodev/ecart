@@ -75,7 +75,8 @@ export const logout = () => (dispatch) => {
 };
 
 export const register =
-  (firstName, lastName, email, password) => async (dispatch) => {
+  ({ firstName, lastName, email, password }) =>
+  async (dispatch) => {
     try {
       dispatch({
         type: USER_REGISTER_REQUEST,
