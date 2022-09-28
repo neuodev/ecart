@@ -16,6 +16,24 @@ import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import { saveShippingAddress } from "../../actions/cart";
 import CheckoutSteps from "../common/CheckoutSteps";
+import {
+  atLeastOfLength,
+  isValidEmail,
+  isValidName,
+  isValidPostalCode,
+  notEmpty,
+} from "../../utils/validation";
+
+const validators = {
+  email: isValidEmail,
+  firstName: isValidName,
+  lastName: isValidName,
+  address: (val) => atLeastOfLength(val, 5),
+  city: (val) => atLeastOfLength(val, 3),
+  postalCode: isValidPostalCode,
+  country: notEmpty,
+  apartment: (val) => atLeastOfLength(val, 5),
+};
 
 const ShippingForm = () => {
   const dispatch = useDispatch();
@@ -33,24 +51,27 @@ const ShippingForm = () => {
       ? shippingAddress.country
       : countries[1].name,
     apartment: shippingAddress.apartment || "",
+    save: shippingAddress.save === true,
   });
 
-  const [save, setSave] = useState(shippingAddress.save);
-  const [openCountries, setOpenCountries] = useState(false);
-  // Todo: Remove these states
-  const [email, setEmail] = useState(shippingAddress.email || "");
-  const [firstName, setFirstName] = useState(shippingAddress.firstName);
-  const [lastName, setLastName] = useState(shippingAddress.lastName);
-  const [address, setAddress] = useState(shippingAddress.address);
-  const [city, setCity] = useState(shippingAddress.city);
-  const [postalCode, setPostalCode] = useState(shippingAddress.postalCode);
-  const [country, setCountry] = useState(
-    shippingAddress.country ? shippingAddress.country : countries[1].name
-  );
-  const [apartment, setApartment] = useState(shippingAddress.apartment);
-  const [alert, setAlert] = useState("");
+  const [errors, setErrors] = useState({
+    email: false,
+    firstName: false,
+    lastName: false,
+    address: false,
+    city: false,
+    postalCode: false,
+    apartment: false,
+    save: false,
+  });
 
   const stateHandler = (e) => {
+    let field = e.target.name;
+    let value = e.target.value;
+
+    let isValid = validators[field];
+    if (!isValid) throw new Error(`'${field}' has not validator`);
+    setErrors({ ...errors, [field]: !isValid(value) });
     setState({
       ...state,
       [e.target.name]: e.target.value,
@@ -58,40 +79,18 @@ const ShippingForm = () => {
   };
 
   const submitHandler = () => {
-    if (
-      email &&
-      firstName &&
-      lastName &&
-      address &&
-      city &&
-      postalCode &&
-      country &&
-      apartment
-    ) {
-      dispatch(
-        saveShippingAddress({
-          email,
-          firstName,
-          lastName,
-          address,
-          city,
-          postalCode,
-          country,
-          apartment,
-          save,
-        })
-      );
-      navigate("/checkouts/shipping");
-    } else {
-      setAlert("All fields are required");
+    dispatch(saveShippingAddress(state));
+    navigate("/checkouts/shipping");
+  };
+
+  const isCurrStateValid = () => {
+    for (let field in validators) {
+      let isValid = validators[field](state[field]);
+      if (!isValid) return false;
     }
-  };
 
-  const chooseCountry = (countery) => {
-    setCountry(countery);
-    setOpenCountries(false);
+    return true;
   };
-
   return (
     <div className="container mx-auto px-4">
       <div className="py-4">
@@ -99,19 +98,17 @@ const ShippingForm = () => {
       </div>
       <div>
         <div>
-          {alert && (
-            <div className="py-4 font-bold uppercase tracking-wider bg-red-200 text-red-800 rounded-md  text-center mb-4">
-              <h1>{alert}</h1>
-            </div>
-          )}
           <div>
             <h1 className="text-gray-700 text-2xl font-bold mb-5">
               Contact Information
             </h1>
-            <div className="flex-col flex">
+            <div className="flex-col flex items-start">
               <TextField
                 onChange={stateHandler}
                 value={state.email}
+                fullWidth
+                error={errors.email}
+                helperText={errors.email ? "Please enter a valid email" : " "}
                 label="Email"
                 name="email"
                 placeholder="Your email address"
@@ -119,11 +116,11 @@ const ShippingForm = () => {
               />
             </div>
           </div>
-          <div className="py-4">
+          <div className="pb-4">
             <h1 className="text-gray-700 text-2xl font-bold mb-5">
               Shipping address
             </h1>
-            <div className="md:flex items-center md:space-x-2 mb-5">
+            <div className="md:flex items-start md:space-x-2 mb-2">
               <TextField
                 onChange={stateHandler}
                 fullWidth
@@ -132,6 +129,10 @@ const ShippingForm = () => {
                 name="firstName"
                 placeholder="Your first name"
                 size="small"
+                error={errors.firstName}
+                helperText={
+                  errors.firstName ? "Name must be at least 3 characters" : " "
+                }
               />
               <TextField
                 onChange={stateHandler}
@@ -141,9 +142,13 @@ const ShippingForm = () => {
                 name="lastName"
                 placeholder="Your last name"
                 size="small"
+                error={errors.lastName}
+                helperText={
+                  errors.lastName ? "Name must be at least 3 characters" : " "
+                }
               />
             </div>
-            <div className="mb-5 flex-col flex w-full">
+            <div className="mb-2 flex-col flex w-full">
               <TextField
                 onChange={stateHandler}
                 value={state.address}
@@ -152,38 +157,22 @@ const ShippingForm = () => {
                 name="address"
                 placeholder="Enter your address"
                 size="small"
+                error={errors.address}
+                helperText={errors.address ? "Too short, pelase retype" : " "}
               />
-              {/* <label htmlFor="address" className="mb-1 font-medium text-sm  ">
-                Address
-              </label>
-              <input
-                name="address"
-                type="text"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-                className="border py-2 pl-4 focus:outline-none focus:ring-1 focus:ring-green-400 rounded-md w-full bg-gray-50 text-gray-700"
-              /> */}
             </div>
-            <div className="mb-5 flex-col flex w-full">
+            <div className="mb-2 flex-col flex w-full">
               <TextField
                 onChange={stateHandler}
-                value={state.address}
+                value={state.apartment}
                 fullWidth
                 label="Apartment, suite, etc"
                 name="apartment"
                 placeholder="Enter your apartment"
                 size="small"
+                error={errors.apartment}
+                helperText={errors.apartment ? "Too short, please retype" : " "}
               />
-              {/* <label htmlFor="apartment" className="mb-1 font-medium text-sm  ">
-                Apartment, suite, etc.
-              </label>
-              <input
-                name="apartment"
-                type="text"
-                value={apartment}
-                onChange={(e) => setApartment(e.target.value)}
-                className="border  py-2 pl-4 focus:outline-none focus:ring-1 focus:ring-green-400 rounded-md w-full bg-gray-50 text-gray-700"
-              /> */}
             </div>
             <div className="md:flex items-center md:space-x-2">
               <TextField
@@ -194,6 +183,8 @@ const ShippingForm = () => {
                 name="city"
                 placeholder="Enter your city"
                 size="small"
+                error={errors.city}
+                helperText={errors.city ? "Too short, please retype" : " "}
               />
 
               <TextField
@@ -204,10 +195,14 @@ const ShippingForm = () => {
                 name="postalCode"
                 placeholder="Enter your postal code"
                 size="small"
+                error={errors.postalCode}
+                helperText={
+                  errors.postalCode ? "Invalid postal code, please retype" : " "
+                }
               />
             </div>
           </div>
-          <div className="mb-5">
+          <div className="mb-2">
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">
                 Country/Region
@@ -221,11 +216,8 @@ const ShippingForm = () => {
                 label="Country/Region"
                 onChange={stateHandler}
               >
-                {/* <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem> */}
                 {countries.map((country) => (
-                  <MenuItem value={country.name} dense>
+                  <MenuItem key={country.name} value={country.name} dense>
                     {country.name} ({country.code})
                   </MenuItem>
                 ))}
@@ -235,8 +227,10 @@ const ShippingForm = () => {
         </div>
         <div className="-ml-3 mb-5 flex items-center  space-x-0">
           <Checkbox
-            checked={save ? true : false}
-            onChange={() => setSave(!save)}
+            checked={state.save}
+            value={state.save}
+            name="save"
+            onChange={() => setState({ ...state, save: !state.save })}
             color="default"
           />{" "}
           <span className="-ml-1 text-sm font-light">
@@ -246,6 +240,7 @@ const ShippingForm = () => {
 
         <Button
           onClick={submitHandler}
+          disabled={!isCurrStateValid()}
           variant="dark"
           fullWidth
           sx={{ mb: "16px" }}

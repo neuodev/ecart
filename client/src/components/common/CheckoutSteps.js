@@ -53,6 +53,7 @@ const CheckoutSteps = ({ currStep }) => {
           );
         return (
           <Tooltip
+            key={stepIdx}
             placement="bottom"
             arrow
             title={

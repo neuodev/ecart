@@ -54,28 +54,31 @@ const Shipping = () => {
       : (totalPriceBeforeShipping * 0.1).toFixed(2);
 
   const { loading, order, error } = useSelector((state) => state.orderCreate);
-  const submitHandler = () => {
-    if (shippingMethod !== null) {
-      let totalPrice =
-        Number(taxPrice) +
-        Number(totalPriceBeforeShipping) +
-        Number(shippingMethod.cost);
-      dispatch(
-        createOrder({
-          orderItems: cartItems,
-          shippingAddress: shippingAddress,
-          shippingMethod,
-          itemsPrice: Number(totalPriceBeforeShipping).toFixed(2),
-          shippingPrice: Number(shippingMethod.cost).toFixed(2),
-          taxPrice,
-          totalPrice,
-        })
-      );
 
-      dispatch({ type: ORDER_PAY_RESET });
-    } else {
-      setAlert("Please select the shipping method");
+  const submitHandler = () => {
+    if (!userInfo || !userInfo._id) {
+      navigate("/login");
+      return;
     }
+
+    let totalPrice =
+      Number(taxPrice) +
+      Number(totalPriceBeforeShipping) +
+      Number(shippingMethod.cost);
+
+    dispatch(
+      createOrder({
+        orderItems: cartItems,
+        shippingAddress: shippingAddress,
+        shippingMethod,
+        itemsPrice: Number(totalPriceBeforeShipping).toFixed(2),
+        shippingPrice: Number(shippingMethod.cost).toFixed(2),
+        taxPrice,
+        totalPrice,
+      })
+    );
+
+    dispatch({ type: ORDER_PAY_RESET });
   };
 
   const updateShippingMethod = (method) => {
@@ -88,9 +91,9 @@ const Shipping = () => {
       navigate("/checkouts/payment");
     }
 
-    if (!userInfo) {
-      navigate("/login");
-    }
+    // if (!userInfo) {
+    //   navigate("/login");
+    // }
   }, [order, userInfo, navigate]);
 
   return (
@@ -99,7 +102,7 @@ const Shipping = () => {
         <OrderSummary />
       </div>
       <CheckoutSteps currStep={3} />
-      <div className="shadow-sm py-3 mt-4">
+      <div className="py-3 mt-4">
         <div className="flex items-center justify-between border-b pb-1">
           <h1 className="text-gray-600">Contact</h1>
           <p className="text-left mr-auto ml-10">{email}</p>
@@ -147,7 +150,9 @@ const Shipping = () => {
           fullWidth
           sx={{ mb: "16px" }}
         >
-          Compelete Order & payment
+          {!userInfo || !userInfo._id
+            ? "Login first"
+            : "Compelete Order & payment"}
         </Button>
         <Button
           variant="dark-outlined"
