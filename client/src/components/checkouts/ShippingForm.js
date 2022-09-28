@@ -40,8 +40,10 @@ const ShippingForm = () => {
   const navigate = useNavigate();
 
   const { shippingAddress } = useSelector((state) => state.cart);
+  const { userInfo } = useSelector((state) => state.userLogin);
+
   const [state, setState] = useState({
-    email: shippingAddress.email || "",
+    email: shippingAddress.email || (userInfo && userInfo.email) || "",
     firstName: shippingAddress.firstName || "",
     lastName: shippingAddress.lastName || "",
     address: shippingAddress.address || "",

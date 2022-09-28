@@ -1,4 +1,11 @@
-import { Button, IconButton, Radio } from "@mui/material";
+import {
+  Alert,
+  AlertTitle,
+  Button,
+  IconButton,
+  Radio,
+  Typography,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -10,6 +17,7 @@ import { ORDER_PAY_RESET } from "../../actions/actionTypes";
 import { useNavigate } from "react-router-dom";
 import CheckoutSteps from "../common/CheckoutSteps";
 import EditIcon from "@mui/icons-material/Edit";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const shippingMethods = [
   {
@@ -90,10 +98,6 @@ const Shipping = () => {
     if (order) {
       navigate("/checkouts/payment");
     }
-
-    // if (!userInfo) {
-    //   navigate("/login");
-    // }
   }, [order, userInfo, navigate]);
 
   return (
@@ -150,9 +154,13 @@ const Shipping = () => {
           fullWidth
           sx={{ mb: "16px" }}
         >
-          {!userInfo || !userInfo._id
-            ? "Login first"
-            : "Compelete Order & payment"}
+          {loading ? (
+            <CircularProgress size={20} sx={{ color: "#ffffff" }} />
+          ) : !userInfo || !userInfo._id ? (
+            "Login first"
+          ) : (
+            "Compelete Order & payment"
+          )}
         </Button>
         <Button
           variant="dark-outlined"
@@ -164,6 +172,14 @@ const Shipping = () => {
         >
           Back to shpping information
         </Button>
+      </div>
+      <div className="mr-4 mt-4">
+        {error && (
+          <Alert color="error">
+            <AlertTitle>Error</AlertTitle>
+            <Typography>{error}</Typography>
+          </Alert>
+        )}
       </div>
     </div>
   );

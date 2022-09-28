@@ -1,16 +1,24 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { listMyOrders } from "../../actions/order";
 import { Link } from "react-router-dom";
 import Alert from "../../utils/Alert";
 import Loader from "../../utils/Loader";
 import OrderItem from "./OrderItem";
+import Modal from "../common/Modal";
+import { Typography } from "@mui/material";
+import PayPal from "../common/PayPal";
+
 const Orders = () => {
   const { loading, error, orders } = useSelector((state) => state.myOrderList);
+  const { success } = useSelector((state) => state.orderPay);
+  const [order, setOrder] = useState(null);
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(listMyOrders());
-  }, []);
+  }, [success]);
+
   return (
     <div>
       <h1 className="py-4 px-5 mb-6 bg-gray-100 rounded-md mt-4 text-lg text-gray-700 font-medium shadow-lg">
@@ -39,9 +47,25 @@ const Orders = () => {
       ) : (
         <div className="grid gap-4 grid-cols-12 mb-32">
           {orders.map((order, idx) => (
-            <OrderItem order={order} idx={idx} key={idx} />
+            <OrderItem order={order} idx={idx} key={idx} payOrder={setOrder} />
           ))}
         </div>
+      )}
+
+      {order !== null && (
+        <Modal open onClose={() => setOrder(null)}>
+          <div className="min-w-500">
+            <Typography variant="h4" textAlign="center">
+              Pay your order
+            </Typography>
+          </div>
+
+          <PayPal
+            orderId={order._id}
+            totalPrice={order.totalPrice}
+            resetOrder={() => setOrder(null)}
+          />
+        </Modal>
       )}
     </div>
   );

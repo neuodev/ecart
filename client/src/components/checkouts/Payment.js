@@ -4,13 +4,32 @@ import { useSelector, useDispatch } from "react-redux";
 import { PayPalButton } from "react-paypal-button-v2";
 import axios from "axios";
 import { payOrder } from "../../actions/order";
-import LoadSdk from "../../utils/LoadSdk";
+import LoadSdk from "../utils/LoadSdk";
 import OrderSummary from "./OrderSummary";
-import Loader from "../../utils/Loader";
-import Alert from "../../utils/Alert";
 import CheckoutSteps from "../common/CheckoutSteps";
 import EditIcon from "@mui/icons-material/Edit";
-import { IconButton } from "@mui/material";
+import {
+  Alert,
+  AlertTitle,
+  Button,
+  CircularProgress,
+  IconButton,
+  Tooltip,
+  Typography,
+} from "@mui/material";
+import Modal from "../common/Modal";
+import { ORDER_CREATE_RESET, ORDER_PAY_RESET } from "../../actions/actionTypes";
+
+const BUYER_ACCOUNTS = [
+  {
+    email: "sb-senam5133887@personal.example.com",
+    password: "IZ)&dJ8e",
+  },
+  {
+    email: "sb-cjvpf4639472@business.example.com",
+    password: "6}Zb&ks7",
+  },
+];
 
 const Payment = () => {
   const dispatch = useDispatch();
@@ -64,11 +83,17 @@ const Payment = () => {
     dispatch(payOrder(order._id, paymentResult));
   };
 
+  //Todo: Double check this
   useEffect(() => {
     if (success) {
       setSdkReady(false);
     }
   }, [success]);
+
+  let resetPayment = () => {
+    dispatch({ type: ORDER_PAY_RESET });
+    dispatch({ type: ORDER_CREATE_RESET });
+  };
 
   return (
     <div>
@@ -113,36 +138,95 @@ const Payment = () => {
       </div>
       {loading ? (
         <div className="flex items-center justify-center mb-3">
-          <Loader />
-        </div>
-      ) : error ? (
-        <div className="px-3">
-          <Alert message={error} type="error" />
+          <CircularProgress />
         </div>
       ) : (
-        success && (
+        error && (
           <div className="px-3">
-            <Alert message="PAYMENT COMPELETED" type="success">
-              <Link to="/account/orders">
-                <p className="px-3 py-2 text-green-800 font-medium uppercase tracking-wider  text-sm bg-green-300 inline-block rounded-full  mt-3  ">
-                  Visit The Order
-                </p>
-              </Link>
+            <Alert color="error">
+              <AlertTitle>Error</AlertTitle>
+              <Typography>
+                {error || "Unexpected error, please retry"}
+              </Typography>
             </Alert>
           </div>
         )
       )}
-      <div className=" py-5  mx-3 mt-4 mb-10">
-        {sdkReady || !success ? (
-          <PayPalButton
-            amount={order && Number(order.totalPrice).toFixed(2)}
-            onSuccess={successPaymentHandler}
-            currency="USD"
-          />
-        ) : (
-          !success && <LoadSdk />
-        )}
+      <div className="py-5 mx-3 mt-4 mb-10">
+        <Tooltip
+          placement="top"
+          arrow
+          title={
+            <div>
+              <Typography mb="16px">
+                For testing purposes you can use one of these buyers accounts
+              </Typography>
+              <ul>
+                {BUYER_ACCOUNTS.map((acc) => (
+                  <li className="mb-2" key={acc.password}>
+                    <p>
+                      <span>Email: </span>
+                      <span>{acc.email}</span>
+                    </p>
+                    <p>
+                      <span>Password: </span>
+                      <span>{acc.password}</span>
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          }
+        >
+          <div>
+            {sdkReady || !success ? (
+              <PayPalButton
+                amount={order && Number(order.totalPrice).toFixed(2)}
+                onSuccess={successPaymentHandler}
+                currency="USD"
+              />
+            ) : (
+              !success && <LoadSdk />
+            )}
+          </div>
+        </Tooltip>
       </div>
+      <Modal
+        open={success}
+        onClose={() => {
+          resetPayment();
+          navigate("/");
+        }}
+      >
+        <div>
+          <img src="/images/shopping.gif" alt="Order completed" title="Order" />
+          <Typography fontFamily="Rubik" variant="h6" textAlign="center">
+            You made it. Your order will reach you soon!
+          </Typography>
+
+          <div className="grid grid-cols-2 gap-5 mt-5">
+            <Button
+              onClick={() => {
+                resetPayment();
+                navigate("/");
+              }}
+              variant="outlined"
+              color="error"
+            >
+              Close
+            </Button>
+            <Button
+              onClick={() => {
+                resetPayment();
+                navigate("/account/");
+              }}
+              variant="dark"
+            >
+              Track your order
+            </Button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };

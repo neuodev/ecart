@@ -1,9 +1,9 @@
-import { Tooltip, Typography } from "@mui/material";
+import { Button, Tooltip, Typography } from "@mui/material";
 import React from "react";
 import Item from "./Order";
 import moment from "moment";
 
-const OrderItem = ({ order, idx }) => {
+const OrderItem = ({ order, idx, payOrder }) => {
   const {
     totalPrice,
     isPaid,
@@ -18,7 +18,7 @@ const OrderItem = ({ order, idx }) => {
   } = order;
 
   return (
-    <div className=" bg-gray-100 shadow-lg  mb-4 border rounded-lg col-span-12 md:col-span-6 lg:col-span-4">
+    <div className="bg-gray-100 shadow-lg  mb-4 border rounded-lg overflow-hidden col-span-12 md:col-span-6 lg:col-span-4">
       <div className="bg-gray-200 w-full py-4 px-4 rounded-t-md">
         <Tooltip
           arrow
@@ -78,6 +78,11 @@ const OrderItem = ({ order, idx }) => {
           ))}
         </div>
       </div>
+      {!isPaid && (
+        <Button fullWidth variant="dark" onClick={() => payOrder(order)}>
+          Pay now
+        </Button>
+      )}
     </div>
   );
 };

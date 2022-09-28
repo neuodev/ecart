@@ -21,9 +21,21 @@ import {
   ORDER_DELIVER_REQUEST,
   ORDER_DELIVER_RESET,
   ORDER_CREATE_RESET,
-} from '../actions/actionTypes';
+} from "../actions/actionTypes";
 
-export const orderCreateReducer = (state = {}, action) => {
+const orderInitState = {
+  loading: false,
+  success: false,
+  order: null,
+  error: null,
+};
+
+export const orderCreateReducer = (
+  state = {
+    ...orderInitState,
+  },
+  action
+) => {
   switch (action.type) {
     case ORDER_CREATE_REQUEST:
       return {
@@ -41,7 +53,9 @@ export const orderCreateReducer = (state = {}, action) => {
         error: action.payload,
       };
     case ORDER_CREATE_RESET:
-      return {};
+      return {
+        ...orderInitState,
+      };
     default:
       return state;
   }
@@ -72,7 +86,12 @@ export const orderDetailsReducer = (
   }
 };
 
-export const orderPayReducer = (state = {}, action) => {
+let initState = {
+  loading: false,
+  error: null,
+  success: false,
+};
+export const orderPayReducer = (state = { ...initState }, action) => {
   switch (action.type) {
     case ORDER_PAY_REQUEST:
       return {
@@ -89,7 +108,7 @@ export const orderPayReducer = (state = {}, action) => {
         error: action.payload,
       };
     case ORDER_PAY_RESET:
-      return {};
+      return { ...initState };
     default:
       return state;
   }
