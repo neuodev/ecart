@@ -4,9 +4,9 @@
   "description": "fully functional e-commerce website",
   "main": "server.js",
   "scripts": {
-    "start": "cd dist/ && node server.js",
+    "start": "npm run build && cd dist/ && node server.js",
     "client": "npm start  --prefix client",
-    "dev:server": "ts-node-dev --respawn src/server.ts",
+    "server": "ts-node-dev --respawn src/server.ts",
     "dev": "concurrently -n server,client \" npm run server \" \" npm run client\" ",
     "build": "tsc --pretty"
   },
