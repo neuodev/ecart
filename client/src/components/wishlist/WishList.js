@@ -2,16 +2,17 @@ import { useSelector, useDispatch } from "react-redux";
 import React, { useState } from "react";
 import WishListItem from "./WishListItem";
 import { clearWishlist } from "../../actions/whishlist";
-import { Button } from "@mui/material";
+import { Badge, Button, IconButton } from "@mui/material";
 import Modal from "../common/Modal";
 import EmptyWishlist from "./EmptyWishlist";
+import { FavoriteBorder } from "@mui/icons-material";
 
 const WishList = ({ children, history }) => {
   const dispatch = useDispatch();
   const wishlist = useSelector((state) => state.wishlist);
   const [open, setOpen] = useState(false);
 
-  const handleOpen = () => {
+  const onOpen = () => {
     setOpen(true);
   };
 
@@ -24,22 +25,12 @@ const WishList = ({ children, history }) => {
   };
 
   return (
-    <div className="">
-      <div className="relative">
-        {wishlist.length > 0 && (
-          <span className="absolute -top-1.5 -right-1 px-2  bg-red-300 text-red-800 font-medium text-xs rounded-full  z-0">
-            {wishlist.length}
-          </span>
-        )}
-        <button
-          id="open-modal"
-          type="button"
-          className="focus:outline-none"
-          onClick={handleOpen}
-        >
-          {children}
-        </button>
-      </div>
+    <div>
+      <IconButton onClick={onOpen}>
+        <Badge badgeContent={wishlist.length} color="primary">
+          <FavoriteBorder />
+        </Badge>
+      </IconButton>
       <Modal minWidth={400} width={700} open={open} onClose={onClose}>
         <div>
           {wishlist.length === 0 ? (

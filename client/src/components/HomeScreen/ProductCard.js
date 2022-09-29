@@ -3,8 +3,8 @@ import {
   ShoppingCartOutlined,
   Favorite,
 } from "@mui/icons-material";
-import { Link } from "react-router-dom";
-import { Rating } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
+import { IconButton, Rating } from "@mui/material";
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,8 +23,9 @@ const StyledDiv = styled.div`
   }
 `;
 
-const ProductCard = ({ product, screen, history }) => {
+const ProductCard = ({ product, screen }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [moveImgUp, setMoveImgUp] = useState(false);
   const wishlist = useSelector((state) => state.wishlist);
   const { price, images, rating, name, category, _id } = product;
@@ -45,7 +46,7 @@ const ProductCard = ({ product, screen, history }) => {
   };
 
   const addToCard = () => {
-    history.push(`/cart/${_id}?qty=1`);
+    navigate(`/cart/${_id}?qty=1`);
   };
 
   return (
@@ -58,9 +59,6 @@ const ProductCard = ({ product, screen, history }) => {
           className={`relative h-4/5 ${
             moveImgUp ? "moveUp" : "moveDown"
           }  transform translate-x-0 transition-all duration-300 border-b rounded-t-xl`}
-          // style={{
-          //   background: `url(${images && images[0]}) center center/cover`,
-          // }}
         >
           <img
             className="h-full inline-block object-contain p-3"
@@ -69,23 +67,10 @@ const ProductCard = ({ product, screen, history }) => {
           />
         </div>
       </Link>
-      <div className=" text-center flex items-center justify-center py-3 space-x-3 -mt-12 absolute top-10 left-3 ">
-        <button
-          onClick={addToWishlistHandler}
-          className="border rounded-md  text-gray-700  px-3 py-1  mt-1 focus:outline-none focus:ring-1 focus:ring-green-500 focus:text-green-500 shadow-md w-14 "
-        >
-          {existInWishlist ? (
-            <Favorite className="text-green-400" />
-          ) : (
-            <FavoriteBorderOutlined />
-          )}
-        </button>
-        <button
-          onClick={addToCard}
-          className="border rounded-md  text-gray-700  px-2 py-1 mt-1 focus:outline-none focus:ring-1 focus:ring-green-500 focus:text-green-500 shadow-md w-14 bg-gray-100"
-        >
-          <ShoppingCartOutlined />
-        </button>
+      <div className="text-center flex items-center justify-center py-3 space-x-3 -mt-12 absolute top-10 left-3 ">
+        <IconButton onClick={addToWishlistHandler}>
+          {existInWishlist ? <Favorite /> : <FavoriteBorderOutlined />}
+        </IconButton>
       </div>
       <div className="text-gray-700 flex-col relative z-10 flex  justify-between px-4  mb-4 ">
         <p className="text-xs uppercase text-gray-500 font-light mt-3 ">

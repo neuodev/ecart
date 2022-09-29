@@ -1,34 +1,39 @@
 import { Close } from "@mui/icons-material";
+import { IconButton, Rating } from "@mui/material";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { removeFromCart } from "../../actions/cart";
+import { currFormat } from "../../utils/currency";
 
 const CartItem = ({ cartItem }) => {
-  const { name, qty, price, discount, image, product } = cartItem;
-  const priceAfterDiscount = price - price * (discount / 100);
   const dispatch = useDispatch();
+  const { name, qty, price, discount, image, product, rating } = cartItem;
+  const priceAfterDiscount = price - price * (discount / 100);
 
-  const deleteCartItem = (id) => {
-    dispatch(removeFromCart(id));
+  const deleteCartItem = () => {
+    dispatch(removeFromCart(product));
   };
 
   return (
-    <div className="flex items-center justify-between my-3 mx-3 menu-item">
-      <div>
-        <h1 className="font-sans font-medium mr-1 ">{name} </h1>
+    <div className="flex items-center my-3">
+      <div className="h-24 w-24 overflow-hidden rounded-md flex-none flex items-center justify-center border p-2">
+        <img
+          className="object-contain inline-block w-full h-full"
+          src={image}
+          alt={name}
+        />
+      </div>
+      <div className="flex items-start justify-center flex-col w-full ml-4">
+        <h1 className="font-sans font-medium mb-1">{name} </h1>
+        <Rating value={rating} readOnly size="small" className="mb-1" />
         <p className="text-gray-600 font-light">
-          {qty} x ${priceAfterDiscount.toFixed(2)}
+          {qty} x {currFormat(priceAfterDiscount)}
         </p>
       </div>
-      <div className=" h-28 w-28 overflow-hidden rounded-md relative flex-none">
-        <img className="h-28 w-28 object-cover" src={image} alt={name} />
-        <button
-          className="absolute top-0.5 right-0.5 border rounded-full text-xs cursor-pointer focus:outline-none"
-          onClick={() => deleteCartItem(product)}
-        >
-          <Close />
-        </button>
-      </div>
+
+      <IconButton onClick={deleteCartItem} className="w-10 h-10">
+        <Close />
+      </IconButton>
     </div>
   );
 };

@@ -6,6 +6,7 @@ import Cart from "../Cart/Cart";
 import { Link } from "react-router-dom";
 import WishList from "../wishlist/WishList";
 import Search from "./Search";
+import { IconButton } from "@mui/material";
 
 const MainNavbar = () => {
   return (
@@ -26,19 +27,12 @@ const MainNavbar = () => {
           <Search />
         </div>
 
-        <div className="flex items-center justify-between space-x-3 text-gray-700">
-          <Link to="/account">
-            <BiUser
-              style={{ fontSize: "30px" }}
-              className="hover:text-gray-500"
-            />
-          </Link>
-          <WishList>
-            <FavoriteBorder
-              style={{ fontSize: "28px" }}
-              className="hover:text-gray-500 focus:outline-none"
-            />
-          </WishList>
+        <div className="flex items-center justify-between text-gray-700">
+          <IconButton LinkComponent={Link} to="/account">
+            <BiUser />
+          </IconButton>
+
+          <WishList />
           <Cart />
         </div>
       </div>
