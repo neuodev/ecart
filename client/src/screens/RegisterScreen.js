@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import "./style.css";
 import { register } from "../actions/user";
-import Alert from "../utils/Alert";
 import MainNavbar from "../components/HomeScreen/MainNavbar";
-import { Button } from "@mui/material";
-import { isValidEmail, isValidName, isValidPass } from "../utils/validation";
+import { Button, CircularProgress, Alert, AlertTitle } from "@mui/material";
+import {
+  EMAIL_ERR,
+  isValidEmail,
+  isValidName,
+  isValidPass,
+  PASSWORD_ERR,
+} from "../utils/validation";
 import Input from "../components/common/Input";
 
 const validators = {
@@ -19,6 +23,7 @@ const validators = {
 const RegsiterScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const [state, setState] = useState({
     firstName: "",
     lastName: "",
@@ -33,7 +38,6 @@ const RegsiterScreen = () => {
     password: false,
   });
 
-  const [alert, setAlert] = useState("");
   const { loading, error, userInfo } = useSelector(
     (state) => state.userRegister
   );
@@ -53,12 +57,16 @@ const RegsiterScreen = () => {
     dispatch(register(state));
   };
 
-  useEffect(() => {
-    if (error) {
-      setAlert(error);
-    } else {
-      setAlert("");
+  const isCurrStateValid = () => {
+    for (let field in validators) {
+      let isValid = validators[field](state[field]);
+      if (!isValid) return false;
     }
+
+    return true;
+  };
+
+  useEffect(() => {
     if (userInfo) {
       navigate("/");
     }
@@ -66,30 +74,25 @@ const RegsiterScreen = () => {
 
   return (
     <>
-      <div className="">
-        <MainNavbar />
-      </div>
+      <MainNavbar />
       <div className="w-full py-2 max-w-md container mx-auto my-10">
-        <div className="w-full px-4" style={{ minHeight: "70vh" }}>
-          {loading ? (
-            <div className="flex items-center justify-center">
-              <p className="w-10 h-10 bg-blue-400 animate-ping text-center  rounded-full"></p>
-            </div>
-          ) : (
-            alert && (
-              <div className="mb-2 px-2">
-                <Alert message={alert} type="error" />
-              </div>
-            )
-          )}
+        <div className="w-full px-4 min-h-700">
           <div className="px-2">
             <h1 className="font-medium text-3xl text-center my-6">Register</h1>
+            {error && (
+              <div className="mb-6">
+                <Alert color="error">
+                  <AlertTitle>Error</AlertTitle>
+                  {error}
+                </Alert>
+              </div>
+            )}
             <form onSubmit={submitHandler}>
-              <div className="mb-1">
+              <div className="mb-4">
                 <Input
                   error={
                     errors.firstName &&
-                    "first name must be at least 3 caracters"
+                    "First name must be at least 3 caracters"
                   }
                   value={state.firstName}
                   name="firstName"
@@ -98,7 +101,7 @@ const RegsiterScreen = () => {
                   placeholder="Jone"
                 />
               </div>
-              <div className="mb-1">
+              <div className="mb-4">
                 <Input
                   error={
                     errors.lastName && "Last name must be at least 3 caracters"
@@ -110,9 +113,9 @@ const RegsiterScreen = () => {
                   placeholder="Doe"
                 />
               </div>
-              <div className="mb-1">
+              <div className="mb-4">
                 <Input
-                  error={errors.email && "Invalid email"}
+                  error={errors.email && EMAIL_ERR}
                   value={state.email}
                   name="email"
                   label="Email"
@@ -120,12 +123,9 @@ const RegsiterScreen = () => {
                   placeholder="jone@wallet.io"
                 />
               </div>
-              <div className="mb-1">
+              <div className="mb-4">
                 <Input
-                  error={
-                    errors.password &&
-                    "Password must be 8 characters with numbers and alphabet"
-                  }
+                  error={errors.password && PASSWORD_ERR}
                   value={state.password}
                   name="password"
                   label="Password"
@@ -133,8 +133,17 @@ const RegsiterScreen = () => {
                   placeholder="jone#!123"
                 />
               </div>
-              <Button type="submit" variant="dark" fullWidth>
-                create an account
+              <Button
+                disabled={!isCurrStateValid() || loading}
+                type="submit"
+                variant="dark"
+                fullWidth
+              >
+                {loading ? (
+                  <CircularProgress size={20} sx={{ color: "#ffffff" }} />
+                ) : (
+                  "Create an account"
+                )}
               </Button>
               <Button
                 LinkComponent={Link}

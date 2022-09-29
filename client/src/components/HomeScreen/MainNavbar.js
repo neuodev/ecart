@@ -12,7 +12,9 @@ const MainNavbar = () => {
   return (
     <div className="bg-gray-50">
       <div className="flex items-center justify-between px-5 container mx-auto">
-        <Sidebar />
+        <div className="-ml-2">
+          <Sidebar />
+        </div>
         <div className="mr-auto flex items-center space-x-1 py-5 ml-2">
           <Link
             to="/"
@@ -24,7 +26,7 @@ const MainNavbar = () => {
         <div className="hidden md:block mr-auto">
           <Search />
         </div>
-        <div className="flex items-center justify-between text-gray-700">
+        <div className="flex items-center justify-between text-gray-700 -mr-2">
           <IconButton LinkComponent={Link} to="/account">
             <BiUser />
           </IconButton>

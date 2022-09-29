@@ -16,7 +16,7 @@ import {
   AiOutlineInbox,
   AiOutlineQuestionCircle,
 } from "react-icons/ai";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FiUsers, FiHeadphones } from "react-icons/fi";
 import { BiCartAlt } from "react-icons/bi";
 import { useDispatch } from "react-redux";
@@ -86,11 +86,8 @@ const Sidebar = () => {
 
   return (
     <div>
-      <IconButton className="mr-2">
-        <FaBars
-          className="text-lg text-gray-500"
-          onClick={() => setOpen(!open)}
-        />
+      <IconButton onClick={() => setOpen(true)} className="mr-2">
+        <FaBars className="text-lg text-gray-500" />
       </IconButton>
       <SwipeableDrawer
         onOpen={() => {}}

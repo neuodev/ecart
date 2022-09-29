@@ -17,3 +17,9 @@ export const notEmpty = (val) => val && val.trim().length !== 0;
 export const isValidPostalCode = (code) => rePostCode.test(code);
 export const atLeastOfLength = (val, len) =>
   val && typeof val === "string" && val.length >= len;
+
+// Common error messages for consistency
+export const PASSWORD_ERR = "At least 8 characters with numbers and alphabet";
+export const EMAIL_ERR = "Invalid email, please retype";
+export const FIRST_NAME_ERR = "First name must be at least 3 caracters";
+export const LAST_NAME_ERR = "Last name must be at least 3 caracters";
