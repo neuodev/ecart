@@ -1,7 +1,6 @@
 import React from "react";
 import { BiUser } from "react-icons/bi";
 import Sidebar from "./Sidebar";
-import { FavoriteBorder } from "@mui/icons-material";
 import Cart from "../Cart/Cart";
 import { Link } from "react-router-dom";
 import WishList from "../wishlist/WishList";
@@ -12,7 +11,7 @@ const MainNavbar = () => {
   return (
     <div className="bg-gray-50">
       <div className="flex items-center justify-between px-5 container mx-auto">
-        <div className="-ml-2">
+        <div className="-ml-2.5">
           <Sidebar />
         </div>
         <div className="mr-auto flex items-center space-x-1 py-5 ml-2">

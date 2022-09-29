@@ -26,12 +26,9 @@ const CartScreen = () => {
 
   return (
     <>
-      <div className="bg-gray-50">
-        <div className="mx-auto max-w-screen-xl">
-          <MainNavbar />
-          <div className="mx-5">
-            <CheckoutSteps currStep={1} />
-          </div>
+      <div className="bg-gray-50 w-full">
+        <div className="mx-auto mb-5 px-4 imax-w-screen-xl lg:max-w-5xl xl:max-w-screen-2xl">
+          <CheckoutSteps currStep={1} />
         </div>
       </div>
       <div className="max-w-screen-xl mx-auto px-4 py-12 min-h-700">

@@ -21,34 +21,29 @@ const ProductScreen = () => {
   }, [dispatch, productId, createReview.success, deleteReview.success]);
 
   return (
-    <>
-      <div>
-        <MainNavbar />
-      </div>
-      <div className="py-5 container mx-auto">
-        {loading ? (
-          <ProductScreenSkeleton />
-        ) : error ? (
-          <div>
-            <ErrorScreen />
-          </div>
-        ) : (
-          product && (
-            <div className="grid grid-cols-12 mb-20">
-              <div className="col-span-12 md:col-span-5 lg:col-span-5 xl:col-span-4">
-                <ImageGallary images={product.images} name={product.name} />
-              </div>
-              <div className="col-span-12 md:col-span-7 lg:col-span-7 xl:col-span-8 mb-20">
-                <ProductDetails product={product} />
-              </div>
-              <div className="col-span-12">
-                <MoreInfo product={product} />
-              </div>
+    <div className="py-5 container mx-auto">
+      {loading ? (
+        <ProductScreenSkeleton />
+      ) : error ? (
+        <div>
+          <ErrorScreen />
+        </div>
+      ) : (
+        product && (
+          <div className="grid grid-cols-12 mb-20">
+            <div className="col-span-12 md:col-span-5 lg:col-span-5 xl:col-span-4">
+              <ImageGallary images={product.images} name={product.name} />
             </div>
-          )
-        )}
-      </div>
-    </>
+            <div className="col-span-12 md:col-span-7 lg:col-span-7 xl:col-span-8 mb-20">
+              <ProductDetails product={product} />
+            </div>
+            <div className="col-span-12">
+              <MoreInfo product={product} />
+            </div>
+          </div>
+        )
+      )}
+    </div>
   );
 };
 

@@ -30,23 +30,20 @@ const AccountScreen = () => {
   const [activeRoute, setActiveRoute] = useState("/account/orders");
 
   return (
-    <>
-      <MainNavbar />
-      <div className="container mx-auto px-4">
-        <div className=""></div>
-        <div className="flex items-center space-x-2 mb-2 mt-5 text-sm">
-          <Link to="/">Home</Link>
-          <BsChevronCompactRight />
-          <Link to="/account" className="text-green-400">
-            Account
-          </Link>
-        </div>
-
-        <div>
-          <Outlet />
-        </div>
+    <div className="container mx-auto px-4">
+      <div className=""></div>
+      <div className="flex items-center space-x-2 mb-2 mt-5 text-sm pl-0.5">
+        <Link to="/">Home</Link>
+        <BsChevronCompactRight />
+        <Link to="/account" className="text-green-400">
+          Account
+        </Link>
       </div>
-    </>
+
+      <div>
+        <Outlet />
+      </div>
+    </div>
   );
 };
 

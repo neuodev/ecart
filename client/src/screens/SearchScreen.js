@@ -90,9 +90,6 @@ const SearchScreen = () => {
 
   return (
     <div className="mb-10">
-      <div className="mb-2">
-        <MainNavbar />
-      </div>
       <StyledDiv className="mt-5 container mx-auto px-4">
         <Header />
         <div className="flex items-start flex-row">
