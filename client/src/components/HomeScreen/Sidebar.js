@@ -1,5 +1,12 @@
-import { SwipeableDrawer } from "@mui/material";
-import { makeStyles } from "@mui/styles";
+import {
+  IconButton,
+  ListItemIcon,
+  ListItemText,
+  Menu,
+  MenuItem,
+  MenuList,
+  SwipeableDrawer,
+} from "@mui/material";
 import React, { useState } from "react";
 import { FaBars } from "react-icons/fa";
 import {
@@ -9,91 +16,130 @@ import {
   AiOutlineInbox,
   AiOutlineQuestionCircle,
 } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FiUsers, FiHeadphones } from "react-icons/fi";
 import { BiCartAlt } from "react-icons/bi";
-import SearchSmallScreen from "./SearchSmallScreen";
+import { useDispatch } from "react-redux";
+import { RESET_FILTERS } from "../../actions/actionTypes";
+import { Search } from "@mui/icons-material";
 
-const useStyle = makeStyles(() => ({
-  list: {
-    width: 250,
+const list = [
+  {
+    title: "Home",
+    icon: <AiOutlineHome />,
+    link: "/",
   },
-}));
+  {
+    title: "Products",
+    icon: <AiOutlineInbox />,
+    link: "/products",
+  },
 
+  {
+    title: "Contact Us ",
+    icon: <FiHeadphones />,
+    link: "/",
+  },
+  {
+    title: "My Account ",
+    icon: <AiOutlineUser />,
+    link: "/account",
+  },
+  {
+    title: " Check Out",
+    icon: <AiOutlineCreditCard />,
+    link: "/checkouts",
+  },
+  {
+    title: "Shopping Cart ",
+    icon: <BiCartAlt />,
+    link: "/cart/123",
+  },
+  {
+    title: "About Us ",
+    icon: <FiUsers />,
+    link: "/",
+  },
+  {
+    title: "FAQs ",
+    icon: <AiOutlineQuestionCircle />,
+    link: "/",
+  },
+];
 const Sidebar = () => {
-  const classes = useStyle();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
-  const toggleDrawer = (event) => {};
+  const [search, setSearch] = useState("");
 
-  const list = [
-    {
-      title: "Home",
-      icon: <AiOutlineHome />,
-      link: "/",
-    },
-    {
-      title: "Products",
-      icon: <AiOutlineInbox />,
-      link: "/products",
-    },
+  const onSearch = (e) => {
+    e.preventDefault();
+    navigate(`/products?q=${search}`);
+    dispatch({ type: RESET_FILTERS });
+    setOpen(false);
+    setSearch("");
+  };
 
-    {
-      title: "Contact Us ",
-      icon: <FiHeadphones />,
-      link: "/",
-    },
-    {
-      title: "My Account ",
-      icon: <AiOutlineUser />,
-      link: "/account",
-    },
-    {
-      title: " Check Out",
-      icon: <AiOutlineCreditCard />,
-      link: "/checkouts",
-    },
-    {
-      title: "Shopping Cart ",
-      icon: <BiCartAlt />,
-      link: "/cart/123",
-    },
-    {
-      title: "About Us ",
-      icon: <FiUsers />,
-      link: "/",
-    },
-    {
-      title: "FAQs ",
-      icon: <AiOutlineQuestionCircle />,
-      link: "/",
-    },
-  ];
+  const toggleDrawer = () => {
+    setOpen(!open);
+  };
 
   return (
     <div>
-      <FaBars
-        className="mr-2 text-lg text-gray-500"
-        onClick={(e) => setOpen(!open)}
-      />
+      <IconButton className="mr-2">
+        <FaBars
+          className="text-lg text-gray-500"
+          onClick={() => setOpen(!open)}
+        />
+      </IconButton>
       <SwipeableDrawer
         onOpen={() => {}}
         anchor="left"
         open={open}
         onClose={toggleDrawer}
       >
-        <div className="flex flex-col h-full pt-12 bg-gray-800">
-          <SearchSmallScreen />
-          {list.map((link, idx) => (
-            <Link
-              key={idx}
-              onClick={toggleDrawer}
-              to={link.link}
-              className="hover:bg-gray-700 w-60 py-2 rounded-md pl-4 font-medium  text-white flex items-center space-x-2"
+        <div className="flex flex-col h-full pt-12 bg-gray-50">
+          <div className="px-2">
+            <form
+              onSubmit={onSearch}
+              className="bg-white flex items-center justify-center"
             >
-              <span>{link.icon}</span>
-              <span>{link.title}</span>
-            </Link>
-          ))}
+              <input
+                type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search products.."
+                className="inline-block w-full focus:outline-none px-2 py-1"
+              />
+              <IconButton type="submit" disabled={!search}>
+                <Search />
+              </IconButton>
+            </form>
+          </div>
+
+          <MenuList>
+            {list.map((link, idx) => (
+              <MenuItem
+                key={idx}
+                onClick={() => {
+                  navigate(link.link);
+                  setOpen(false);
+                }}
+              >
+                <ListItemIcon>{link.icon}</ListItemIcon>
+                <ListItemText>{link.title}</ListItemText>
+              </MenuItem>
+              // <Link
+              //   key={idx}
+              //   onClick={toggleDrawer}
+              //   to={link.link}
+              //   className="hover:bg-gray-700 w-60 py-2 rounded-md pl-4 font-medium text-gray-800 flex items-center space-x-2"
+              // >
+              //   <span>{link.icon}</span>
+              //   <span>{link.title}</span>
+              // </Link>
+            ))}
+          </MenuList>
         </div>
       </SwipeableDrawer>
     </div>

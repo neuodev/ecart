@@ -10,12 +10,10 @@ import { IconButton } from "@mui/material";
 
 const MainNavbar = () => {
   return (
-    <div className=" bg-gray-50  ">
-      <div className="flex items-center justify-between px-5  container mx-auto">
-        <div className="block cursor-pointer ">
-          <Sidebar />
-        </div>
-        <div className="mr-auto flex items-center space-x-1 py-5">
+    <div className="bg-gray-50">
+      <div className="flex items-center justify-between px-5 container mx-auto">
+        <Sidebar />
+        <div className="mr-auto flex items-center space-x-1 py-5 ml-2">
           <Link
             to="/"
             className="font-bold text-3xl text-gray-700 tracking-wider font-sans border-b-2 border-gray-600"
@@ -23,15 +21,13 @@ const MainNavbar = () => {
             Wallet
           </Link>
         </div>
-        <div className="hidden md:block mr-auto  ">
+        <div className="hidden md:block mr-auto">
           <Search />
         </div>
-
         <div className="flex items-center justify-between text-gray-700">
           <IconButton LinkComponent={Link} to="/account">
             <BiUser />
           </IconButton>
-
           <WishList />
           <Cart />
         </div>
