@@ -129,6 +129,7 @@ const RegsiterScreen = () => {
                   value={state.password}
                   name="password"
                   label="Password"
+                  type="password"
                   onChange={stateHandler}
                   placeholder="jone#!123"
                 />
