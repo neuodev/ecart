@@ -11,14 +11,25 @@ import {
   PRODUCT_DELETE_REVIEW_RESET,
   PRODUCT_DELETE_REVIEW_SUCCESS,
 } from "../actions/actionTypes";
+import { BaseAction, BaseState, IProduct } from "../types";
 
 export const getProduct = (
-  state = {
+  state: BaseState<{
+    product: IProduct | null;
+  }> = {
     loading: false,
     error: null,
     product: null,
   },
-  { type, payload }
+  {
+    type,
+    payload,
+  }: BaseAction<
+    IProduct,
+    typeof GET_PRODUCT_REQUEST,
+    typeof GET_PRODUCT_SUCCESS,
+    typeof GET_PRODUCT_FAIL
+  >
 ) => {
   switch (type) {
     case GET_PRODUCT_REQUEST:
@@ -43,7 +54,9 @@ export const getProduct = (
   }
 };
 
-const initState = {
+const initState: BaseState<{
+  success: boolean;
+}> = {
   loading: false,
   success: false,
   error: null,
@@ -51,7 +64,13 @@ const initState = {
 
 export const productReviewCreateReducer = (
   state = { ...initState },
-  action
+  action: BaseAction<
+    undefined,
+    typeof PRODUCT_CREATE_REVIEW_REQUEST,
+    typeof PRODUCT_CREATE_REVIEW_SUCCESS,
+    typeof PRODUCT_CREATE_REVIEW_FAIL,
+    typeof PRODUCT_CREATE_REVIEW_RESET
+  >
 ) => {
   switch (action.type) {
     case PRODUCT_CREATE_REVIEW_REQUEST:
@@ -69,7 +88,13 @@ export const productReviewCreateReducer = (
 
 export const productReviewDeleteReducer = (
   state = { ...initState },
-  action
+  action: BaseAction<
+    undefined,
+    typeof PRODUCT_DELETE_REVIEW_REQUEST,
+    typeof PRODUCT_DELETE_REVIEW_SUCCESS,
+    typeof PRODUCT_DELETE_REVIEW_FAIL,
+    typeof PRODUCT_DELETE_REVIEW_RESET
+  >
 ) => {
   switch (action.type) {
     case PRODUCT_DELETE_REVIEW_REQUEST:

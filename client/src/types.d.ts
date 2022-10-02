@@ -85,7 +85,7 @@ export interface ICartItem {
   rating: number;
 }
 
-export type BaseState = {
+export type BaseState<T> = T & {
   loading: boolean;
   error: string | null;
 };
