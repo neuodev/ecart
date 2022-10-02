@@ -17,7 +17,7 @@ type Action =
     }
   | {
       type: typeof CLEAR_WISHLIST;
-      payload: undefined;
+      payload?: undefined;
     };
 
 export function wishlist(

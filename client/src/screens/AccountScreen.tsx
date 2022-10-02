@@ -1,14 +1,13 @@
 import { Link } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { BsChevronCompactRight } from "react-icons/bs";
 import { useSelector } from "react-redux";
-import MainNavbar from "../components/HomeScreen/MainNavbar";
 import { useNavigate, Outlet } from "react-router-dom";
 import { RootState } from "../store";
 
 const AccountScreen = () => {
   const navigate = useNavigate();
-  const { userInfo } = useSelector<RootState["userLogin"]>(
+  const { userInfo } = useSelector<RootState, RootState["userLogin"]>(
     (state) => state.userLogin
   );
 

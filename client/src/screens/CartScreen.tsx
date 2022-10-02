@@ -1,15 +1,12 @@
-import { Breadcrumbs } from "@mui/material";
-import React, { useEffect } from "react";
-import { BsChevronCompactRight } from "react-icons/bs";
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
 import CartItems from "../components/Cartscreen/CartItems";
 import CartTotals from "../components/Cartscreen/CartTotals";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../actions/cart";
-import MainNavbar from "../components/HomeScreen/MainNavbar";
 import { useLocation, useParams } from "react-router-dom";
 import CheckoutSteps from "../components/common/CheckoutSteps";
 import EmptyCart from "../components/Cartscreen/EmptyCart";
+import { RootState } from "../store";
 
 const CartScreen = () => {
   const productId = useParams().id;
@@ -18,7 +15,9 @@ const CartScreen = () => {
   const qty = Number(params.get("qty")) || 1;
 
   const dispatch = useDispatch();
-  const { cartItems } = useSelector((state) => state.cart);
+  const { cartItems } = useSelector<RootState, RootState["cart"]>(
+    (state) => state.cart
+  );
 
   useEffect(() => {
     dispatch(addToCart(productId, qty));

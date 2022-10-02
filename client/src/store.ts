@@ -1,27 +1,22 @@
 import { configureStore } from "@reduxjs/toolkit";
 import thunk from "redux-thunk";
 import rootReducer from "./reducers";
-import { useDispatch } from "react-redux";
-import { LOCAL_STORAGE } from "./constants";
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { ICartItem, IUser } from "./types";
+import { findOrNull } from "./utils";
 
-const cartItems = JSON.parse(
-  localStorage.getItem(LOCAL_STORAGE.cartItem) || "[]"
-) as ICartItem[];
-const shippingAddress = JSON.parse(
-  LOCAL_STORAGE.userInfo || "null"
-) as {} | null;
+const cartItems = findOrNull<ICartItem[]>("cartItems") || [];
+const shippingAddress = findOrNull<{}>("shippingAddr");
+const paymentMethod = findOrNull<{}>("paymentMethod");
+const shippingMethod = findOrNull<{}>("shippingMethod");
 
-const userInfo = JSON.parse(LOCAL_STORAGE.shippingAddr || "null") as
-  | (IUser & { token: string })
-  | null;
-
+const userInfo = findOrNull<IUser & { token: string }>("userInfo");
 const initalState = {
   cart: {
     cartItems,
     shippingAddress,
-    paymentMethod: null,
-    shippingMethod: null,
+    paymentMethod,
+    shippingMethod,
   },
   userLogin: { userInfo, loading: false, error: null },
 };
@@ -37,5 +32,8 @@ const store = configureStore({
 export default store;
 
 export type RootState = ReturnType<typeof store.getState>;
+export type GetState = () => RootState;
 export type AppDispatch = typeof store.dispatch;
 export const useAppDispatch: () => AppDispatch = useDispatch;
+export type Dispatch = ReturnType<typeof useAppDispatch>;
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;

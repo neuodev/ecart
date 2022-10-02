@@ -92,7 +92,7 @@ export type BaseState<T> = T & {
 
 // Generic action generator to handle common state changes
 export type BaseAction<T, Req, Ok, Err, Reset = "RESET"> =
-  | { type: Req; payload: undefined }
+  | { type: Req; payload?: undefined }
   | {
       type: Ok;
       payload: T;
@@ -103,5 +103,5 @@ export type BaseAction<T, Req, Ok, Err, Reset = "RESET"> =
     }
   | {
       type: Reset;
-      payload: undefined;
+      payload?: undefined;
     };
