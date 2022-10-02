@@ -3,7 +3,7 @@ import { featuredProducts } from "./featuredProducts";
 import { topRatedProducts } from "./topRatedProducts";
 import { bestSellingProducts } from "./bestSellingProducts";
 import { latestProducts } from "./latestProducts";
-import { searchProducts, recommendProducts } from "./SearchProducts";
+import { searchProducts, recommendedProducts } from "./SearchProducts";
 import { filters } from "./filters";
 import {
   getProduct,
@@ -24,7 +24,7 @@ export default combineReducers({
   orderCreate: orderCreateReducer,
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
-  recommend: recommendProducts,
+  recommended: recommendedProducts,
   featuredProducts,
   topRatedProducts,
   bestSellingProducts,
