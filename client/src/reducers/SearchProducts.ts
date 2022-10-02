@@ -9,8 +9,35 @@ import {
   PRODUCTS_NEXT_PAGE_SUCCESS,
   PRODUCTS_NEXT_PAGE_FAIL,
 } from "../actions/actionTypes";
+import { BaseAction, BaseState, IProduct } from "../types";
 
-export const searchProducts = (state = { products: [] }, { payload, type }) => {
+export const searchProducts = (
+  state: BaseState<{
+    products: IProduct[];
+  }> = { products: [], loading: false, error: null },
+  {
+    payload,
+    type,
+  }:
+    | BaseAction<
+        {
+          products: IProduct[];
+          count: number;
+        },
+        typeof SEARCH_PRODUCTS_REQUEST,
+        typeof SEARCH_PRODUCTS_SUCCESS,
+        typeof SEARCH_PRODUCTS_FAIL
+      >
+    | BaseAction<
+        {
+          products: IProduct[];
+          count: number;
+        },
+        typeof PRODUCTS_NEXT_PAGE_REQUREST,
+        typeof PRODUCTS_NEXT_PAGE_SUCCESS,
+        typeof PRODUCTS_NEXT_PAGE_FAIL
+      >
+) => {
   switch (type) {
     case SEARCH_PRODUCTS_REQUEST:
       return {
@@ -52,7 +79,25 @@ export const searchProducts = (state = { products: [] }, { payload, type }) => {
   }
 };
 
-export const recommendProducts = (state = {}, { payload, type }) => {
+export const recommendedProducts = (
+  state: BaseState<{ products: IProduct[] }> = {
+    loading: false,
+    error: null,
+    products: [],
+  },
+  {
+    payload,
+    type,
+  }: BaseAction<
+    {
+      products: IProduct[];
+      count: number;
+    },
+    typeof RECOMMEND_PRODUCTS_RQUIEST,
+    typeof RECOMMEND_PRODUCTS_SUCCESS,
+    typeof RECOMMEND_PRODUCTS_FAIL
+  >
+) => {
   switch (type) {
     case RECOMMEND_PRODUCTS_RQUIEST:
       return {
