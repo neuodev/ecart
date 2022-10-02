@@ -2,11 +2,25 @@ import {
   TOP_RATED_PRODUCTS_REQUEST,
   TOP_RATED_PRODUCTS_SUCCESS,
   TOP_RATED_PRODUCTS_FAIL,
-} from '../actions/actionTypes';
+} from "../actions/actionTypes";
+import { BaseAction, BaseState, IProduct } from "../types";
 
 export const topRatedProducts = (
-  state = { products: [] },
-  { payload, type }
+  state: BaseState<{
+    products: IProduct[];
+  }> = { products: [], loading: false, error: null },
+  {
+    payload,
+    type,
+  }: BaseAction<
+    {
+      products: IProduct[];
+      count: number;
+    },
+    typeof TOP_RATED_PRODUCTS_REQUEST,
+    typeof TOP_RATED_PRODUCTS_SUCCESS,
+    typeof TOP_RATED_PRODUCTS_FAIL
+  >
 ) => {
   switch (type) {
     case TOP_RATED_PRODUCTS_REQUEST:
