@@ -9,10 +9,6 @@ import {
   ORDER_PAY_FAIL,
   ORDER_PAY_SUCCESS,
   ORDER_PAY_RESET,
-  ORDER_LIST_MY_REQUEST,
-  ORDER_LIST_MY_SUCCESS,
-  ORDER_LIST_MY_FAIL,
-  ORDER_LIST_MY_RESET,
   ORDER_LIST_FAIL,
   ORDER_LIST_SUCCESS,
   ORDER_LIST_REQUEST,
@@ -24,10 +20,10 @@ import {
 } from "../actions/actionTypes";
 import { BaseAction, BaseState, IOrder, IOrderItem } from "../types";
 
-const orderInitState: {
+const orderInitState: BaseState<{
   order: IOrder | null;
   success: boolean;
-} & BaseState = {
+}> = {
   loading: false,
   success: false,
   order: null,
@@ -75,10 +71,10 @@ export const orderCreateReducer = (
 };
 
 export const orderDetailsReducer = (
-  state: {
+  state: BaseState<{
     orders: IOrderItem[];
     shippingAddress: {};
-  } & BaseState = {
+  }> = {
     loading: true,
     error: null,
     orders: [],
@@ -112,9 +108,9 @@ export const orderDetailsReducer = (
   }
 };
 
-let initState: {
+let initState: BaseState<{
   success: boolean;
-} & BaseState = {
+}> = {
   loading: false,
   error: null,
   success: false,
@@ -152,9 +148,9 @@ export const orderPayReducer = (
   }
 };
 
-let orderDeliverState: {
+let orderDeliverState: BaseState<{
   success: boolean;
-} & BaseState = {
+}> = {
   loading: false,
   error: null,
   success: false,
@@ -192,7 +188,7 @@ export const orderDeliverReducer = (
 };
 
 export const orderListReducer = (
-  state: { orders: IOrder[] } & BaseState = {
+  state: BaseState<{ orders: IOrder[] }> = {
     orders: [],
     loading: false,
     error: null,

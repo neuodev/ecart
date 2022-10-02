@@ -6,7 +6,7 @@ import {
 import { BaseState, IProduct } from "../types";
 
 export const featuredProducts = (
-  state: { products: IProduct[] } & BaseState = {
+  state: BaseState<{ products: IProduct[] }> = {
     products: [],
     loading: false,
     error: null,

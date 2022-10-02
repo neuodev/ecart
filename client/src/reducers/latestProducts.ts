@@ -6,9 +6,9 @@ import {
 import { BaseAction, BaseState, IProduct } from "../types";
 
 export const latestProducts = (
-  state: {
+  state: BaseState<{
     products: IProduct[];
-  } & BaseState = { products: [], loading: false, error: null },
+  }> = { products: [], loading: false, error: null },
   {
     payload,
     type,
