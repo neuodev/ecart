@@ -6,7 +6,7 @@ import { addToCart } from "../actions/cart";
 import { useLocation, useParams } from "react-router-dom";
 import CheckoutSteps from "../components/common/CheckoutSteps";
 import EmptyCart from "../components/Cartscreen/EmptyCart";
-import { RootState } from "../store";
+import store, { RootState, useAppDispatch } from "../store";
 
 const CartScreen = () => {
   const productId = useParams().id;
@@ -14,13 +14,15 @@ const CartScreen = () => {
   const params = new URLSearchParams(location.search);
   const qty = Number(params.get("qty")) || 1;
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { cartItems } = useSelector<RootState, RootState["cart"]>(
     (state) => state.cart
   );
 
   useEffect(() => {
-    dispatch(addToCart(productId, qty));
+    if (productId) {
+      dispatch(addToCart(productId, qty));
+    }
   }, [dispatch, productId, qty]);
 
   return (

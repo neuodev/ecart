@@ -21,12 +21,11 @@ const initalState = {
   userLogin: { userInfo, loading: false, error: null },
 };
 
-const middleware = [thunk];
-
 const store = configureStore({
   reducer: rootReducer,
-  middleware,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
   preloadedState: initalState,
+  devTools: true,
 });
 
 export default store;
