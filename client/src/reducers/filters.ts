@@ -4,15 +4,16 @@ import {
   PRICE,
   CATEGORY,
   BRAND,
-  NUMBER_PER_PAGE,
+  ITEMS_LIMIT,
   RESET_FILTERS,
 } from "../actions/actionTypes";
+import { PriceFilter } from "../components/searchScreen/FilterSidebar";
 
 type FilterState = {
-  sort: String;
-  numPerPage: Number;
+  sort: string;
+  limit: number;
   category: string | null;
-  price: number | null;
+  price: PriceFilter | null;
   brand: string | null;
 };
 
@@ -25,18 +26,18 @@ type Action =
       payload: undefined;
     }
   | {
-      type:
-        | typeof CATEGORY
-        | typeof PRICE
-        | typeof BRAND
-        | typeof NUMBER_PER_PAGE;
+      type: typeof CATEGORY | typeof BRAND | typeof ITEMS_LIMIT;
       payload: string;
+    }
+  | {
+      type: typeof PRICE;
+      payload: PriceFilter;
     };
 
 export function filters(
   state: FilterState = {
     sort: "name",
-    numPerPage: 6,
+    limit: 6,
     category: null,
     price: null,
     brand: null,
@@ -63,17 +64,17 @@ export function filters(
     case PRICE:
       return {
         ...state,
-        price: Number(payload),
+        price: payload,
       };
     case BRAND:
       return {
         ...state,
         brand: payload,
       };
-    case NUMBER_PER_PAGE:
+    case ITEMS_LIMIT:
       return {
         ...state,
-        numPerPage: Number(payload),
+        limit: Number(payload),
       };
     case RESET_FILTERS:
       return {

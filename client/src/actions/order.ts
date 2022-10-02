@@ -1,6 +1,6 @@
 import axios, { AxiosError } from "axios";
 import { AppDispatch, GetState } from "../store";
-import { IOrder } from "../types";
+import { IOrder, IPaymentResult } from "../types";
 import {
   CART_CLEAR_ITEMS,
   ORDER_CREATE_REQUEST,
@@ -61,7 +61,7 @@ export const createOrder =
   };
 
 export const payOrder =
-  (orderId: string, paymentResult: {}) =>
+  (orderId: string, paymentResult: IPaymentResult) =>
   async (dispatch: AppDispatch, getState: GetState) => {
     try {
       dispatch({

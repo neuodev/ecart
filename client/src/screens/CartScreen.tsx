@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import CartItems from "../components/Cartscreen/CartItems";
 import CartTotals from "../components/Cartscreen/CartTotals";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { addToCart } from "../actions/cart";
 import { useLocation, useParams } from "react-router-dom";
 import CheckoutSteps from "../components/common/CheckoutSteps";
 import EmptyCart from "../components/Cartscreen/EmptyCart";
-import store, { RootState, useAppDispatch } from "../store";
+import { RootState, useAppDispatch } from "../store";
 
 const CartScreen = () => {
   const productId = useParams().id;

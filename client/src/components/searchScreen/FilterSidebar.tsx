@@ -26,7 +26,16 @@ export const CATEGORIES = [
   "Dress",
 ];
 
-export const PRICES = [
+export type PriceFilter = Array<{
+  key: string;
+  value: number;
+}>;
+
+export const PRICES: Array<{
+  text: string;
+  query: string;
+  queryObj: PriceFilter;
+}> = [
   {
     text: "Below $100.00",
     query: "price[lte]=100",

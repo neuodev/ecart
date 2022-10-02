@@ -5,19 +5,28 @@ import MoreInfo from "../components/ProductScreen/MoreInfo";
 import { useSelector, useDispatch } from "react-redux";
 import { getProductAction } from "../actions/products";
 import ProductScreenSkeleton from "../components/ProductScreen/ProductScreenSkeleton";
-import MainNavbar from "../components/HomeScreen/MainNavbar";
 import { useParams } from "react-router-dom";
 import ErrorScreen from "../components/ProductScreen/ErrorScreen";
+import { RootState, useAppDispatch } from "../store";
 
 const ProductScreen = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const productId = useParams().id;
-  const { product, error, loading } = useSelector((state) => state.product);
-  const createReview = useSelector((state) => state.createReview);
-  const deleteReview = useSelector((state) => state.deleteReview);
+  const { product, error, loading } = useSelector<
+    RootState,
+    RootState["product"]
+  >((state) => state.product);
+  const createReview = useSelector<RootState, RootState["createReview"]>(
+    (state) => state.createReview
+  );
+  const deleteReview = useSelector<RootState, RootState["deleteReview"]>(
+    (state) => state.deleteReview
+  );
 
   useEffect(() => {
-    dispatch(getProductAction(productId));
+    if (productId) {
+      dispatch(getProductAction(productId));
+    }
   }, [dispatch, productId, createReview.success, deleteReview.success]);
 
   return (

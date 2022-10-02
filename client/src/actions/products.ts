@@ -36,6 +36,7 @@ import axios, { AxiosError } from "axios";
 import { logout } from "./user";
 import { AppDispatch, GetState } from "../store";
 import { Dispatch } from "redux";
+import { PriceFilter } from "../components/searchScreen/FilterSidebar";
 
 export const getFeaturedProducts = () => async (dispatch: AppDispatch) => {
   try {
@@ -116,6 +117,7 @@ export const getLatestProducts =
       }
     }
   };
+
 export const serachProducts =
   ({
     q,
@@ -126,13 +128,11 @@ export const serachProducts =
     page,
     limit,
   }: {
-    q: string;
-    category: string;
-    price: Array<{
-      [key: string]: string;
-    }>;
-    sort: string;
-    brand: string;
+    q: string | null;
+    category: string | null;
+    price: PriceFilter | null;
+    sort: string | null;
+    brand: string | null;
     page: number;
     limit: number;
   }) =>
@@ -140,7 +140,7 @@ export const serachProducts =
     try {
       dispatch({ type: SEARCH_PRODUCTS_REQUEST });
       const params: {
-        [key: string]: string | number;
+        [key: string]: string | number | null;
       } = {
         q,
         category,
@@ -159,6 +159,7 @@ export const serachProducts =
       const { data } = await axios.get("/api/v1/products", {
         params,
       });
+
       dispatch({ type: SEARCH_PRODUCTS_SUCCESS, payload: data });
     } catch (error) {
       if (error instanceof AxiosError) {

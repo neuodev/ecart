@@ -17,11 +17,10 @@ import {
   BsChevronLeft,
   BsChevronRight,
 } from "react-icons/bs";
-import MainNavbar from "../components/HomeScreen/MainNavbar";
 import { useLocation } from "react-router-dom";
 import { IconButton } from "@mui/material";
-import { Box, Stack, styled as MuiStyled } from "@mui/system";
-import theme from "../theme";
+import { Stack, styled as MuiStyled } from "@mui/system";
+import { RootState, useAppDispatch, useAppSelector } from "../store";
 
 const StyledDiv = styled.div`
   @media (min-width: 1450px) {
@@ -31,27 +30,31 @@ const StyledDiv = styled.div`
 `;
 
 const SearchScreen = () => {
-  const dispatch = useDispatch();
-  let [page, setPage] = useState(1);
-  let [numOfBts, setNumOfBts] = useState([]);
+  const dispatch = useAppDispatch();
+  let [page, setPage] = useState<number>(1);
+  let [numOfBtns, setNumOfBtns] = useState<number[]>([]);
   const loc = useLocation();
   const params = new URLSearchParams(loc.search);
   const q = params.get("q");
-  // todo: Handle error states
-  const {
-    searchProducts: { error, loading, products, count },
-  } = useSelector((state) => state);
+
+  const { error, loading, products, count } = useSelector<
+    RootState,
+    RootState["searchProducts"]
+  >((state) => state.searchProducts);
 
   const { loading: recommendLoading, products: recommendedProducts } =
-    useSelector((state) => state.recommend);
+    useSelector<RootState, RootState["recommended"]>(
+      (state) => state.recommended
+    );
 
-  const { sort, price, category, brand, numPerPage } = useSelector(
-    (state) => state.filters
-  );
+  const { sort, price, category, brand, limit } = useSelector<
+    RootState,
+    RootState["filters"]
+  >((state) => state.filters);
 
   useEffect(() => {
-    dispatch(serachProducts(q, category, price, sort, brand, page, numPerPage));
-  }, [q, category, price, sort, brand, page, numPerPage]);
+    dispatch(serachProducts({ q, category, price, sort, brand, page, limit }));
+  }, [q, category, price, sort, brand, page, limit]);
 
   useEffect(() => {
     if (products.length === 0) {
@@ -59,20 +62,20 @@ const SearchScreen = () => {
     }
   }, [products]);
 
-  const fetchData = (nextPage) => {
+  const fetchData = (nextPage: number) => {
     if (page === nextPage) return;
-    dispatch(nextPageProducts(nextPage, numPerPage));
+    dispatch(nextPageProducts(nextPage, limit));
     setPage(nextPage);
   };
 
   useEffect(() => {
     let countOfPages = [];
-    const number = Math.ceil(count / numPerPage);
+    const number = Math.ceil(count / limit);
     for (let i = 0; i < number; i++) {
       countOfPages.push(i);
     }
-    setNumOfBts(countOfPages);
-  }, [numPerPage, count]);
+    setNumOfBtns(countOfPages);
+  }, [limit, count]);
 
   const prevPage = () => {
     if (page === 1) return;
@@ -82,7 +85,7 @@ const SearchScreen = () => {
   };
 
   const nextPage = () => {
-    if (page === numOfBts.length) return;
+    if (page === numOfBtns.length) return;
     let nextPage = page + 1;
     setPage(nextPage);
     fetchData(nextPage);
@@ -123,7 +126,7 @@ const SearchScreen = () => {
                   </div>
                 ))
               ) : (
-                products.map((product, idx) => (
+                products.map((product, idx: number) => (
                   <div
                     key={idx}
                     className="grid col-span-12 mx-auto lg:col-span-6 xl:col-span-4"
@@ -148,7 +151,7 @@ const SearchScreen = () => {
                   >
                     <BsChevronLeft />
                   </PaginationBtn>
-                  {numOfBts.map((_, idx) => (
+                  {numOfBtns.map((_, idx: number) => (
                     <PaginationBtn
                       key={idx}
                       onClick={() => fetchData(idx + 1)}
@@ -162,13 +165,13 @@ const SearchScreen = () => {
                   ))}
                   <PaginationBtn
                     color="default"
-                    disabled={page === numOfBts.length}
-                    onClick={() => fetchData(numOfBts.length)}
+                    disabled={page === numOfBtns.length}
+                    onClick={() => fetchData(numOfBtns.length)}
                   >
                     <BsChevronRight />
                   </PaginationBtn>
                   <PaginationBtn
-                    disabled={page === numOfBts.length}
+                    disabled={page === numOfBtns.length}
                     color="default"
                     onClick={nextPage}
                   >
@@ -176,42 +179,6 @@ const SearchScreen = () => {
                   </PaginationBtn>
                 </Stack>
               </div>
-              {/* <div className="col-span-12 mx-auto my-4 flex items-center">
-              <button
-                onClick={() => fetchData(1)}
-                className="px-3 py-2.5 bg-gray-200 mr-2 rounded-lg focus:outline-none text-gray-700 font-medium focus:ring focus:ring-gray-400 "
-              >
-                <BsChevronDoubleLeft />
-              </button>
-              <button
-                onClick={prevPage}
-                className="hidden md:block px-3 py-2.5 bg-gray-200 mr-2 rounded-lg focus:outline-none text-gray-700 font-medium focus:ring focus:ring-gray-400 "
-              >
-                <BsChevronLeft />
-              </button>
-              {numOfBts.map((_, idx) => (
-                <button
-                  onClick={() => fetchData(idx + 1)}
-                  className={`${
-                    page === idx + 1 && "bg-green-300 text-green-800"
-                  } px-3 py-2 bg-gray-200 mr-2 rounded-lg focus:outline-none text-gray-700 font-medium focus:ring focus:ring-green-400 `}
-                >
-                  {idx + 1}
-                </button>
-              ))}
-              <button
-                onClick={nextPage}
-                className="hidden md:block  px-3 py-2.5 bg-gray-200 mr-2 rounded-lg focus:outline-none text-gray-700 font-medium focus:ring focus:ring-gray-400 "
-              >
-                <BsChevronRight />
-              </button>
-              <button
-                onClick={() => fetchData(numOfBts.length)}
-                className="px-3 py-2.5 bg-gray-200 mr-2 rounded-lg focus:outline-none text-gray-700 font-medium focus:ring focus:ring-gray-400 "
-              >
-                <BsChevronDoubleRight />
-              </button>
-            </div> */}
             </div>
           </div>
         </div>

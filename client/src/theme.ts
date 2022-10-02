@@ -39,7 +39,6 @@ export default createTheme({
               backgroundColor: defaultTheme.palette.grey[600],
             },
           },
-          defaultProps: { disableRipple: false },
         },
         {
           props: {
@@ -81,18 +80,12 @@ export default createTheme({
     },
     MuiTab: {
       styleOverrides: {
-        root: {},
-      },
-      variants: [
-        {
-          props: { variant: "main" },
-          style: {
-            "&.Mui-selected": {
-              color: "#34d399",
-            },
+        root: {
+          "&.Mui-selected": {
+            color: "#34d399",
           },
         },
-      ],
+      },
     },
     MuiTooltip: {
       styleOverrides: {
@@ -106,3 +99,10 @@ export default createTheme({
     },
   },
 });
+
+declare module "@mui/material/Button" {
+  interface ButtonPropsVariantOverrides {
+    dark: true;
+    "dark-outlined": true;
+  }
+}

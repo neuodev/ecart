@@ -13,6 +13,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { ORDER_CREATE_RESET, ORDER_PAY_RESET } from "../../actions/actionTypes";
 import { payOrder } from "../../actions/order";
+import { RootState, useAppDispatch } from "../../store";
+import { IPaymentResult } from "../../types";
 import LoadSdk from "../utils/LoadSdk";
 import Modal from "./Modal";
 
@@ -27,11 +29,18 @@ const BUYER_ACCOUNTS = [
   },
 ];
 
-const PayPal = ({ orderId, totalPrice, resetOrder }) => {
+const PayPal: React.FC<{
+  orderId: string;
+  totalPrice: number;
+  resetOrder?: () => void;
+}> = ({ orderId, totalPrice, resetOrder }) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { loading, error, success } = useSelector((state) => state.orderPay);
-  const [sdkReady, setSdkReady] = useState(false);
+  const dispatch = useAppDispatch();
+  const { loading, error, success } = useSelector<
+    RootState,
+    RootState["orderPay"]
+  >((state) => state.orderPay);
+  const [sdkReady, setSdkReady] = useState<boolean>(false);
 
   const addPaypalScript = async () => {
     const { data: clientId } = await axios.get("/api/v1/config/paypal");
@@ -53,7 +62,7 @@ const PayPal = ({ orderId, totalPrice, resetOrder }) => {
     }
   }, [orderId]);
 
-  const successPaymentHandler = (paymentResult) => {
+  const successPaymentHandler = (paymentResult: IPaymentResult) => {
     dispatch(payOrder(orderId, paymentResult));
   };
 

@@ -13,11 +13,18 @@ import { useDispatch, useSelector } from "react-redux";
 import "./style.css";
 import { addToWishlist } from "../../actions/whishlist";
 import { useNavigate } from "react-router-dom";
+import { RootState, useAppDispatch } from "../../store";
+import { IProduct } from "../../types";
 
-const ProductDetails = ({ product, history }) => {
-  const dispatch = useDispatch();
+const ProductDetails: React.FC<{
+  product: IProduct;
+}> = ({ product }) => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const wishlist = useSelector((state) => state.wishlist);
+  const wishlist = useSelector<RootState, RootState["wishlist"]>(
+    (state) => state.wishlist
+  );
+
   const {
     _id,
     category,
@@ -29,13 +36,13 @@ const ProductDetails = ({ product, history }) => {
     discount,
   } = product;
 
-  const [dot, setDot] = useState(true);
-  const [more, setMore] = useState(false);
-  const [quantity, setQuantity] = useState(1);
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [dot, setDot] = useState<boolean>(true);
+  const [more, setMore] = useState<boolean>(false);
+  const [quantity, setQuantity] = useState<number>(1);
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const open = Boolean(anchorEl);
 
-  const handleClick = (event) => {
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -56,6 +63,7 @@ const ProductDetails = ({ product, history }) => {
     dispatch(addToWishlist(product));
   };
   const isWished = wishlist.find((item) => item._id === product._id);
+
   return (
     <div className="px-4 py-4  max-w-2xl">
       <div className="mb-2">

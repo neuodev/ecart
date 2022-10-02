@@ -3,8 +3,16 @@ import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { IconButton } from "@mui/material";
 
-const Input = ({ label, value, onChange, error, name, placeholder, type }) => {
-  const [show, setShow] = useState(false);
+const Input: React.FC<{
+  label: string;
+  value: string;
+  onChange(e: React.ChangeEvent<HTMLInputElement>): void;
+  error: string | null;
+  name?: string;
+  placeholder?: string;
+  type?: string;
+}> = ({ label, value, onChange, error, name, placeholder, type }) => {
+  const [show, setShow] = useState<boolean>(false);
 
   return (
     <div>

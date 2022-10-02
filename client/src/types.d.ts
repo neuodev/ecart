@@ -41,6 +41,13 @@ export interface IOrderItem {
   product: IProduct;
 }
 
+export interface IPaymentResult {
+  id: string;
+  status: string;
+  update_time: string;
+  email_address: string;
+}
+
 export interface IOrder {
   user: string; //! User ID
   orderItems: IOrderItem[];
@@ -58,12 +65,7 @@ export interface IOrder {
     name: string;
     cost: string;
   };
-  paymentResult: {
-    id: string;
-    status: string;
-    update_time: string;
-    email_address: string;
-  };
+  paymentResult: IPaymentResult;
   taxPrice: number;
   shippingPrice: number;
   totalPrice: number;

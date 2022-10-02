@@ -13,7 +13,14 @@ const style = {
   p: 4,
 };
 
-const Modal = ({ children, open, onClose, className, width, minWidth }) => {
+const Modal: React.FC<{
+  children?: React.ReactNode;
+  open: boolean;
+  onClose(): void;
+  className: string;
+  width: number | string;
+  minWidth: number | string;
+}> = ({ children, open, onClose, className, width, minWidth }) => {
   return (
     <MuiModal
       open={open}
@@ -29,3 +36,8 @@ const Modal = ({ children, open, onClose, className, width, minWidth }) => {
 };
 
 export default Modal;
+
+Modal.defaultProps = {
+  minWidth: 500,
+  width: 500,
+};

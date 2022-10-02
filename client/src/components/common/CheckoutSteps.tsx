@@ -27,21 +27,23 @@ const CHECKOUT_STEPS = [
   {
     label: "Complete order",
     tooltip: "Confirme your order",
-    to: null,
+    to: "#",
   },
 ];
 
-const CheckoutSteps = ({ currStep }) => {
+const CheckoutSteps: React.FC<{
+  currStep: number;
+}> = ({ currStep }) => {
   return (
     <Breadcrumbs separator={<BsChevronCompactRight />}>
       {CHECKOUT_STEPS.map((step, stepIdx) => {
         let link =
           currStep === stepIdx + 1 ? (
-            <Link className="text-xs md:text-sm font-bold text-gray-800">
+            <Link to="#" className="text-xs md:text-sm font-bold text-gray-800">
               {step.label}
             </Link>
           ) : stepIdx + 1 > currStep ? (
-            <Link className="text-xs md:text-sm cursor-not-allowed">
+            <Link to="#" className="text-xs md:text-sm cursor-not-allowed">
               {" "}
               {step.label}{" "}
             </Link>
