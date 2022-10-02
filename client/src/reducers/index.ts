@@ -12,15 +12,12 @@ import {
 } from "./product";
 import { cartReducer } from "./cart";
 import { userRegisterReducer, userLoginReducer } from "./user";
-import {
-  orderCreateReducer,
-  orderPayReducer,
-  orderListMyReducer,
-} from "./order";
+import { orderCreateReducer, orderPayReducer, orderListReducer } from "./order";
 import { wishlist } from "./wishlist";
+
 export default combineReducers({
   wishlist,
-  myOrderList: orderListMyReducer,
+  myOrderList: orderListReducer,
   createReview: productReviewCreateReducer,
   deleteReview: productReviewDeleteReducer,
   orderPay: orderPayReducer,

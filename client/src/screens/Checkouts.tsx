@@ -2,7 +2,7 @@ import React from "react";
 import OrderSummaryLargScreen from "../components/checkouts/OrderSummaryLargScreen";
 import { Outlet } from "react-router-dom";
 
-const checkouts = ({ history }) => {
+const checkouts = () => {
   return (
     <div className="container mx-auto">
       <div className="grid grid-cols-12">

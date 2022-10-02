@@ -9,14 +9,38 @@ import {
 } from "../actions/actionTypes";
 
 export const filters = (
-  state = {
+  state: {
+    sort: String;
+    numPerPage: Number;
+    category: string | null;
+    price: number | null;
+    brand: string | null;
+  } = {
     sort: "name",
     numPerPage: 6,
     category: null,
     price: null,
     brand: null,
   },
-  { type, payload }
+  {
+    type,
+    payload,
+  }:
+    | {
+        type:
+          | typeof ASCENDING_ORDER
+          | typeof DECENDING_ORDER
+          | typeof RESET_FILTERS;
+        payload: undefined;
+      }
+    | {
+        type:
+          | typeof CATEGORY
+          | typeof PRICE
+          | typeof BRAND
+          | typeof NUMBER_PER_PAGE;
+        payload: string;
+      }
 ) => {
   switch (type) {
     case ASCENDING_ORDER:

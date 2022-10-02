@@ -3,10 +3,30 @@ import {
   FEATURED_PRODUCTS_REQUEST,
   FEATURED_PRODUCTS_SUCCESS,
 } from "../actions/actionTypes";
+import { BaseState, IProduct } from "../types";
 
 export const featuredProducts = (
-  state = { products: [] },
-  { payload, type }
+  state: { products: IProduct[] } & BaseState = {
+    products: [],
+    loading: false,
+    error: null,
+  },
+  {
+    payload,
+    type,
+  }:
+    | {
+        type: typeof FEATURED_PRODUCTS_REQUEST;
+        payload: undefined;
+      }
+    | {
+        type: typeof FEATURED_PRODUCTS_SUCCESS;
+        payload: IProduct[];
+      }
+    | {
+        type: typeof FEATURED_PRODUCTS_FAIL;
+        payload: string;
+      }
 ) => {
   switch (type) {
     case FEATURED_PRODUCTS_REQUEST:

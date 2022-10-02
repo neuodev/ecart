@@ -22,8 +22,12 @@ import {
   ORDER_DELIVER_RESET,
   ORDER_CREATE_RESET,
 } from "../actions/actionTypes";
+import { BaseAction, BaseState, IOrder, IOrderItem } from "../types";
 
-const orderInitState = {
+const orderInitState: {
+  order: IOrder | null;
+  success: boolean;
+} & BaseState = {
   loading: false,
   success: false,
   order: null,
@@ -34,21 +38,30 @@ export const orderCreateReducer = (
   state = {
     ...orderInitState,
   },
-  action
+  action: BaseAction<
+    IOrder,
+    typeof ORDER_CREATE_REQUEST,
+    typeof ORDER_CREATE_SUCCESS,
+    typeof ORDER_CREATE_FAIL,
+    typeof ORDER_CREATE_RESET
+  >
 ) => {
   switch (action.type) {
     case ORDER_CREATE_REQUEST:
       return {
+        ...state,
         loading: true,
       };
     case ORDER_CREATE_SUCCESS:
       return {
+        ...state,
         loading: false,
         success: true,
         order: action.payload,
       };
     case ORDER_CREATE_FAIL:
       return {
+        ...state,
         loading: false,
         error: action.payload,
       };
@@ -62,8 +75,21 @@ export const orderCreateReducer = (
 };
 
 export const orderDetailsReducer = (
-  state = { loading: true, orderItems: [], shippingAddress: {} },
-  action
+  state: {
+    orders: IOrderItem[];
+    shippingAddress: {};
+  } & BaseState = {
+    loading: true,
+    error: null,
+    orders: [],
+    shippingAddress: {},
+  },
+  action: BaseAction<
+    IOrderItem,
+    typeof ORDER_DETAILS_REQUEST,
+    typeof ORDER_DETAILS_SUCCESS,
+    typeof ORDER_DETAILS_FAIL
+  >
 ) => {
   switch (action.type) {
     case ORDER_DETAILS_REQUEST:
@@ -86,12 +112,24 @@ export const orderDetailsReducer = (
   }
 };
 
-let initState = {
+let initState: {
+  success: boolean;
+} & BaseState = {
   loading: false,
   error: null,
   success: false,
 };
-export const orderPayReducer = (state = { ...initState }, action) => {
+
+export const orderPayReducer = (
+  state = { ...initState },
+  action: BaseAction<
+    undefined,
+    typeof ORDER_PAY_REQUEST,
+    typeof ORDER_PAY_SUCCESS,
+    typeof ORDER_PAY_FAIL,
+    typeof ORDER_PAY_RESET
+  >
+) => {
   switch (action.type) {
     case ORDER_PAY_REQUEST:
       return {
@@ -114,7 +152,23 @@ export const orderPayReducer = (state = { ...initState }, action) => {
   }
 };
 
-export const orderDeliverReducer = (state = {}, action) => {
+let orderDeliverState: {
+  success: boolean;
+} & BaseState = {
+  loading: false,
+  error: null,
+  success: false,
+};
+export const orderDeliverReducer = (
+  state = orderDeliverState,
+  action: BaseAction<
+    undefined,
+    typeof ORDER_DELIVER_REQUEST,
+    typeof ORDER_DELIVER_SUCCESS,
+    typeof ORDER_DELIVER_FAIL,
+    typeof ORDER_DELIVER_RESET
+  >
+) => {
   switch (action.type) {
     case ORDER_DELIVER_REQUEST:
       return {
@@ -137,30 +191,19 @@ export const orderDeliverReducer = (state = {}, action) => {
   }
 };
 
-export const orderListMyReducer = (state = { orders: [] }, action) => {
-  switch (action.type) {
-    case ORDER_LIST_MY_REQUEST:
-      return {
-        loading: true,
-      };
-    case ORDER_LIST_MY_SUCCESS:
-      return {
-        loading: false,
-        orders: action.payload,
-      };
-    case ORDER_LIST_MY_FAIL:
-      return {
-        loading: false,
-        error: action.payload,
-      };
-    case ORDER_LIST_MY_RESET:
-      return { orders: [] };
-    default:
-      return state;
-  }
-};
-
-export const orderListReducer = (state = { orders: [] }, action) => {
+export const orderListReducer = (
+  state: { orders: IOrder[] } & BaseState = {
+    orders: [],
+    loading: false,
+    error: null,
+  },
+  action: BaseAction<
+    IOrder[],
+    typeof ORDER_LIST_REQUEST,
+    typeof ORDER_LIST_SUCCESS,
+    typeof ORDER_LIST_FAIL
+  >
+) => {
   switch (action.type) {
     case ORDER_LIST_REQUEST:
       return {

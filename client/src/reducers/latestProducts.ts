@@ -2,9 +2,23 @@ import {
   LATEST_PRODUCTS_REQUEST,
   LATEST_PRODUCTS_SUCCESS,
   LATEST_PRODUCTS_FAIL,
-} from '../actions/actionTypes';
+} from "../actions/actionTypes";
+import { BaseAction, BaseState, IProduct } from "../types";
 
-export const latestProducts = (state = { products: [] }, { payload, type }) => {
+export const latestProducts = (
+  state: {
+    products: IProduct[];
+  } & BaseState = { products: [], loading: false, error: null },
+  {
+    payload,
+    type,
+  }: BaseAction<
+    IProduct[],
+    typeof LATEST_PRODUCTS_REQUEST,
+    typeof LATEST_PRODUCTS_SUCCESS,
+    typeof LATEST_PRODUCTS_FAIL
+  >
+) => {
   switch (type) {
     case LATEST_PRODUCTS_REQUEST:
       return {
