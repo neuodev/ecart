@@ -5,25 +5,25 @@ import {
 } from "../actions/actionTypes";
 import { IProduct } from "../types";
 
-export const wishlist = (
-  state: Array<IProduct> = [],
-  {
-    type,
-    payload,
-  }:
-    | {
-        type: typeof ADD_ITEM_WISHLIST;
-        payload: IProduct;
-      }
-    | {
-        type: typeof REMOVE_ITEM_WISHLIST;
-        payload: string;
-      }
-    | {
-        type: typeof CLEAR_WISHLIST;
-        payload: undefined;
-      }
-) => {
+type Wishlist = Array<IProduct>;
+type Action =
+  | {
+      type: typeof ADD_ITEM_WISHLIST;
+      payload: IProduct;
+    }
+  | {
+      type: typeof REMOVE_ITEM_WISHLIST;
+      payload: string;
+    }
+  | {
+      type: typeof CLEAR_WISHLIST;
+      payload: undefined;
+    };
+
+export function wishlist(
+  state: Wishlist = [],
+  { type, payload }: Action
+): Wishlist {
   switch (type) {
     case ADD_ITEM_WISHLIST:
       const exist = state.find((product) => product._id === payload._id);
@@ -40,4 +40,4 @@ export const wishlist = (
     default:
       return state;
   }
-};
+}

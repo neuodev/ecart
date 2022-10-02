@@ -3,10 +3,12 @@ import {
   FEATURED_PRODUCTS_REQUEST,
   FEATURED_PRODUCTS_SUCCESS,
 } from "../actions/actionTypes";
-import { BaseState, IProduct } from "../types";
+import { BaseAction, BaseState, IProduct } from "../types";
 
-export const featuredProducts = (
-  state: BaseState<{ products: IProduct[] }> = {
+type FeaturedProducts = BaseState<{ products: IProduct[] }>;
+
+export function featuredProducts(
+  state: FeaturedProducts = {
     products: [],
     loading: false,
     error: null,
@@ -14,20 +16,13 @@ export const featuredProducts = (
   {
     payload,
     type,
-  }:
-    | {
-        type: typeof FEATURED_PRODUCTS_REQUEST;
-        payload: undefined;
-      }
-    | {
-        type: typeof FEATURED_PRODUCTS_SUCCESS;
-        payload: IProduct[];
-      }
-    | {
-        type: typeof FEATURED_PRODUCTS_FAIL;
-        payload: string;
-      }
-) => {
+  }: BaseAction<
+    IProduct[],
+    typeof FEATURED_PRODUCTS_REQUEST,
+    typeof FEATURED_PRODUCTS_SUCCESS,
+    typeof FEATURED_PRODUCTS_FAIL
+  >
+) {
   switch (type) {
     case FEATURED_PRODUCTS_REQUEST:
       return {
@@ -50,4 +45,4 @@ export const featuredProducts = (
     default:
       return state;
   }
-};
+}

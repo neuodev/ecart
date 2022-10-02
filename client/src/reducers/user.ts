@@ -10,25 +10,23 @@ import {
 } from "../actions/actionTypes";
 import { BaseAction, BaseState, IUser } from "../types";
 
-type State = BaseState<{
+type UserInfo = BaseState<{
   userInfo: (IUser & { token: string }) | null;
 }>;
 
-let initState: State = {
+let initState: UserInfo = {
   loading: false,
   error: null,
   userInfo: null,
 };
 
-export const userLoginReducer = (
-  state: State = {
+export function userLoginReducer(
+  state: UserInfo = {
     ...initState,
   },
   action:
     | BaseAction<
-        {
-          userInfo: IUser & { token: string };
-        },
+        IUser & { token: string },
         typeof USER_LOGIN_REQUEST,
         typeof USER_LOGIN_SUCCESS,
         typeof USER_LOGIN_FAIL,
@@ -37,14 +35,14 @@ export const userLoginReducer = (
     | {
         type: typeof USER_LOGOUT;
       }
-) => {
+): UserInfo {
   switch (action.type) {
     case USER_LOGIN_REQUEST:
-      return { loading: true };
+      return { ...state, loading: true };
     case USER_LOGIN_SUCCESS:
-      return { loading: false, userInfo: action.payload };
+      return { ...state, loading: false, userInfo: action.payload };
     case USER_LOGIN_FAIL:
-      return { loading: false, error: action.payload };
+      return { ...state, loading: false, error: action.payload };
     case USER_LOGOUT:
       return { ...initState };
     case USER_LOGIN_RESET:
@@ -56,30 +54,28 @@ export const userLoginReducer = (
     default:
       return state;
   }
-};
+}
 
-export const userRegisterReducer = (
-  state: State = { ...initState },
+export function userRegisterReducer(
+  state: UserInfo = { ...initState },
   action: BaseAction<
-    {
-      userInfo: IUser & { token: string };
-    },
+    IUser & { token: string },
     typeof USER_REGISTER_REQUEST,
     typeof USER_REGISTER_SUCCESS,
     typeof USER_REGISTER_FAIL,
     typeof USER_LOGOUT
   >
-) => {
+): UserInfo {
   switch (action.type) {
     case USER_REGISTER_REQUEST:
-      return { loading: true };
+      return { ...state, loading: true };
     case USER_REGISTER_SUCCESS:
-      return { loading: false, userInfo: action.payload };
+      return { ...state, loading: false, userInfo: action.payload };
     case USER_REGISTER_FAIL:
-      return { loading: false, error: action.payload };
+      return { ...state, loading: false, error: action.payload };
     case USER_LOGOUT:
       return { ...initState };
     default:
       return state;
   }
-};
+}

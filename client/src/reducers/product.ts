@@ -13,10 +13,12 @@ import {
 } from "../actions/actionTypes";
 import { BaseAction, BaseState, IProduct } from "../types";
 
-export const getProduct = (
-  state: BaseState<{
-    product: IProduct | null;
-  }> = {
+type ProductDetails = BaseState<{
+  product: IProduct | null;
+}>;
+
+export function getProduct(
+  state: ProductDetails = {
     loading: false,
     error: null,
     product: null,
@@ -30,7 +32,7 @@ export const getProduct = (
     typeof GET_PRODUCT_SUCCESS,
     typeof GET_PRODUCT_FAIL
   >
-) => {
+): ProductDetails {
   switch (type) {
     case GET_PRODUCT_REQUEST:
       return {
@@ -52,17 +54,18 @@ export const getProduct = (
     default:
       return state;
   }
-};
+}
 
-const initState: BaseState<{
+type Review = BaseState<{
   success: boolean;
-}> = {
+}>;
+const initState: Review = {
   loading: false,
   success: false,
   error: null,
 };
 
-export const productReviewCreateReducer = (
+export function productReviewCreateReducer(
   state = { ...initState },
   action: BaseAction<
     undefined,
@@ -71,22 +74,22 @@ export const productReviewCreateReducer = (
     typeof PRODUCT_CREATE_REVIEW_FAIL,
     typeof PRODUCT_CREATE_REVIEW_RESET
   >
-) => {
+): Review {
   switch (action.type) {
     case PRODUCT_CREATE_REVIEW_REQUEST:
-      return { loading: true };
+      return { ...state, loading: true };
     case PRODUCT_CREATE_REVIEW_SUCCESS:
-      return { loading: false, success: true };
+      return { ...state, loading: false, success: true };
     case PRODUCT_CREATE_REVIEW_FAIL:
-      return { loading: false, error: action.payload };
+      return { ...state, loading: false, error: action.payload };
     case PRODUCT_CREATE_REVIEW_RESET:
       return { ...initState };
     default:
       return state;
   }
-};
+}
 
-export const productReviewDeleteReducer = (
+export function productReviewDeleteReducer(
   state = { ...initState },
   action: BaseAction<
     undefined,
@@ -95,17 +98,17 @@ export const productReviewDeleteReducer = (
     typeof PRODUCT_DELETE_REVIEW_FAIL,
     typeof PRODUCT_DELETE_REVIEW_RESET
   >
-) => {
+): Review {
   switch (action.type) {
     case PRODUCT_DELETE_REVIEW_REQUEST:
-      return { loading: true };
+      return { ...state, loading: true };
     case PRODUCT_DELETE_REVIEW_SUCCESS:
-      return { loading: false, success: true };
+      return { ...state, loading: false, success: true };
     case PRODUCT_DELETE_REVIEW_FAIL:
-      return { loading: false, error: action.payload };
+      return { ...state, loading: false, error: action.payload };
     case PRODUCT_DELETE_REVIEW_RESET:
       return { ...initState };
     default:
       return state;
   }
-};
+}

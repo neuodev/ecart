@@ -8,42 +8,49 @@ import {
 } from "../actions/actionTypes";
 import { ICartItem } from "../types";
 
-export const cartReducer = (
-  state: {
-    cartItems: ICartItem[];
-    shippingAddress: {} | null;
-    paymentMethod: {} | null;
-  } = { cartItems: [], shippingAddress: null, paymentMethod: null },
-  {
-    type,
-    payload,
-  }:
-    | {
-        type: typeof CART_ADD_ITEM;
-        payload: ICartItem;
-      }
-    | {
-        type: typeof CART_REMOVE_ITEM;
-        payload: string;
-      }
-    | {
-        type: typeof CART_SAVE_SHIPPING_ADDRESS;
-        payload: {};
-      }
-    | {
-        type: typeof CART_SAVE_SHIPPING_ADDRESS;
-        payload: {};
-      }
-    | {
-        type: typeof CART_SAVE_SHIPPING_METHOD;
-        payload: {};
-      }
-    | { type: typeof CART_SAVE_PAYMENT_METHOD; payload: {} }
-    | {
-        type: typeof CART_CLEAR_ITEMS;
-        payload: undefined;
-      }
-) => {
+type CartState = {
+  cartItems: ICartItem[];
+  shippingAddress: {} | null;
+  paymentMethod: {} | null;
+  shippingMethod: {} | null;
+};
+
+type Action =
+  | {
+      type: typeof CART_ADD_ITEM;
+      payload: ICartItem;
+    }
+  | {
+      type: typeof CART_REMOVE_ITEM;
+      payload: string;
+    }
+  | {
+      type: typeof CART_SAVE_SHIPPING_ADDRESS;
+      payload: {};
+    }
+  | {
+      type: typeof CART_SAVE_SHIPPING_ADDRESS;
+      payload: {};
+    }
+  | {
+      type: typeof CART_SAVE_SHIPPING_METHOD;
+      payload: {};
+    }
+  | { type: typeof CART_SAVE_PAYMENT_METHOD; payload: {} }
+  | {
+      type: typeof CART_CLEAR_ITEMS;
+      payload: undefined;
+    };
+
+export function cartReducer(
+  state: CartState = {
+    cartItems: [],
+    shippingAddress: null,
+    paymentMethod: null,
+    shippingMethod: null,
+  },
+  { type, payload }: Action
+): CartState {
   switch (type) {
     case CART_ADD_ITEM:
       const item = payload;
@@ -90,4 +97,4 @@ export const cartReducer = (
     default:
       return state;
   }
-};
+}

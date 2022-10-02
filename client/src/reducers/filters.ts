@@ -8,40 +8,41 @@ import {
   RESET_FILTERS,
 } from "../actions/actionTypes";
 
-export const filters = (
-  state: {
-    sort: String;
-    numPerPage: Number;
-    category: string | null;
-    price: number | null;
-    brand: string | null;
-  } = {
+type FilterState = {
+  sort: String;
+  numPerPage: Number;
+  category: string | null;
+  price: number | null;
+  brand: string | null;
+};
+
+type Action =
+  | {
+      type:
+        | typeof ASCENDING_ORDER
+        | typeof DECENDING_ORDER
+        | typeof RESET_FILTERS;
+      payload: undefined;
+    }
+  | {
+      type:
+        | typeof CATEGORY
+        | typeof PRICE
+        | typeof BRAND
+        | typeof NUMBER_PER_PAGE;
+      payload: string;
+    };
+
+export function filters(
+  state: FilterState = {
     sort: "name",
     numPerPage: 6,
     category: null,
     price: null,
     brand: null,
   },
-  {
-    type,
-    payload,
-  }:
-    | {
-        type:
-          | typeof ASCENDING_ORDER
-          | typeof DECENDING_ORDER
-          | typeof RESET_FILTERS;
-        payload: undefined;
-      }
-    | {
-        type:
-          | typeof CATEGORY
-          | typeof PRICE
-          | typeof BRAND
-          | typeof NUMBER_PER_PAGE;
-        payload: string;
-      }
-) => {
+  { type, payload }: Action
+): FilterState {
   switch (type) {
     case ASCENDING_ORDER:
       return {
@@ -62,20 +63,18 @@ export const filters = (
     case PRICE:
       return {
         ...state,
-        price: payload,
+        price: Number(payload),
       };
     case BRAND:
       return {
         ...state,
         brand: payload,
       };
-
     case NUMBER_PER_PAGE:
       return {
         ...state,
-        numPerPage: payload,
+        numPerPage: Number(payload),
       };
-
     case RESET_FILTERS:
       return {
         ...state,
@@ -86,4 +85,4 @@ export const filters = (
     default:
       return state;
   }
-};
+}

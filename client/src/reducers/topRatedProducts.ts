@@ -5,10 +5,12 @@ import {
 } from "../actions/actionTypes";
 import { BaseAction, BaseState, IProduct } from "../types";
 
+type TopRated = BaseState<{
+  products: IProduct[];
+}>;
+
 export const topRatedProducts = (
-  state: BaseState<{
-    products: IProduct[];
-  }> = { products: [], loading: false, error: null },
+  state: TopRated = { products: [], loading: false, error: null },
   {
     payload,
     type,
@@ -28,7 +30,6 @@ export const topRatedProducts = (
         ...state,
         loading: true,
       };
-
     case TOP_RATED_PRODUCTS_SUCCESS:
       return {
         ...state,
@@ -41,7 +42,6 @@ export const topRatedProducts = (
         loading: false,
         error: payload,
       };
-
     default:
       return state;
   }

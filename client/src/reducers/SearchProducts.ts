@@ -11,10 +11,13 @@ import {
 } from "../actions/actionTypes";
 import { BaseAction, BaseState, IProduct } from "../types";
 
-export const searchProducts = (
-  state: BaseState<{
-    products: IProduct[];
-  }> = { products: [], loading: false, error: null },
+type Search = BaseState<{
+  products: IProduct[];
+  count: number;
+}>;
+
+export function searchProducts(
+  state: Search = { products: [], count: 0, loading: false, error: null },
   {
     payload,
     type,
@@ -37,7 +40,7 @@ export const searchProducts = (
         typeof PRODUCTS_NEXT_PAGE_SUCCESS,
         typeof PRODUCTS_NEXT_PAGE_FAIL
       >
-) => {
+): Search {
   switch (type) {
     case SEARCH_PRODUCTS_REQUEST:
       return {
@@ -66,7 +69,8 @@ export const searchProducts = (
       return {
         ...state,
         loading: false,
-        products: payload,
+        products: payload.products,
+        count: payload.count,
       };
     case PRODUCTS_NEXT_PAGE_FAIL:
       return {
@@ -77,7 +81,7 @@ export const searchProducts = (
     default:
       return state;
   }
-};
+}
 
 export const recommendedProducts = (
   state: BaseState<{ products: IProduct[] }> = {

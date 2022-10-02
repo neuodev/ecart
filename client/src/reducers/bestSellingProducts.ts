@@ -3,31 +3,24 @@ import {
   BEST_SELLING_PRODUCTS_SUCCESS,
   BEST_SELLING_PRODUCTS_FAIL,
 } from "../actions/actionTypes";
-import { IProduct } from "../types";
+import { BaseAction, BaseState, IProduct } from "../types";
 
-export const bestSellingProducts = (
-  state: {
-    products: IProduct[];
-    loading: boolean;
-    error: string | null;
-  } = { products: [], loading: false, error: null },
+type State = BaseState<{
+  products: IProduct[];
+}>;
+
+export function bestSellingProducts(
+  state: State = { products: [], loading: false, error: null },
   {
     payload,
     type,
-  }:
-    | {
-        type: typeof BEST_SELLING_PRODUCTS_REQUEST;
-        payload: undefined;
-      }
-    | {
-        type: typeof BEST_SELLING_PRODUCTS_FAIL;
-        payload: string;
-      }
-    | {
-        type: typeof BEST_SELLING_PRODUCTS_SUCCESS;
-        payload: IProduct[];
-      }
-) => {
+  }: BaseAction<
+    IProduct[],
+    typeof BEST_SELLING_PRODUCTS_REQUEST,
+    typeof BEST_SELLING_PRODUCTS_SUCCESS,
+    typeof BEST_SELLING_PRODUCTS_FAIL
+  >
+): State {
   switch (type) {
     case BEST_SELLING_PRODUCTS_REQUEST:
       return {
@@ -51,4 +44,4 @@ export const bestSellingProducts = (
     default:
       return state;
   }
-};
+}

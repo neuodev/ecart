@@ -5,10 +5,12 @@ import {
 } from "../actions/actionTypes";
 import { BaseAction, BaseState, IProduct } from "../types";
 
-export const latestProducts = (
-  state: BaseState<{
-    products: IProduct[];
-  }> = { products: [], loading: false, error: null },
+type LatestProducts = BaseState<{
+  products: IProduct[];
+}>;
+
+export function latestProducts(
+  state: LatestProducts = { products: [], loading: false, error: null },
   {
     payload,
     type,
@@ -18,14 +20,13 @@ export const latestProducts = (
     typeof LATEST_PRODUCTS_SUCCESS,
     typeof LATEST_PRODUCTS_FAIL
   >
-) => {
+): LatestProducts {
   switch (type) {
     case LATEST_PRODUCTS_REQUEST:
       return {
         ...state,
         loading: true,
       };
-
     case LATEST_PRODUCTS_SUCCESS:
       return {
         ...state,
@@ -38,8 +39,7 @@ export const latestProducts = (
         loading: false,
         error: payload,
       };
-
     default:
       return state;
   }
-};
+}
