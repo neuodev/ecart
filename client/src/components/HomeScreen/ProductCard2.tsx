@@ -1,8 +1,11 @@
 import { Rating } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
+import { IProduct } from "../../types";
 
-const ProductCard2 = ({ product }) => {
+const ProductCard2: React.FC<{
+  product: IProduct;
+}> = ({ product }) => {
   const { images, rating, price, name, category, _id } = product;
 
   return (

@@ -3,8 +3,10 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import ProductCard from "./ProductCard";
 import { useDispatch, useSelector } from "react-redux";
 import "swiper/css";
+import { IProduct } from "../../types";
+import { useAppSelector } from "../../store";
 
-const render = (products, history) => (
+const render = (products: IProduct[]) => (
   <>
     <div className="block md:hidden">
       <Swiper
@@ -17,7 +19,7 @@ const render = (products, history) => (
       >
         {products.map((product) => (
           <SwiperSlide>
-            <ProductCard product={product} history={history} />
+            <ProductCard product={product} />
           </SwiperSlide>
         ))}
       </Swiper>
@@ -33,7 +35,7 @@ const render = (products, history) => (
       >
         {products.map((product) => (
           <SwiperSlide>
-            <ProductCard product={product} history={history} />
+            <ProductCard product={product} />
           </SwiperSlide>
         ))}
       </Swiper>
@@ -49,7 +51,7 @@ const render = (products, history) => (
       >
         {products.map((product) => (
           <SwiperSlide>
-            <ProductCard product={product} history={history} />
+            <ProductCard product={product} />
           </SwiperSlide>
         ))}
       </Swiper>
@@ -66,16 +68,16 @@ const render = (products, history) => (
       >
         {products.map((product) => (
           <SwiperSlide>
-            <ProductCard product={product} history={history} />
+            <ProductCard product={product} />
           </SwiperSlide>
         ))}
       </Swiper>
     </div>
   </>
 );
-const FeaturedProducts = ({ history }) => {
-  //todo: Handler loading and error states
-  const { loading, products, error } = useSelector(
+const FeaturedProducts = () => {
+  // TODO: Handler loading and error states
+  const { loading, products, error } = useAppSelector(
     (state) => state.featuredProducts
   );
 
@@ -92,7 +94,7 @@ const FeaturedProducts = ({ history }) => {
         >
           {products.map((product, idx) => (
             <SwiperSlide key={idx}>
-              <ProductCard product={product} history={history} />
+              <ProductCard product={product} />
             </SwiperSlide>
           ))}
         </Swiper>
@@ -108,7 +110,7 @@ const FeaturedProducts = ({ history }) => {
         >
           {products.map((product) => (
             <SwiperSlide key={product._id}>
-              <ProductCard product={product} history={history} />
+              <ProductCard product={product} />
             </SwiperSlide>
           ))}
         </Swiper>
@@ -124,7 +126,7 @@ const FeaturedProducts = ({ history }) => {
         >
           {products.map((product) => (
             <SwiperSlide key={product._id}>
-              <ProductCard product={product} history={history} />
+              <ProductCard product={product} />
             </SwiperSlide>
           ))}
         </Swiper>
@@ -141,7 +143,7 @@ const FeaturedProducts = ({ history }) => {
         >
           {products.map((product) => (
             <SwiperSlide key={product._id}>
-              <ProductCard product={product} history={history} />
+              <ProductCard product={product} />
             </SwiperSlide>
           ))}
         </Swiper>

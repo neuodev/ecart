@@ -4,6 +4,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../actions/user";
 import { Tooltip, Typography } from "@mui/material";
+import { useAppDispatch, useAppSelector } from "../../store";
 
 const SOCIAL_LINKS = [
   {
@@ -20,14 +21,14 @@ const SOCIAL_LINKS = [
   },
 ];
 
-const MiniNav = () => {
-  const dispatch = useDispatch();
+const MiniNav: React.FC<{}> = () => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { userInfo } = useSelector((state) => state.userLogin);
+  const { userInfo } = useAppSelector((state) => state.userLogin);
 
   const links = [
     {
-      title: " My Account",
+      title: "My Account",
       onClick: () => navigate("/account"),
       tooltip: "See your latest orders",
     },
@@ -37,7 +38,7 @@ const MiniNav = () => {
       tooltip: "Contact as at support@wallet.io",
     },
     {
-      title: " Wishlist",
+      title: "Wishlist",
       onClick: () => navigate("/account/wishlist"),
       tooltip: "Check your wishlist",
     },

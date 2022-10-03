@@ -10,13 +10,14 @@ import {
 import { useNavigate } from "react-router-dom";
 import { Box } from "@mui/system";
 import { IconButton, OutlinedInput } from "@mui/material";
+import { useAppDispatch } from "../../store";
 
 const Search = () => {
-  const [search, setSearch] = useState("");
-  const dispatch = useDispatch();
+  const [search, setSearch] = useState<string>("");
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const onSumit = (e) => {
+  const onSumit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     navigate(`/products?q=${search}`);
     dispatch({ type: RESET_FILTERS });
@@ -27,7 +28,7 @@ const Search = () => {
       <form onSubmit={onSumit}>
         <OutlinedInput
           endAdornment={
-            <IconButton onClick={onSumit} sx={{ mr: "-10px" }}>
+            <IconButton type="submit" sx={{ mr: "-10px" }}>
               <SearchOutlined />
             </IconButton>
           }

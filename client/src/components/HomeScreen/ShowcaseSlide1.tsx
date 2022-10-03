@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@mui/material";
 
-const ShowcaseSlide1 = () => {
+const ShowcaseSlide1: React.FC<{}> = () => {
   return (
     <div className=" w-full h-full py-12 relative  " id="slide-container">
       <div className="container mx-auto">
@@ -20,8 +20,7 @@ const ShowcaseSlide1 = () => {
             30% OFF
           </h1>
           <Button
-            LinkComponent={Link}
-            to="/products"
+            href="/products"
             variant="dark"
             sx={{
               mt: "10px",

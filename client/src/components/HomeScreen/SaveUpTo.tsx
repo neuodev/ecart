@@ -22,7 +22,7 @@ const banners = [
   },
 ];
 
-const SaveUpTo = () => {
+const SaveUpTo: React.FC<{}> = () => {
   return (
     <div className="grid grid-cols-12 gap-8 container mx-auto lg:max-w-7xl py-4 my-8 items-center justify-center">
       {banners.map((banner, idx) => (

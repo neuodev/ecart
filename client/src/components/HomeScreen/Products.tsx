@@ -5,8 +5,13 @@ import LatestProducts from "./LatestProducts";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Box } from "@mui/system";
 
+enum TabId {
+  Featured = "1",
+  Latest = "2",
+}
+
 const Products = () => {
-  const [activeTab, setActiveTab] = useState("1");
+  const [activeTab, setActiveTab] = useState(TabId.Featured);
 
   return (
     <div className="">
@@ -25,14 +30,14 @@ const Products = () => {
                 },
               }}
             >
-              <Tab variant="main" label="Featured Products" value={"1"} />
-              <Tab variant="main" label="Latest Products" value={"2"} />
+              <Tab label="Featured Products" value={TabId.Featured} />
+              <Tab label="Latest Products" value={TabId.Latest} />
             </TabList>
           </Box>
-          <TabPanel value={"1"}>
+          <TabPanel value={TabId.Featured}>
             <FeaturedProducts />
           </TabPanel>
-          <TabPanel value={"2"}>
+          <TabPanel value={TabId.Latest}>
             <LatestProducts />
           </TabPanel>
         </TabContext>

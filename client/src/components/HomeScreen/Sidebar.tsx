@@ -22,6 +22,7 @@ import { BiCartAlt } from "react-icons/bi";
 import { useDispatch } from "react-redux";
 import { RESET_FILTERS } from "../../actions/actionTypes";
 import { Search } from "@mui/icons-material";
+import { useAppDispatch } from "../../store";
 
 const list = [
   {
@@ -66,13 +67,13 @@ const list = [
     link: "/",
   },
 ];
-const Sidebar = () => {
+const Sidebar: React.FC<{}> = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const [open, setOpen] = useState(false);
-  const [search, setSearch] = useState("");
+  const dispatch = useAppDispatch();
+  const [open, setOpen] = useState<boolean>(false);
+  const [search, setSearch] = useState<string>("");
 
-  const onSearch = (e) => {
+  const onSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     navigate(`/products?q=${search}`);
     dispatch({ type: RESET_FILTERS });
@@ -126,15 +127,6 @@ const Sidebar = () => {
                 <ListItemIcon>{link.icon}</ListItemIcon>
                 <ListItemText>{link.title}</ListItemText>
               </MenuItem>
-              // <Link
-              //   key={idx}
-              //   onClick={toggleDrawer}
-              //   to={link.link}
-              //   className="hover:bg-gray-700 w-60 py-2 rounded-md pl-4 font-medium text-gray-800 flex items-center space-x-2"
-              // >
-              //   <span>{link.icon}</span>
-              //   <span>{link.title}</span>
-              // </Link>
             ))}
           </MenuList>
         </div>

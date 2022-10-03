@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Sales = () => {
+const Sales: React.FC<{}> = () => {
   return (
     <div
       style={{

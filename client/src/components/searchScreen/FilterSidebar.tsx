@@ -3,7 +3,7 @@ import { IoOptionsOutline } from "react-icons/io5";
 import { Button, Collapse, Drawer, Radio, RadioGroup } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { CATEGORY, PRICE } from "../../actions/actionTypes";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import ClearFilter from "./ClearFilter";
 import { RootState, useAppDispatch } from "../../store";
 

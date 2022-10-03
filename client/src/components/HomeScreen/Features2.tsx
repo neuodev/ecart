@@ -24,7 +24,7 @@ const list = [
   },
 ];
 
-const Features2 = () => {
+const Features2: React.FC<{}> = () => {
   return (
     <div className="container mx-auto mt-12 mb-24">
       <div className="grid grid-cols-12 gap-4 mb-4">

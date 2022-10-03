@@ -22,7 +22,7 @@ const list = [
   },
 ];
 
-const Features = () => {
+const Features: React.FC<{}> = () => {
   return (
     <div id="features" className="border-y-2">
       <div className="container mx-auto px-4 lg:flex justify-between items-center lg:py-7 ">

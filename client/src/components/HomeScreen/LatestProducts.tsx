@@ -1,15 +1,15 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-// todo: fix this css file
-// import 'swiper/swiper-bundle.css';
+import "swiper/css";
 import ProductCard from "./ProductCard";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../store";
 
-const LatestProducts = ({ history }) => {
-  let { error, loading, products } = useSelector(
+const LatestProducts: React.FC<{}> = () => {
+  let { error, loading, products } = useAppSelector(
     (state) => state.featuredProducts
   );
 
+  // Make a reversed copy
   const reversed = [...products].reverse();
 
   return (
@@ -25,7 +25,7 @@ const LatestProducts = ({ history }) => {
         >
           {reversed.map((product, idx) => (
             <SwiperSlide key={idx}>
-              <ProductCard product={product} history={history} />
+              <ProductCard product={product} />
             </SwiperSlide>
           ))}
         </Swiper>
@@ -41,7 +41,7 @@ const LatestProducts = ({ history }) => {
         >
           {reversed.map((product, idx) => (
             <SwiperSlide key={idx}>
-              <ProductCard product={product} history={history} />
+              <ProductCard product={product} />
             </SwiperSlide>
           ))}
         </Swiper>
@@ -57,7 +57,7 @@ const LatestProducts = ({ history }) => {
         >
           {reversed.map((product, idx) => (
             <SwiperSlide key={idx}>
-              <ProductCard product={product} history={history} />
+              <ProductCard product={product} />
             </SwiperSlide>
           ))}
         </Swiper>
@@ -73,7 +73,7 @@ const LatestProducts = ({ history }) => {
         >
           {reversed.map((product) => (
             <SwiperSlide>
-              <ProductCard product={product} history={history} />
+              <ProductCard product={product} />
             </SwiperSlide>
           ))}
         </Swiper>

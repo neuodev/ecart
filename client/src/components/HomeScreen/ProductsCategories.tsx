@@ -1,19 +1,17 @@
 import React, { useEffect } from "react";
 import ProductCard2 from "./ProductCard2";
-import { useSelector, useDispatch } from "react-redux";
 import { Skeleton } from "@mui/material";
 import {
   getBestSellingProducts,
   getLatestProducts,
   getTopRatedProducts,
 } from "../../actions/products";
+import { useAppDispatch, useAppSelector } from "../../store";
 
-const ProductsCategories = () => {
-  const dispatch = useDispatch();
-
-  const { topRatedProducts, bestSellingProducts, latestProducts } = useSelector(
-    (state) => state
-  );
+const ProductsCategories: React.FC<{}> = () => {
+  const dispatch = useAppDispatch();
+  const { topRatedProducts, bestSellingProducts, latestProducts } =
+    useAppSelector((state) => state);
 
   useEffect(() => {
     dispatch(getTopRatedProducts());
@@ -31,11 +29,11 @@ const ProductsCategories = () => {
           {topRatedProducts.loading && (
             <div className="mt-4">
               <div className="mb-4">
-                <Skeleton variant="rect" width={210} height={118} />
+                <Skeleton width={210} height={118} />
                 <Skeleton variant="text" width={210} />
                 <Skeleton variant="text" width={210} />
               </div>
-              <Skeleton variant="rect" width={210} height={118} />{" "}
+              <Skeleton variant="rectangular" width={210} height={118} />{" "}
               <Skeleton variant="text" width={210} />
               <Skeleton variant="text" width={210} />
             </div>
@@ -52,11 +50,11 @@ const ProductsCategories = () => {
             <div className="mt-4">
               {" "}
               <div className="mb-4">
-                <Skeleton variant="rect" width={210} height={118} />
+                <Skeleton variant="rectangular" width={210} height={118} />
                 <Skeleton variant="text" width={210} />
                 <Skeleton variant="text" width={210} />
               </div>{" "}
-              <Skeleton variant="rect" width={210} height={118} />{" "}
+              <Skeleton variant="rectangular" width={210} height={118} />{" "}
               <Skeleton variant="text" width={210} />
               <Skeleton variant="text" width={210} />
             </div>
@@ -73,11 +71,11 @@ const ProductsCategories = () => {
             <div className="mt-4">
               {" "}
               <div className="mb-4">
-                <Skeleton variant="rect" width={210} height={118} />
+                <Skeleton variant="rectangular" width={210} height={118} />
                 <Skeleton variant="text" width={210} />
                 <Skeleton variant="text" width={210} />
               </div>{" "}
-              <Skeleton variant="rect" width={210} height={118} />{" "}
+              <Skeleton variant="rectangular" width={210} height={118} />{" "}
               <Skeleton variant="text" width={210} />
               <Skeleton variant="text" width={210} />
             </div>

@@ -1,17 +1,18 @@
-import {
-  FavoriteBorderOutlined,
-  ShoppingCartOutlined,
-  Favorite,
-} from "@mui/icons-material";
-import { Link, useNavigate } from "react-router-dom";
+import { FavoriteBorderOutlined, Favorite } from "@mui/icons-material";
+import { Link } from "react-router-dom";
 import { IconButton, Rating } from "@mui/material";
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
 import { addToWishlist } from "../../actions/whishlist";
+import { IProduct } from "../../types";
+import { useAppDispatch, useAppSelector } from "../../store";
 import "./style.css";
 
-const StyledDiv = styled.div`
+type Screen = "search" | "home";
+
+const StyledDiv = styled.div<{
+  screen?: Screen;
+}>`
   width: ${(props) => (props.screen === "search" ? "300px" : "240px")};
   height: 400px;
 
@@ -23,30 +24,18 @@ const StyledDiv = styled.div`
   }
 `;
 
-const ProductCard = ({ product, screen }) => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const [moveImgUp, setMoveImgUp] = useState(false);
-  const wishlist = useSelector((state) => state.wishlist);
-  const { price, images, rating, name, category, _id } = product;
+const ProductCard: React.FC<{
+  product: IProduct;
+  screen?: Screen;
+}> = ({ product, screen }) => {
+  const dispatch = useAppDispatch();
+  const wishlist = useAppSelector((state) => state.wishlist);
 
+  const { price, images, rating, name, category, _id } = product;
   let existInWishlist = wishlist.find((product) => product._id === _id);
 
-  const [show, setShow] = useState(false);
-  const mouseEnter = () => {
-    setShow(true);
-    setMoveImgUp(true);
-  };
-  const mouseLeave = () => {
-    setShow(false);
-    setMoveImgUp(false);
-  };
   const addToWishlistHandler = () => {
     dispatch(addToWishlist(product));
-  };
-
-  const addToCard = () => {
-    navigate(`/cart/${_id}?qty=1`);
   };
 
   return (
@@ -56,9 +45,7 @@ const ProductCard = ({ product, screen }) => {
     >
       <Link to={`/product/${_id}`}>
         <div
-          className={`relative h-4/5 ${
-            moveImgUp ? "moveUp" : "moveDown"
-          }  transform translate-x-0 transition-all duration-300 border-b rounded-t-xl`}
+          className={`relative h-4/5 transform translate-x-0 transition-all duration-300 border-b rounded-t-xl`}
         >
           <img
             className="h-full inline-block object-contain p-3"

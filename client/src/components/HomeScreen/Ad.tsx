@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { CloseOutlined } from "@mui/icons-material";
 
-const Ad = () => {
+const Ad: React.FC<{}> = () => {
   const [open, setOpen] = useState(true);
   const onClick = () => {
     setOpen(false);
   };
+
   return (
     <div
       className={`${

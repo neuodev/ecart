@@ -9,21 +9,18 @@ type TopRated = BaseState<{
   products: IProduct[];
 }>;
 
-export const topRatedProducts = (
+export function topRatedProducts(
   state: TopRated = { products: [], loading: false, error: null },
   {
     payload,
     type,
   }: BaseAction<
-    {
-      products: IProduct[];
-      count: number;
-    },
+    IProduct[],
     typeof TOP_RATED_PRODUCTS_REQUEST,
     typeof TOP_RATED_PRODUCTS_SUCCESS,
     typeof TOP_RATED_PRODUCTS_FAIL
   >
-) => {
+): TopRated {
   switch (type) {
     case TOP_RATED_PRODUCTS_REQUEST:
       return {
@@ -45,4 +42,4 @@ export const topRatedProducts = (
     default:
       return state;
   }
-};
+}

@@ -7,7 +7,7 @@ import WishList from "../wishlist/WishList";
 import Search from "./Search";
 import { IconButton } from "@mui/material";
 
-const MainNavbar = () => {
+const MainNavbar: React.FC<{}> = () => {
   return (
     <div className="bg-gray-50">
       <div className="flex items-center justify-between px-5 container mx-auto">
@@ -26,7 +26,7 @@ const MainNavbar = () => {
           <Search />
         </div>
         <div className="flex items-center justify-between text-gray-700 -mr-2">
-          <IconButton LinkComponent={Link} to="/account">
+          <IconButton href="/account">
             <BiUser />
           </IconButton>
           <WishList />

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@mui/material";
 import "./style.css";
 
-const ShowcaseSlide2 = () => {
+const ShowcaseSlide2: React.FC<{}> = () => {
   return (
     <div
       className="w-full h-full py-12 flex items-center justify-center relative"
@@ -25,9 +25,8 @@ const ShowcaseSlide2 = () => {
           </h1>
 
           <Button
-            LinkComponent={Link}
             variant="dark"
-            to="/products"
+            href="/products"
             className="bg-gray-800 text-white  py-3 px-4 text-lg uppercase focus:outline-none focus:ring-2 hover:opacity-90 mt-5 inline-block"
           >
             Shop All Sale

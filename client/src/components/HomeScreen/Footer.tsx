@@ -1,7 +1,7 @@
 import { Facebook, Instagram, Twitter } from "@mui/icons-material";
 import React from "react";
 
-const Footer = () => {
+const Footer: React.FC<{}> = () => {
   return (
     <div className="bg-gray-800 py-10 px-6">
       <div className="grid grid-cols-12">
