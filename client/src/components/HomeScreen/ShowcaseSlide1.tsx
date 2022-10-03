@@ -4,8 +4,8 @@ import { Button } from "@mui/material";
 const ShowcaseSlide1: React.FC<{}> = () => {
   return (
     <div className="w-full h-full bg-gray-100">
-      <div className="container mx-auto h-full w-full flex flex-row">
-        <div className="flex items-start justify-center flex-col">
+      <div className="container max-w-screen-lg mx-auto h-full w-full flex flex-row">
+        <div className="flex items-start justify-center flex-col w-full">
           <h6 className="text-gray-500 font-medium mb-1 text-xl lg:text-2xl">
             Toally Wireless High-Performance{" "}
           </h6>

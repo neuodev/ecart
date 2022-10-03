@@ -4,7 +4,7 @@ import { Button } from "@mui/material";
 const ShowcaseSlide2: React.FC<{}> = () => {
   return (
     <div className="w-full h-full flex items-center justify-center bg-gray-100">
-      <div className="container mx-auto h-full w-full flex flex-row">
+      <div className="container max-w-screen-lg  mx-auto h-full w-full flex flex-row">
         <div className="w-full flex items-start justify-center flex-col">
           <h6 className="text-gray-500 font-medium uppercase text-xl lg:text-4xl">
             extra

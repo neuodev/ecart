@@ -1,5 +1,5 @@
 import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperCore from "swiper";
+import SwiperCore, { Autoplay } from "swiper";
 import ShowcaseSlide1 from "./ShowcaseSlide1";
 import ShowcaseSlide2 from "./ShowcaseSlide2";
 import "swiper/css";
@@ -9,7 +9,15 @@ SwiperCore.use([]);
 const Showcase = () => {
   return (
     <div>
-      <Swiper className="h-70vh">
+      <Swiper
+        loop
+        className="h-70vh"
+        // autoplay={{
+        //   delay: 2000,
+        //   disableOnInteraction: false,
+        // }}
+        modules={[Autoplay]}
+      >
         <SwiperSlide>
           <ShowcaseSlide1 />
         </SwiperSlide>
