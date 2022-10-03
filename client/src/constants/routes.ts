@@ -1,15 +1,15 @@
 export const ROUTES = {
   ROOT: "/",
-  PRODUCTS: "products",
-  PRODUCT: "product/:id",
-  CART: "cart/:id",
+  PRODUCTS: "/products",
+  PRODUCT: "/product/:id",
+  CART: "/cart/:id",
   CHECKOUTS: {
     ROOT: "/checkouts/",
     INFO: "/checkouts/",
     SHIPPING: "/checkouts/shipping/",
     PAYMENT: "/checkouts/payment/",
   },
-  LOGIN: "login",
+  LOGIN: "/login",
   REGISTER: "register",
   ACCOUNT: {
     ROOT: "/accounts/",

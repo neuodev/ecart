@@ -1,9 +1,10 @@
-import { Link } from "react-router-dom";
+import { createSearchParams, Link } from "react-router-dom";
 import { useEffect } from "react";
 import { BsChevronCompactRight } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { useNavigate, Outlet } from "react-router-dom";
 import { RootState } from "../store";
+import { ROUTES } from "../constants/routes";
 
 const AccountScreen = () => {
   const navigate = useNavigate();
@@ -13,7 +14,12 @@ const AccountScreen = () => {
 
   useEffect(() => {
     if (!userInfo || !userInfo._id) {
-      navigate("/login");
+      navigate({
+        pathname: ROUTES.LOGIN,
+        search: createSearchParams({
+          redirect: ROUTES.ACCOUNT.ROOT,
+        }).toString(),
+      });
     }
   }, [userInfo, navigate]);
 

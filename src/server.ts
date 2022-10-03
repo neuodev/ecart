@@ -53,7 +53,7 @@ if (process.env.NODE_ENV === "production") {
 //  Error Handler
 app.use(errorHandler);
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () =>
   console.log(
     `Server start in ${process.env.NODE_ENV || "-"} at port ${PORT}`.bgCyan

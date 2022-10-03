@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import "./style.css";
 import { login } from "../actions/user";
@@ -20,6 +20,7 @@ import {
 import { USER_LOGIN_RESET } from "../actions/actionTypes";
 import Input from "../components/common/Input";
 import { RootState, useAppDispatch } from "../store";
+import { ROUTES } from "../constants/routes";
 
 const validators = {
   email: isValidEmail,
@@ -79,11 +80,14 @@ const LoginScreen = () => {
     dispatch(login(state.email, state.password));
   };
 
+  const [params] = useSearchParams();
+
   useEffect(() => {
-    if (userInfo && userInfo._id) {
-      navigate("/");
+    let redirect = params.get("redirect");
+    if (userInfo) {
+      navigate(redirect || ROUTES.ROOT);
     }
-  }, [error, userInfo, navigate]);
+  }, [error, userInfo, navigate, params]);
 
   useEffect(() => {
     return () => {

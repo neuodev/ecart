@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Facebook, Twitter, Instagram } from "@mui/icons-material";
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../actions/user";
 import { Tooltip, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../store";
