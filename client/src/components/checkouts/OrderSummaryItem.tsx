@@ -1,10 +1,10 @@
 import { Rating } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
-import { IProduct } from "../../types";
+import { ICartItem } from "../../types";
 import { currFormat } from "../../utils/currency";
 
-const OrderSummaryItem: React.FC<{ product: IProduct }> = ({ product }) => {
+const OrderSummaryItem: React.FC<{ product: ICartItem }> = ({ product }) => {
   const { image, price, name, qty, rating, product: id } = product;
   return (
     <div className="flex items-center justify-between w-full mb-4">

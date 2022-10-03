@@ -1,6 +1,9 @@
 import React from "react";
+import { IOrderItem } from "../../types";
 
-const Order = ({ order }) => {
+const Order: React.FC<{
+  order: IOrderItem;
+}> = ({ order }) => {
   const { qty, name, image, price } = order;
   return (
     <div className="flex items-center space-x-3 border rounded-md mb-1 bg-white">

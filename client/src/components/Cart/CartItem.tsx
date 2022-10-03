@@ -3,10 +3,14 @@ import { IconButton, Rating } from "@mui/material";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { removeFromCart } from "../../actions/cart";
+import { useAppDispatch } from "../../store";
+import { ICartItem } from "../../types";
 import { currFormat } from "../../utils/currency";
 
-const CartItem = ({ cartItem }) => {
-  const dispatch = useDispatch();
+const CartItem: React.FC<{
+  cartItem: ICartItem;
+}> = ({ cartItem }) => {
+  const dispatch = useAppDispatch();
   const { name, qty, price, discount, image, product, rating } = cartItem;
   const priceAfterDiscount = price - price * (discount / 100);
 

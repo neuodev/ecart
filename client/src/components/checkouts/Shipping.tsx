@@ -7,8 +7,6 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { saveShippingMethod } from "../../actions/cart";
 import { createOrder } from "../../actions/order";
 import { calcTotal } from "../../utils/cost";
@@ -19,9 +17,9 @@ import CheckoutSteps from "../common/CheckoutSteps";
 import EditIcon from "@mui/icons-material/Edit";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useAppDispatch, useAppSelector } from "../../store";
-import { shippingMethod } from "../../types";
+import { ShippingMethod } from "../../types";
 
-const shippingMethods: Array<shippingMethod> = [
+const shippingMethods: Array<ShippingMethod> = [
   {
     name: "International Shipping",
     cost: 40.0,
@@ -36,7 +34,7 @@ const Shipping: React.FC<{}> = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { cartItems, shippingAddress } = useAppSelector((state) => state.cart);
-  let [shippingMethod, setShippingMethod] = useState<shippingMethod | null>(
+  let [shippingMethod, setShippingMethod] = useState<ShippingMethod | null>(
     null
   );
   const { loading, order, error } = useAppSelector(
@@ -94,7 +92,7 @@ const Shipping: React.FC<{}> = () => {
     dispatch({ type: ORDER_PAY_RESET });
   };
 
-  const updateShippingMethod = (method: shippingMethod) => {
+  const updateShippingMethod = (method: ShippingMethod) => {
     setShippingMethod(method);
     dispatch(saveShippingMethod(method));
   };

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const EmptyWishlist: React.FC<{
   asCol?: boolean;
-  onClose(): void;
+  onClose?: () => void;
 }> = ({ asCol, onClose }) => {
   return (
     <div

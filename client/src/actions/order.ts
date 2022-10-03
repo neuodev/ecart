@@ -5,7 +5,7 @@ import {
   ICartItem,
   IPaymentResult,
   ShippingAddr,
-  shippingMethod,
+  ShippingMethod,
 } from "../types";
 import {
   CART_CLEAR_ITEMS,
@@ -25,7 +25,7 @@ export const createOrder =
   (order: {
     orderItems: ICartItem[];
     shippingAddress: ShippingAddr;
-    shippingMethod: shippingMethod;
+    shippingMethod: ShippingMethod;
     itemsPrice: number;
     shippingPrice: number;
     taxPrice: number;

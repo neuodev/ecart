@@ -2,13 +2,13 @@ import { configureStore } from "@reduxjs/toolkit";
 import thunk from "redux-thunk";
 import rootReducer from "./reducers";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import { ICartItem, IUser, ShippingAddr } from "./types";
+import { ICartItem, IUser, ShippingAddr, ShippingMethod } from "./types";
 import { findOrNull } from "./utils";
 
 const cartItems = findOrNull<ICartItem[]>("cartItems") || [];
 const shippingAddress = findOrNull<ShippingAddr>("shippingAddr");
-const paymentMethod = findOrNull<{}>("paymentMethod");
-const shippingMethod = findOrNull<{}>("shippingMethod");
+const paymentMethod = findOrNull<string>("paymentMethod");
+const shippingMethod = findOrNull<ShippingMethod>("shippingMethod");
 
 const userInfo = findOrNull<IUser & { token: string }>("userInfo");
 const initalState = {

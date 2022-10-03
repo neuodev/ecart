@@ -95,7 +95,10 @@ const OrderItem: React.FC<{
 
 export default OrderItem;
 
-const TextSlice = ({ children, tooltip }) => {
+const TextSlice: React.FC<{ children: React.ReactNode; tooltip: string }> = ({
+  children,
+  tooltip,
+}) => {
   return (
     <Tooltip
       arrow

@@ -1,27 +1,22 @@
 import React, { useEffect, useState } from "react";
 import OrderSummaryItem from "./OrderSummaryItem";
-import { useSelector } from "react-redux";
-import { calcTotalPrice } from "../../utils/calcTotalPrice";
-import { calcSubTotal } from "../../utils/calcSubTotal";
+import { calcTotalPrice, calcSubTotal } from "../../utils/cost";
 import { currFormat } from "../../utils/currency";
+import { useAppSelector } from "../../store";
+import LabelValue from "../common/LabelValue";
 
-const OrderSummaryLargScreen = () => {
-  const { cartItems, shippingMethod } = useSelector((state) => state.cart);
-  // todo: Fix this
-  const [currentShppingCost, setCurrentShppingCost] = useState(null);
+const OrderSummaryLargScreen: React.FC<{}> = () => {
+  const { cartItems, shippingMethod } = useAppSelector((state) => state.cart);
+  const [currentShppingCost, setCurrentShppingCost] = useState<number | null>(
+    null
+  );
   const subTotal = calcSubTotal(cartItems);
 
-  let total;
-  if (shippingMethod) {
-    total = calcTotalPrice(cartItems, shippingMethod);
-  } else {
-    total = calcTotalPrice(cartItems);
-  }
-  total = total.toFixed(2);
+  let total = calcTotalPrice(cartItems, shippingMethod);
 
   useEffect(() => {
     if (shippingMethod) {
-      setCurrentShppingCost(shippingMethod.cost.toFixed(2));
+      setCurrentShppingCost(shippingMethod ? shippingMethod.cost : null);
     }
   }, [shippingMethod]);
 
@@ -46,12 +41,3 @@ const OrderSummaryLargScreen = () => {
 };
 
 export default OrderSummaryLargScreen;
-
-const LabelValue = ({ label, value }) => {
-  return (
-    <div className="flex items-center justify-between mb-2">
-      <h1 className="font-light">{label}</h1>
-      <p className="text-lg">{value}</p>
-    </div>
-  );
-};

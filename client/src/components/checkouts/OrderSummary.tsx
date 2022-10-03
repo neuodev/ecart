@@ -3,26 +3,21 @@ import React, { useEffect, useState } from "react";
 import { BiCart, BiChevronDown } from "react-icons/bi";
 import OrderSummaryItem from "./OrderSummaryItem";
 import { useSelector } from "react-redux";
-import { calcTotalPrice } from "../../utils/calcTotalPrice";
-import { calcSubTotal } from "../../utils/calcSubTotal";
+import { calcTotalPrice, calcSubTotal } from "../../utils/cost";
+import { useAppSelector } from "../../store";
+import { currFormat } from "../../utils/currency";
 
 const OrderSummary = () => {
-  const { cartItems, shippingMethod } = useSelector((state) => state.cart);
-  const [currentShppingCost, setCurrentShppingCost] = useState("--,--");
+  const { cartItems, shippingMethod } = useAppSelector((state) => state.cart);
+  const [currentShppingCost, setCurrentShppingCost] = useState<number | null>(
+    null
+  );
   let subTotal = calcSubTotal(cartItems);
-  let total;
-
-  if (shippingMethod) {
-    total = calcTotalPrice(cartItems, shippingMethod);
-  } else {
-    total = calcTotalPrice(cartItems);
-  }
-
-  total = total.toFixed(2);
+  let total = calcTotalPrice(cartItems, shippingMethod);
 
   useEffect(() => {
     if (shippingMethod) {
-      setCurrentShppingCost(shippingMethod.cost.toFixed());
+      setCurrentShppingCost(shippingMethod ? shippingMethod.cost : null);
     }
   }, [shippingMethod]);
 
@@ -35,7 +30,7 @@ const OrderSummary = () => {
             <p>Show order Summary</p>
             <BiChevronDown className="text-xl mt-1 " />
           </div>
-          <p className="font-bold text-gray-800 ">${total}</p>
+          <p className="font-bold text-gray-800 ">{currFormat(total)}</p>
         </div>
       </AccordionSummary>
       <AccordionDetails>
@@ -48,14 +43,16 @@ const OrderSummary = () => {
           <div className="py-4">
             <div className="flex items-center justify-between mb-2">
               <h1 className="font-light ">Subtotal</h1>
-              <p className="text-lg">${subTotal.toFixed(2)}</p>
+              <p className="text-lg">{currFormat(subTotal)}</p>
             </div>
             <div className="flex items-center justify-between">
               <h1 className="font-light">Shipping</h1>
-              <p className="text-lg">${currentShppingCost}</p>
+              <p className="text-lg">
+                {currentShppingCost ? currFormat(currentShppingCost) : "-"}
+              </p>
             </div>
           </div>
-          <div className="border-b "></div>
+          <div className="border-b"></div>
           <div className="flex items-center justify-between py-4">
             <h1 className="font-light text-lg">Total</h1>
             <p>

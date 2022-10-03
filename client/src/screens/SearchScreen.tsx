@@ -3,14 +3,13 @@ import styled from "styled-components";
 import ProductCard from "../components/HomeScreen/ProductCard";
 import FilterSidebarLargeScreen from "../components/searchScreen/FilterSidebarLargeScreen";
 import Header from "../components/searchScreen/Header";
-import { useSelector, useDispatch } from "react-redux";
 import {
   nextPageProducts,
   recommend,
   serachProducts,
 } from "../actions/products";
 import Recommend from "../components/searchScreen/Recommend";
-import ProductSkeleton from "../utils/ProductSkeleton";
+import ProductSkeleton from "../components/utils/ProductSkeleton";
 import {
   BsChevronDoubleLeft,
   BsChevronDoubleRight,
@@ -20,7 +19,7 @@ import {
 import { useLocation } from "react-router-dom";
 import { IconButton } from "@mui/material";
 import { Stack, styled as MuiStyled } from "@mui/system";
-import { RootState, useAppDispatch, useAppSelector } from "../store";
+import { useAppDispatch, useAppSelector } from "../store";
 
 const StyledDiv = styled.div`
   @media (min-width: 1450px) {
@@ -29,7 +28,7 @@ const StyledDiv = styled.div`
   }
 `;
 
-const SearchScreen = () => {
+const SearchScreen: React.FC<{}> = () => {
   const dispatch = useAppDispatch();
   let [page, setPage] = useState<number>(1);
   let [numOfBtns, setNumOfBtns] = useState<number[]>([]);
@@ -37,20 +36,16 @@ const SearchScreen = () => {
   const params = new URLSearchParams(loc.search);
   const q = params.get("q");
 
-  const { error, loading, products, count } = useSelector<
-    RootState,
-    RootState["searchProducts"]
-  >((state) => state.searchProducts);
+  const { loading, products, count } = useAppSelector(
+    (state) => state.searchProducts
+  );
 
   const { loading: recommendLoading, products: recommendedProducts } =
-    useSelector<RootState, RootState["recommended"]>(
-      (state) => state.recommended
-    );
+    useAppSelector((state) => state.recommended);
 
-  const { sort, price, category, brand, limit } = useSelector<
-    RootState,
-    RootState["filters"]
-  >((state) => state.filters);
+  const { sort, price, category, brand, limit } = useAppSelector(
+    (state) => state.filters
+  );
 
   useEffect(() => {
     dispatch(serachProducts({ q, category, price, sort, brand, page, limit }));

@@ -1,12 +1,10 @@
-import { Button, Typography } from "@mui/material";
 import React from "react";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useAppSelector } from "../../store";
 import EmptyWishlist from "../wishlist/EmptyWishlist";
 import WishListItem from "../wishlist/WishListItem";
 
-const WishList = () => {
-  const wishlist = useSelector((state) => state.wishlist);
+const WishList: React.FC<{}> = () => {
+  const wishlist = useAppSelector((state) => state.wishlist);
 
   return (
     <div>

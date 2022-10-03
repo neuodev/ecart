@@ -66,7 +66,7 @@ export interface IOrder {
     lastName: string;
   };
   paymentMethod: string;
-  shippingMethod: shippingMethod;
+  shippingMethod: ShippingMethod;
   paymentResult: IPaymentResult;
   taxPrice: number;
   shippingPrice: number;
@@ -101,7 +101,7 @@ export interface ShippingAddr {
   save: boolean;
 }
 
-export interface shippingMethod {
+export interface ShippingMethod {
   name: string;
   cost: number;
 }

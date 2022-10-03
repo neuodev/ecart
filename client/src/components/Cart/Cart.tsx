@@ -1,17 +1,16 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { BiCartAlt } from "react-icons/bi";
 import CartItem from "./CartItem";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { calcTotal } from "../../utils/cost";
 import { Badge, Button, IconButton, Typography } from "@mui/material";
 import Modal from "../common/Modal";
 import { currFormat } from "../../utils/currency";
 import EmptyCart from "../Cartscreen/EmptyCart";
+import { useAppSelector } from "../../store";
 
 export default function MenuListComposition() {
-  const [open, setOpen] = useState(false);
-  const { cartItems } = useSelector((state) => state.cart);
+  const [open, setOpen] = useState<boolean>(false);
+  const { cartItems } = useAppSelector((state) => state.cart);
 
   const numOfItems = cartItems.reduce((acc, item) => acc + item.qty, 0);
   let total = cartItems.reduce(
@@ -57,20 +56,10 @@ export default function MenuListComposition() {
               <p className="font-bold text-xl">{currFormat(total)}</p>
             </div>
             <div className="grid grid-cols-2 gap-2">
-              <Button
-                variant="dark-outlined"
-                fullWidth
-                LinkComponent={Link}
-                to="/cart/1"
-              >
+              <Button variant="dark-outlined" fullWidth href="/cart/1">
                 View Cart
               </Button>
-              <Button
-                variant="dark"
-                fullWidth
-                LinkComponent={Link}
-                to="/checkouts"
-              >
+              <Button variant="dark" fullWidth href="/checkouts">
                 Buy now
               </Button>
             </div>

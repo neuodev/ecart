@@ -5,7 +5,8 @@ export function randomIntFromInterval(min: number, max: number) {
 }
 
 export function findOrNull<T>(key: LocalStorageKey) {
-  return JSON.parse(LOCAL_STORAGE[key] || "null") as T | null;
+  let data = localStorage.getItem(LOCAL_STORAGE[key]);
+  return JSON.parse(data || "null") as T | null;
 }
 
 export function stringToColor(string: string) {

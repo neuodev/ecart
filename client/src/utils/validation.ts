@@ -10,15 +10,15 @@ const rePass = new RegExp(
  */
 const rePostCode = new RegExp(/(^\d{5}$)|(^\d{5}-\d{4}$)/);
 
-export const isValidEmail = (email) => reEmail.test(email);
-export const isValidPass = (pass) => rePass.test(pass);
-export const isValidName = (name) => name && name.length >= 3;
-export const notEmpty = (val) => val && val.trim().length !== 0;
-export const isValidPostalCode = (code) => rePostCode.test(code);
-export const atLeastOfLength = (val, len) =>
+export const isValidEmail = (email: string) => reEmail.test(email);
+export const isValidPass = (pass: string) => rePass.test(pass);
+export const isValidName = (name: string) => name && name.length >= 3;
+export const notEmpty = (val: string) => val && val.trim().length !== 0;
+export const isValidPostalCode = (code: string) => rePostCode.test(code);
+export const atLeastOfLength = (val: string, len: number) =>
   val && typeof val === "string" && val.length >= len;
 
-// Common error messages for consistency
+// Common error messages
 export const PASSWORD_ERR = "At least 8 characters with numbers and alphabet";
 export const EMAIL_ERR = "Invalid email, please retype";
 export const FIRST_NAME_ERR = "First name must be at least 3 caracters";

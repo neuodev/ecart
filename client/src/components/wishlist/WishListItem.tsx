@@ -1,6 +1,5 @@
 import { Button, Rating } from "@mui/material";
 import React from "react";
-import { useDispatch } from "react-redux";
 import { removeFromWishlist } from "../../actions/whishlist";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../store";
@@ -8,7 +7,7 @@ import { IProduct } from "../../types";
 
 const WishListItem: React.FC<{
   product: IProduct;
-  handleClose(): void;
+  handleClose?: () => void;
 }> = ({ product, handleClose }) => {
   const dispatch = useAppDispatch();
   const naviage = useNavigate();
@@ -17,7 +16,7 @@ const WishListItem: React.FC<{
 
   const addToCart = () => {
     naviage(`/cart/${_id}?qty=1`);
-    handleClose();
+    if (handleClose) handleClose();
     dispatch(removeFromWishlist(_id));
   };
 

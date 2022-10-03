@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../actions/user";
 import { Tooltip, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../store";
+import { ROUTES } from "../../constants/routes";
 
 const SOCIAL_LINKS = [
   {
@@ -29,22 +30,22 @@ const MiniNav: React.FC<{}> = () => {
   const links = [
     {
       title: "My Account",
-      onClick: () => navigate("/account"),
+      onClick: () => navigate(ROUTES.ACCOUNT.ORDERS),
       tooltip: "See your latest orders",
     },
     {
       title: "Contact Us",
-      onClick: () => navigate("/"),
+      onClick: () => navigate(ROUTES.ROOT),
       tooltip: "Contact as at support@wallet.io",
     },
     {
       title: "Wishlist",
-      onClick: () => navigate("/account/wishlist"),
+      onClick: () => navigate(ROUTES.ACCOUNT.WISHLIST),
       tooltip: "Check your wishlist",
     },
     {
       title: "Login",
-      onClick: () => navigate("/login"),
+      onClick: () => navigate(ROUTES.LOGIN),
       tooltip: "Login to your account so you can buy our products",
     },
     {
