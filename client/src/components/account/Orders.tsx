@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import { listMyOrders } from "../../actions/order";
 import { Link } from "react-router-dom";
 import Alert from "../utils/Alert";
@@ -13,6 +12,7 @@ import { IOrder } from "../../types";
 
 const Orders = () => {
   const dispatch = useAppDispatch();
+  const { userInfo } = useAppSelector((state) => state.userLogin);
   const { loading, error, orders } = useAppSelector(
     (state) => state.myOrderList
   );
@@ -20,8 +20,8 @@ const Orders = () => {
   const [order, setOrder] = useState<IOrder | null>(null);
 
   useEffect(() => {
-    dispatch(listMyOrders());
-  }, [success]);
+    if (userInfo) dispatch(listMyOrders());
+  }, [success, userInfo]);
 
   return (
     <div>
@@ -38,7 +38,7 @@ const Orders = () => {
           <Alert type="error" message={error} />
         </div>
       ) : orders.length === 0 ? (
-        <div className="my-10">
+        <div className="my-10 min-h-400">
           <Alert type="info" message="No Orders">
             <Link
               to="/products"

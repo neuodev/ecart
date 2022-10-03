@@ -156,9 +156,11 @@ export const listMyOrders =
           error.response && error.response.data.error
             ? error.response.data.error
             : error.message;
+        console.log(error)
         if (message === "Not authorized, token failed") {
-          logout()(dispatch);
+          dispatch(logout())
         }
+      
         dispatch({
           type: ORDER_LIST_FAIL,
           payload: message,

@@ -2,7 +2,6 @@ import React from "react";
 import { FaShippingFast } from "react-icons/fa";
 import { MdAttachMoney } from "react-icons/md";
 import { Ri24HoursFill } from "react-icons/ri";
-import "./style.css";
 
 const list = [
   {
@@ -24,8 +23,8 @@ const list = [
 
 const Features: React.FC<{}> = () => {
   return (
-    <div id="features" className="border-y-2">
-      <div className="container mx-auto px-4 lg:flex justify-between items-center lg:py-7 ">
+    <div className="border-y-2">
+      <div className="container mx-auto px-4 lg:flex justify-between items-center lg:py-7">
         {list.map((item, idx) => (
           <div
             key={idx}

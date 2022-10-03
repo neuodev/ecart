@@ -1,4 +1,3 @@
-import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore from "swiper";
 import ShowcaseSlide1 from "./ShowcaseSlide1";
@@ -9,14 +8,16 @@ SwiperCore.use([]);
 
 const Showcase = () => {
   return (
-    <Swiper>
-      <SwiperSlide>
-        <ShowcaseSlide1 />
-      </SwiperSlide>
-      <SwiperSlide>
-        <ShowcaseSlide2 />
-      </SwiperSlide>
-    </Swiper>
+    <div>
+      <Swiper className="h-70vh">
+        <SwiperSlide>
+          <ShowcaseSlide1 />
+        </SwiperSlide>
+        <SwiperSlide>
+          <ShowcaseSlide2 />
+        </SwiperSlide>
+      </Swiper>
+    </div>
   );
 };
 

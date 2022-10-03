@@ -1,19 +1,16 @@
 import { createSearchParams, Link } from "react-router-dom";
 import { useEffect } from "react";
 import { BsChevronCompactRight } from "react-icons/bs";
-import { useSelector } from "react-redux";
 import { useNavigate, Outlet } from "react-router-dom";
-import { RootState } from "../store";
+import { useAppSelector } from "../store";
 import { ROUTES } from "../constants/routes";
 
 const AccountScreen = () => {
   const navigate = useNavigate();
-  const { userInfo } = useSelector<RootState, RootState["userLogin"]>(
-    (state) => state.userLogin
-  );
+  const { userInfo } = useAppSelector((state) => state.userLogin);
 
   useEffect(() => {
-    if (!userInfo || !userInfo._id) {
+    if (!userInfo) {
       navigate({
         pathname: ROUTES.LOGIN,
         search: createSearchParams({

@@ -8,6 +8,7 @@ module.exports = {
       },
       spacing: {
         100: 500,
+        "70vh": "70vh",
       },
       fontFamily: {
         rubik: ["Rubik", "sans-serif"],
