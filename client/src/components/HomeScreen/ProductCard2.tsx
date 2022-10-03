@@ -6,7 +6,7 @@ import { IProduct } from "../../types";
 const ProductCard2: React.FC<{
   product: IProduct;
 }> = ({ product }) => {
-  const { images, rating, price, name, category, _id } = product;
+  const { images, rating, price, name, category, _id, reviews } = product;
 
   return (
     <div className="py-2 px-3 text-centerr mt-1 flex items-center  overflow-hidden ">
@@ -26,7 +26,12 @@ const ProductCard2: React.FC<{
             {name}
           </h1>
         </Link>
-        <Rating readOnly value={rating} />
+        <div className="flex items-center justify-start -ml-1 mb-1.5">
+          <Rating readOnly value={rating} />
+          {reviews.length !== 0 && (
+            <span className="ml-1">({reviews.length})</span>
+          )}
+        </div>
         <p className="font-bold ">${price.toFixed(2)}</p>
       </div>
     </div>
