@@ -6,12 +6,12 @@ import ProductsCategories from "../components/HomeScreen/ProductsCategories";
 import Sales from "../components/HomeScreen/Sales";
 import SaveUpTo from "../components/HomeScreen/SaveUpTo";
 import Showcase from "../components/HomeScreen/Showcase";
-import { useDispatch } from "react-redux";
 import { getFeaturedProducts } from "../actions/products";
 import { useEffect } from "react";
+import { useAppDispatch } from "../store";
 
 const HomeScreen = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(getFeaturedProducts());

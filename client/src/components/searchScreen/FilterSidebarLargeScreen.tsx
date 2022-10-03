@@ -2,30 +2,35 @@ import React, { useEffect, useState } from "react";
 import { Radio, RadioGroup } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { CATEGORY, PRICE, BRAND } from "../../actions/actionTypes";
-import getBrands from "../../utils/getBrands";
-import { CATEGORIES, PRICES } from "./FilterSidebar";
+import getBrands, { BrandsList } from "../../utils/getBrands";
+import { CATEGORIES, PriceFilter, PRICES } from "./FilterSidebar";
 import ClearFilter from "./ClearFilter";
+import { RootState, useAppDispatch } from "../../store";
 
 const FilterSidebar = () => {
-  const dispatch = useDispatch();
-  const { products } = useSelector((state) => state.searchProducts);
-  const [brands, setBrands] = useState([]);
-  const filters = useSelector((state) => state.filters);
+  const dispatch = useAppDispatch();
+  const { products } = useSelector<RootState, RootState["searchProducts"]>(
+    (state) => state.searchProducts
+  );
+  const [brands, setBrands] = useState<BrandsList>([]);
+  const filters = useSelector<RootState, RootState["filters"]>(
+    (state) => state.filters
+  );
 
   useEffect(() => {
     const brandList = getBrands(products);
     setBrands(brandList);
   }, [products]);
 
-  const setCategory = (category) => {
+  const setCategory = (category: string | null) => {
     dispatch({ type: CATEGORY, payload: category });
   };
 
-  const setPrice = (price) => {
+  const setPrice = (price: PriceFilter | null) => {
     dispatch({ type: PRICE, payload: price });
   };
 
-  const setBrand = (brand) => {
+  const setBrand = (brand: string | null) => {
     dispatch({ type: BRAND, payload: brand });
   };
 
@@ -38,7 +43,7 @@ const FilterSidebar = () => {
               Categories
             </h1>
             <ClearFilter
-              resetFunc={setCategory}
+              resetFunc={() => setCategory(null)}
               disabled={filters.category === null}
             />
           </div>
@@ -60,7 +65,7 @@ const FilterSidebar = () => {
               Prices
             </h1>
             <ClearFilter
-              resetFunc={setPrice}
+              resetFunc={() => setPrice(null)}
               disabled={filters.price === null}
             />
           </div>
@@ -86,7 +91,7 @@ const FilterSidebar = () => {
                 Brands
               </h1>
               <ClearFilter
-                resetFunc={setBrand}
+                resetFunc={() => setBrand(null)}
                 disabled={filters.brand === null}
               />
             </div>

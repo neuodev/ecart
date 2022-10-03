@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 
 function Quantity() {
-  let [state, setState] = useState(0);
+  let [state, setState] = useState<number>(0);
 
   const increment = () => {
     if (state === 10) {

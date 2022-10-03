@@ -1,12 +1,15 @@
 import { Button } from "@mui/material";
 import React from "react";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { RESET_FILTERS } from "../../actions/actionTypes";
+import { useAppDispatch } from "../../store";
+import { IProduct } from "../../types";
 import ProductCard from "../HomeScreen/ProductCard";
 
-const Recommend = ({ recommendedProducts }) => {
-  const dispatch = useDispatch();
+const Recommend: React.FC<{
+  recommendedProducts: IProduct[];
+}> = ({ recommendedProducts }) => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   return (

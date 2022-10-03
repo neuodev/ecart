@@ -3,7 +3,7 @@ import { useRouteError, useNavigate } from "react-router-dom";
 import { Box, Typography, Button } from "@mui/material";
 
 const ErrorScreen = () => {
-  const error = useRouteError();
+  const error = useRouteError() as { statusText?: string; message: string };
   const navigate = useNavigate();
 
   return (

@@ -7,10 +7,14 @@ export interface IUser {
 }
 
 export interface IReview {
+  _id: string;
   name: string;
   rating: number;
   comment: string;
-  user: string; //! User ID
+  user: {
+    _id: string;
+    email: string;
+  };
   createdAt: Date;
   updatedAt: Date;
 }
@@ -49,6 +53,7 @@ export interface IPaymentResult {
 }
 
 export interface IOrder {
+  _id: string;
   user: string; //! User ID
   orderItems: IOrderItem[];
   shippingAddress: {

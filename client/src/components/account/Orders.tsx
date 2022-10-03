@@ -2,19 +2,23 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { listMyOrders } from "../../actions/order";
 import { Link } from "react-router-dom";
-import Alert from "../../utils/Alert";
-import Loader from "../../utils/Loader";
+import Alert from "../utils/Alert";
+import Loader from "../utils/Loader";
 import OrderItem from "./OrderItem";
 import Modal from "../common/Modal";
 import { Typography } from "@mui/material";
 import PayPal from "../common/PayPal";
+import { useAppDispatch, useAppSelector } from "../../store";
+import { IOrder } from "../../types";
 
 const Orders = () => {
-  const { loading, error, orders } = useSelector((state) => state.myOrderList);
-  const { success } = useSelector((state) => state.orderPay);
-  const [order, setOrder] = useState(null);
+  const dispatch = useAppDispatch();
+  const { loading, error, orders } = useAppSelector(
+    (state) => state.myOrderList
+  );
+  const { success } = useAppSelector((state) => state.orderPay);
+  const [order, setOrder] = useState<IOrder | null>(null);
 
-  const dispatch = useDispatch();
   useEffect(() => {
     dispatch(listMyOrders());
   }, [success]);
@@ -35,7 +39,7 @@ const Orders = () => {
         </div>
       ) : orders.length === 0 ? (
         <div className="my-10">
-          <Alert message="No Orders">
+          <Alert type="info" message="No Orders">
             <Link
               to="/products"
               className="inline-block bg-blue-400 text-blue-900 font-medium  px-3 py-2 my-2 rounded-full shadow-lg  uppercase tracking-wider text-sm"

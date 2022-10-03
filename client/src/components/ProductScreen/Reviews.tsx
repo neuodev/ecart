@@ -1,27 +1,31 @@
 import React from "react";
-import Alert from "../../utils/Alert";
+import Alert from "../utils/Alert";
 import AddReview from "./AddReview";
 import ReviewItem from "./ReviewItem";
-import { useSelector } from "react-redux";
-import Loader from "../../utils/Loader";
+import Loader from "../utils/Loader";
 import { Typography } from "@mui/material";
 import { Link } from "react-router-dom";
+import { IReview } from "../../types";
+import { useAppSelector } from "../../store";
 
-const Reviews = ({ productId, reviews }) => {
-  const { loading, error, success } = useSelector(
+const Reviews: React.FC<{
+  productId: string;
+  reviews: IReview[];
+}> = ({ productId, reviews }) => {
+  const { loading, error, success } = useAppSelector(
     (state) => state.deleteReview
   );
 
-  const { userInfo } = useSelector((state) => state.userLogin);
+  const { userInfo } = useAppSelector((state) => state.userLogin);
 
   const {
     product,
     loading: loadingProduct,
     error: productError,
-  } = useSelector((state) => state.product);
+  } = useAppSelector((state) => state.product);
 
   const displayReview = () => {
-    if (loadingProduct || productError) return null;
+    if (loadingProduct || productError || !product) return null;
     if (!userInfo || !userInfo._id)
       return (
         <div>

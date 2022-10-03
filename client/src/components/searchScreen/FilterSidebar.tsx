@@ -5,6 +5,7 @@ import { makeStyles } from "@mui/styles";
 import { CATEGORY, PRICE } from "../../actions/actionTypes";
 import { useDispatch, useSelector } from "react-redux";
 import ClearFilter from "./ClearFilter";
+import { RootState, useAppDispatch } from "../../store";
 
 const useStyle = makeStyles({
   bg: {
@@ -87,22 +88,24 @@ export const PRICES: Array<{
 ];
 
 const FilterSidebar = () => {
-  const dispatch = useDispatch();
-  const filters = useSelector((state) => state.filters);
+  const dispatch = useAppDispatch();
+  const filters = useSelector<RootState, RootState["filters"]>(
+    (state) => state.filters
+  );
   const classes = useStyle();
-  const [open, setOpen] = useState(false);
-  const [openCategories, setOpenCategories] = useState(true);
-  const [openPrice, setOpenPrice] = useState(true);
+  const [open, setOpen] = useState<boolean>(false);
+  const [openCategories, setOpenCategories] = useState<boolean>(true);
+  const [openPrice, setOpenPrice] = useState<boolean>(true);
 
   const handleChange = () => {
     setOpen(!open);
   };
 
-  const setCategory = (category) => {
+  const setCategory = (category: string | null) => {
     dispatch({ type: CATEGORY, payload: category });
   };
 
-  const setPrice = (price) => {
+  const setPrice = (price: PriceFilter | null) => {
     dispatch({ type: PRICE, payload: price });
   };
 
@@ -138,7 +141,7 @@ const FilterSidebar = () => {
               Categories
             </h1>
             <ClearFilter
-              resetFunc={setCategory}
+              resetFunc={() => setCategory(null)}
               disabled={filters.category === null}
             />
           </div>
@@ -163,7 +166,7 @@ const FilterSidebar = () => {
               Prices
             </h1>
             <ClearFilter
-              resetFunc={setPrice}
+              resetFunc={() => setPrice(null)}
               disabled={filters.price === null}
             />
           </div>
@@ -171,7 +174,7 @@ const FilterSidebar = () => {
             <RadioGroup
               value={filters.price}
               onChange={(e) => {
-                setPrice(e.target.value);
+                setPrice(JSON.parse(e.target.value) as PriceFilter);
               }}
             >
               {PRICES.map((p) => (
@@ -179,7 +182,7 @@ const FilterSidebar = () => {
                   key={p.text}
                   className="text-gray-700 -mb-4 font-medium cursor-pointer rounded-md py-1 px-4 text-sm flex items-center space-x-1"
                 >
-                  <Radio value={p.queryObj} color="default" />
+                  <Radio value={JSON.stringify(p.queryObj)} color="default" />
                   <div>{p.text}</div>
                 </div>
               ))}

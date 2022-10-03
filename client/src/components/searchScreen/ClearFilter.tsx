@@ -2,7 +2,10 @@ import { IconButton, Tooltip, Typography } from "@mui/material";
 import React from "react";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
-const ClearFilter = ({ resetFunc, disabled }) => {
+const ClearFilter: React.FC<{
+  resetFunc(): void;
+  disabled: boolean;
+}> = ({ resetFunc, disabled }) => {
   return (
     <Tooltip
       arrow
@@ -11,7 +14,7 @@ const ClearFilter = ({ resetFunc, disabled }) => {
     >
       <span>
         <IconButton
-          onClick={() => resetFunc(null)}
+          onClick={() => resetFunc()}
           size="small"
           disabled={disabled}
         >

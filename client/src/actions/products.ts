@@ -275,6 +275,7 @@ export const deleteProductReview =
       const {
         userLogin: { userInfo },
       } = getState();
+
       const { product } = getState().product;
       const productId = product?._id;
       const config = {

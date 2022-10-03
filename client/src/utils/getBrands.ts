@@ -1,5 +1,12 @@
-const getBrands = products => {
-  const brands = {};
+import { IProduct } from "../types";
+
+export type BrandsList = Array<{ brand: string; count: number }>;
+
+function getBrands(products: IProduct[]): BrandsList {
+  const brands: {
+    [key: string]: number;
+  } = {};
+
   let brandList = [];
   for (let i = 0; i < products.length; i++) {
     let brand = products[i].brand;
@@ -15,6 +22,6 @@ const getBrands = products => {
   }
 
   return brandList;
-};
+}
 
 export default getBrands;

@@ -1,22 +1,24 @@
 import { Button, Rating, TextField, Tooltip, Typography } from "@mui/material";
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createProductReview } from "../../actions/products";
-import Alert from "../../utils/Alert";
-import Loader from "../../utils/Loader";
+import Alert from "../utils/Alert";
+import Loader from "../utils/Loader";
+import { useAppDispatch, useAppSelector } from "../../store";
 
-const AddReview = ({ productId }) => {
-  const dispatch = useDispatch();
+const AddReview: React.FC<{
+  productId: string;
+}> = ({ productId }) => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const { error, loading, success } = useSelector(
+  const { error, loading, success } = useAppSelector(
     (state) => state.createReview
   );
 
-  const { userInfo } = useSelector((state) => state.userLogin);
-  const [rating, setRating] = useState(0);
-  const [review, setReview] = useState(null);
+  const { userInfo } = useAppSelector((state) => state.userLogin);
+  const [rating, setRating] = useState<number | null>(null);
+  const [review, setReview] = useState<string | null>(null);
 
   const reviewHandler = () => {
     if (!userInfo || !userInfo._id) {
@@ -29,11 +31,11 @@ const AddReview = ({ productId }) => {
     setRating(0);
   };
 
-  const { product } = useSelector((state) => state.product);
+  const { product } = useAppSelector((state) => state.product);
 
   return (
     <form>
-      <div className="flex flex-col  container mx-auto">
+      <div className="flex flex-col container mx-auto">
         <div className="mb-2">
           {loading ? (
             <div className="flex items-center justify-center">

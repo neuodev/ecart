@@ -4,26 +4,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { deleteProductReview } from "../../actions/products";
 import DeleteIcon from "@mui/icons-material/Delete";
 import moment from "moment";
+import { useAppDispatch, useAppSelector } from "../../store";
+import { IReview } from "../../types";
+import { stringToColor } from "../../utils";
 
-function stringToColor(string) {
-  let hash = 0;
-  let i;
-
-  for (i = 0; i < string.length; i += 1) {
-    hash = string.charCodeAt(i) + ((hash << 5) - hash);
-  }
-
-  let color = "#";
-
-  for (i = 0; i < 3; i += 1) {
-    const value = (hash >> (i * 8)) & 0xff;
-    color += `00${value.toString(16)}`.slice(-2);
-  }
-
-  return color;
-}
-
-function stringAvatar(name) {
+function stringAvatar(name: string) {
   return {
     sx: {
       bgcolor: stringToColor(name),
@@ -32,9 +17,11 @@ function stringAvatar(name) {
   };
 }
 
-const ReviewItem = ({ review }) => {
-  const dispatch = useDispatch();
-  const { userInfo } = useSelector((state) => state.userLogin);
+const ReviewItem: React.FC<{
+  review: IReview;
+}> = ({ review }) => {
+  const dispatch = useAppDispatch();
+  const { userInfo } = useAppSelector((state) => state.userLogin);
   let {
     name,
     rating,
@@ -43,7 +30,8 @@ const ReviewItem = ({ review }) => {
     createdAt,
   } = review;
   const deleteReviewHandler = () => {
-    dispatch(deleteProductReview(review._id));
+    // Delete user reivew on the currnet product
+    dispatch(deleteProductReview());
   };
 
   return (
@@ -55,7 +43,7 @@ const ReviewItem = ({ review }) => {
             <p className="font-medium text-gray-800 leading-3">{name}</p>
             <p className="text-gray-600 text-xs font-light">{email}</p>
           </div>
-          {userInfo._id === _id && (
+          {userInfo?._id === _id && (
             <IconButton onClick={deleteReviewHandler} color="error">
               <DeleteIcon />
             </IconButton>

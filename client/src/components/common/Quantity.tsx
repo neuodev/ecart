@@ -1,11 +1,14 @@
 import { Button, Menu, MenuItem, Tooltip, Typography } from "@mui/material";
 import React, { useState } from "react";
 
-const Quantity = ({ quantity, setQuantity }) => {
-  const [anchorEl, setAnchorEl] = useState(null);
+const Quantity: React.FC<{
+  quantity: number;
+  setQuantity(qty: number): void;
+}> = ({ quantity, setQuantity }) => {
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const open = Boolean(anchorEl);
 
-  const handleClick = (event) => {
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
 

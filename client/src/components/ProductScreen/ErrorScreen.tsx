@@ -1,6 +1,4 @@
 import { Button, Tooltip, Typography } from "@mui/material";
-import React from "react";
-import { Link } from "react-router-dom";
 
 const ErrorScreen = () => {
   return (
@@ -19,13 +17,7 @@ const ErrorScreen = () => {
         placement="top"
         title={<Typography>Report this error</Typography>}
       >
-        <Button
-          LinkComponent={Link}
-          to="/"
-          sx={{ mt: "20px" }}
-          variant="outlined"
-          color="error"
-        >
+        <Button href="/" sx={{ mt: "20px" }} variant="outlined" color="error">
           Report
         </Button>
       </Tooltip>

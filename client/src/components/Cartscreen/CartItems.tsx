@@ -1,5 +1,4 @@
 import React from "react";
-import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addToCart, removeFromCart } from "../../actions/cart";
 import { Link } from "react-router-dom";
@@ -7,9 +6,13 @@ import { Close } from "@mui/icons-material";
 import { IconButton, Rating } from "@mui/material";
 import Quantity from "../common/Quantity";
 import { currFormat } from "../../utils/currency";
+import { ICartItem } from "../../types";
+import { useAppDispatch } from "../../store";
 
-const CartItems = ({ cartItem }) => {
-  const dispatch = useDispatch();
+const CartItems: React.FC<{
+  cartItem: ICartItem;
+}> = ({ cartItem }) => {
+  const dispatch = useAppDispatch();
   const { name, price, qty, discount, image, product, rating } = cartItem;
   const priceAfterDiscount = price - price * (discount / 100);
   const totalPrice = priceAfterDiscount * qty;
@@ -42,7 +45,7 @@ const CartItems = ({ cartItem }) => {
       <div className="col-span-2">
         <Quantity
           quantity={qty}
-          setQuantity={(newQty) => {
+          setQuantity={(newQty: number) => {
             dispatch(addToCart(product, newQty));
           }}
         />

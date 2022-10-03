@@ -7,14 +7,22 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import { Box } from "@mui/material";
+import { IProduct } from "../../types";
 
 const REVIEW_TAB = "reviews";
 const DESC_TAB = "desc";
 const SHIPPING_TAB = "shipping";
 
-const MoreInfo = ({ product }) => {
+type TabId = typeof REVIEW_TAB | typeof DESC_TAB | typeof SHIPPING_TAB;
+
+const MoreInfo: React.FC<{
+  product: IProduct;
+}> = ({ product }) => {
   let numOfReviews = product.reviews.length;
-  const TABS = [
+  const TABS: Array<{
+    title: string;
+    value: TabId;
+  }> = [
     {
       title: `Reviews ${numOfReviews !== 0 && `(${numOfReviews})`}`,
       value: REVIEW_TAB,
@@ -29,8 +37,11 @@ const MoreInfo = ({ product }) => {
     },
   ];
 
-  const [value, setValue] = React.useState(REVIEW_TAB);
-  const handleChange = (_, newValue) => {
+  const [value, setValue] = React.useState<TabId>(REVIEW_TAB);
+  const handleChange = (
+    _e: React.SyntheticEvent<Element, Event>,
+    newValue: TabId
+  ) => {
     setValue(newValue);
   };
 

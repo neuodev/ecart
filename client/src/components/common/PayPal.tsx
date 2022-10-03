@@ -9,11 +9,11 @@ import {
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { PayPalButton } from "react-paypal-button-v2";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { ORDER_CREATE_RESET, ORDER_PAY_RESET } from "../../actions/actionTypes";
 import { payOrder } from "../../actions/order";
-import { RootState, useAppDispatch } from "../../store";
+import { RootState, useAppDispatch, useAppSelector } from "../../store";
 import { IPaymentResult } from "../../types";
 import LoadSdk from "../utils/LoadSdk";
 import Modal from "./Modal";
@@ -36,10 +36,7 @@ const PayPal: React.FC<{
 }> = ({ orderId, totalPrice, resetOrder }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { loading, error, success } = useSelector<
-    RootState,
-    RootState["orderPay"]
-  >((state) => state.orderPay);
+  const { loading, error, success } = useAppSelector((state) => state.orderPay);
   const [sdkReady, setSdkReady] = useState<boolean>(false);
 
   const addPaypalScript = async () => {

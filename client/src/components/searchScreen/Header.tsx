@@ -1,34 +1,33 @@
-import {
-  Breadcrumbs,
-  Button,
-  IconButton,
-  Link,
-  Menu,
-  MenuItem,
-} from "@mui/material";
+import { Button, IconButton, Link, MenuItem, Menu } from "@mui/material";
 import { styled } from "@mui/styles";
 import React, { useState } from "react";
 import {
-  AiOutlineHome,
   AiOutlineSortAscending,
   AiOutlineSortDescending,
 } from "react-icons/ai";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import {
   ASCENDING_ORDER,
   DECENDING_ORDER,
-  NUMBER_PER_PAGE,
+  ITEMS_LIMIT,
 } from "../../actions/actionTypes";
+import { RootState, useAppDispatch } from "../../store";
 import FilterSidebar from "./FilterSidebar";
 
-const sortActions = [
+const sortActions: Array<{
+  icon: React.ReactNode;
+  type: typeof ASCENDING_ORDER | typeof DECENDING_ORDER;
+  sortBy: string;
+}> = [
   {
     icon: <AiOutlineSortAscending />,
+    type: ASCENDING_ORDER,
     sortBy: "name",
   },
   {
     icon: <AiOutlineSortDescending />,
+    type: DECENDING_ORDER,
     sortBy: "-name",
   },
 ];
@@ -36,29 +35,28 @@ const sortActions = [
 const options = [5, 10, 15, 20, 30];
 
 const Header = () => {
-  const dispatch = useDispatch();
-  const [numPerPage, setNumPerPage] = useState(10);
-  const filters = useSelector((state) => state.filters);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const dispatch = useAppDispatch();
+  const [numPerPage, setNumPerPage] = useState<number>(10);
+  const filters = useSelector<RootState, RootState["filters"]>(
+    (state) => state.filters
+  );
+  const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
   const open = Boolean(anchorEl);
 
-  const handleClick = (event) => {
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = (op) => {
+
+  const handleClose = (op: number | React.MouseEvent<HTMLElement>) => {
     if (typeof op === "number") {
-      dispatch({ type: NUMBER_PER_PAGE, payload: op });
+      dispatch({ type: ITEMS_LIMIT, payload: op });
       setNumPerPage(op);
     }
     setAnchorEl(null);
   };
 
-  const sort = (filter) => {
-    if (filter === "name") {
-      dispatch({ type: ASCENDING_ORDER });
-    } else {
-      dispatch({ type: DECENDING_ORDER });
-    }
+  const sort = (filter: typeof ASCENDING_ORDER | typeof DECENDING_ORDER) => {
+    dispatch({ type: filter });
   };
 
   return (
@@ -72,7 +70,7 @@ const Header = () => {
             <IconButton
               key={action.sortBy}
               disabled={action.sortBy === filters.sort}
-              onClick={() => sort(action.sortBy)}
+              onClick={() => sort(action.type)}
             >
               {action.icon}
             </IconButton>

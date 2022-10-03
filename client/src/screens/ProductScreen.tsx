@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import ImageGallary from "../components/ProductScreen/ImageGallary";
 import ProductDetails from "../components/ProductScreen/ProductDetails";
 import MoreInfo from "../components/ProductScreen/MoreInfo";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { getProductAction } from "../actions/products";
 import ProductScreenSkeleton from "../components/ProductScreen/ProductScreenSkeleton";
 import { useParams } from "react-router-dom";

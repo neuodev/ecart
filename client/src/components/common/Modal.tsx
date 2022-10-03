@@ -17,9 +17,9 @@ const Modal: React.FC<{
   children?: React.ReactNode;
   open: boolean;
   onClose(): void;
-  className: string;
-  width: number | string;
-  minWidth: number | string;
+  className?: string;
+  width?: number | string;
+  minWidth?: number | string;
 }> = ({ children, open, onClose, className, width, minWidth }) => {
   return (
     <MuiModal
@@ -28,7 +28,10 @@ const Modal: React.FC<{
       disableAutoFocus
       disableEnforceFocus
     >
-      <Box className={className} sx={{ ...style, width, minWidth }}>
+      <Box
+        className={className}
+        sx={{ ...style, width: width || 500, minWidth: minWidth || 500 }}
+      >
         {children}
       </Box>
     </MuiModal>

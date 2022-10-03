@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 
-const ImageGallary = ({ images, name }) => {
+const ImageGallary: React.FC<{
+  images: string[];
+  name: string;
+}> = ({ images, name }) => {
   const [activeImgIdx, setActiveImg] = useState(0);
 
   return (
