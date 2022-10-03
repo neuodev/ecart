@@ -1,4 +1,3 @@
-import { useSelector, useDispatch } from "react-redux";
 import React, { useState } from "react";
 import WishListItem from "./WishListItem";
 import { clearWishlist } from "../../actions/whishlist";
@@ -6,10 +5,12 @@ import { Badge, Button, IconButton } from "@mui/material";
 import Modal from "../common/Modal";
 import EmptyWishlist from "./EmptyWishlist";
 import { FavoriteBorder } from "@mui/icons-material";
+import { useAppDispatch, useAppSelector } from "../../store";
+import { IProduct } from "../../types";
 
-const WishList = ({ children, history }) => {
-  const dispatch = useDispatch();
-  const wishlist = useSelector((state) => state.wishlist);
+const WishList = () => {
+  const dispatch = useAppDispatch();
+  const wishlist = useAppSelector((state) => state.wishlist);
   const [open, setOpen] = useState(false);
 
   const onOpen = () => {
@@ -51,7 +52,7 @@ const WishList = ({ children, history }) => {
                   Clear
                 </Button>
               </div>
-              {wishlist.map((product) => (
+              {wishlist.map((product: IProduct) => (
                 <WishListItem
                   handleClose={onClose}
                   key={product._id}

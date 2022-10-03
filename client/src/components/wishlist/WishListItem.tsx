@@ -3,9 +3,14 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { removeFromWishlist } from "../../actions/whishlist";
 import { Link, useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../store";
+import { IProduct } from "../../types";
 
-const WishListItem = ({ product, handleClose }) => {
-  const dispatch = useDispatch();
+const WishListItem: React.FC<{
+  product: IProduct;
+  handleClose(): void;
+}> = ({ product, handleClose }) => {
+  const dispatch = useAppDispatch();
   const naviage = useNavigate();
 
   const { name, images, brand, rating, _id } = product;

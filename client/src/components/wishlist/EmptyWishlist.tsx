@@ -2,7 +2,10 @@ import { Button, Typography } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
 
-const EmptyWishlist = ({ asCol, onClose }) => {
+const EmptyWishlist: React.FC<{
+  asCol?: boolean;
+  onClose(): void;
+}> = ({ asCol, onClose }) => {
   return (
     <div
       className={`w-full h-full flex items-center justify-center ${
@@ -33,7 +36,7 @@ const EmptyWishlist = ({ asCol, onClose }) => {
               Close
             </Button>
           )}
-          <Button LinkComponent={Link} to="/products" variant="dark">
+          <Button href="/products" variant="dark">
             Start shopping
           </Button>
         </div>
