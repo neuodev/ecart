@@ -12,10 +12,10 @@ const Showcase = () => {
       <Swiper
         loop
         className="h-70vh"
-        // autoplay={{
-        //   delay: 2000,
-        //   disableOnInteraction: false,
-        // }}
+        autoplay={{
+          delay: 2000,
+          disableOnInteraction: false,
+        }}
         modules={[Autoplay]}
       >
         <SwiperSlide>
