@@ -26,35 +26,37 @@ import {
   PRODUCT_DELETE_REVIEW_REQUEST,
   PRODUCT_DELETE_REVIEW_SUCCESS,
   PRODUCT_DELETE_REVIEW_FAIL,
-  PRODUCTS_NEXT_PAGE_REQUREST,
-  PRODUCTS_NEXT_PAGE_SUCCESS,
-  PRODUCTS_NEXT_PAGE_FAIL,
   PRODUCT_CREATE_REVIEW_RESET,
   PRODUCT_DELETE_REVIEW_RESET,
 } from "./actionTypes";
 import axios, { AxiosError } from "axios";
 import { logout } from "./user";
 import { AppDispatch, GetState } from "../store";
-import { Dispatch } from "redux";
 import { PriceFilter } from "../components/searchScreen/FilterSidebar";
 
-export const getFeaturedProducts = () => async (dispatch: AppDispatch) => {
-  try {
-    dispatch({ type: FEATURED_PRODUCTS_REQUEST });
-    const { data } = await axios.get("/api/v1/products?limit=5");
-    dispatch({ type: FEATURED_PRODUCTS_SUCCESS, payload: data.products });
-  } catch (error) {
-    if (error instanceof AxiosError) {
-      dispatch({
-        type: FEATURED_PRODUCTS_FAIL,
-        payload:
-          error.response && error.response.data.error
-            ? error.response.data.error
-            : error.message,
+export const getFeaturedProducts =
+  (limit = 5) =>
+  async (dispatch: AppDispatch) => {
+    try {
+      dispatch({ type: FEATURED_PRODUCTS_REQUEST });
+      const { data } = await axios.get("/api/v1/products", {
+        params: {
+          limit,
+        },
       });
+      dispatch({ type: FEATURED_PRODUCTS_SUCCESS, payload: data.products });
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        dispatch({
+          type: FEATURED_PRODUCTS_FAIL,
+          payload:
+            error.response && error.response.data.error
+              ? error.response.data.error
+              : error.message,
+        });
+      }
     }
-  }
-};
+  };
 
 export const getTopRatedProducts = () => async (dispatch: AppDispatch) => {
   try {
@@ -118,7 +120,7 @@ export const getLatestProducts =
     }
   };
 
-export const serachProducts =
+export const searchProducts =
   ({
     q,
     category,
@@ -159,7 +161,7 @@ export const serachProducts =
       const { data } = await axios.get("/api/v1/products", {
         params,
       });
-
+      console.log({ data });
       dispatch({ type: SEARCH_PRODUCTS_SUCCESS, payload: data });
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -305,31 +307,6 @@ export const deleteProductReview =
         dispatch({
           type: PRODUCT_DELETE_REVIEW_FAIL,
           payload: message,
-        });
-      }
-    }
-  };
-
-export const nextPageProducts =
-  (page: number, numPerPage: number) => async (dispatch: AppDispatch) => {
-    try {
-      dispatch({ type: PRODUCTS_NEXT_PAGE_REQUREST });
-      if (!numPerPage) {
-        numPerPage = 5;
-      }
-      let url = `/api/v1/products?page=${page}&limit=${numPerPage}`;
-
-      const { data } = await axios.get(url);
-
-      dispatch({ type: PRODUCTS_NEXT_PAGE_SUCCESS, payload: data.products });
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        dispatch({
-          type: PRODUCTS_NEXT_PAGE_FAIL,
-          payload:
-            error.response && error.response.data.error
-              ? error.response.data.error
-              : error.message,
         });
       }
     }

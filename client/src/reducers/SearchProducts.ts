@@ -5,9 +5,6 @@ import {
   RECOMMEND_PRODUCTS_RQUIEST,
   RECOMMEND_PRODUCTS_SUCCESS,
   RECOMMEND_PRODUCTS_FAIL,
-  PRODUCTS_NEXT_PAGE_REQUREST,
-  PRODUCTS_NEXT_PAGE_SUCCESS,
-  PRODUCTS_NEXT_PAGE_FAIL,
 } from "../actions/actionTypes";
 import { BaseAction, BaseState, IProduct } from "../types";
 
@@ -21,25 +18,15 @@ export function searchProducts(
   {
     payload,
     type,
-  }:
-    | BaseAction<
-        {
-          products: IProduct[];
-          count: number;
-        },
-        typeof SEARCH_PRODUCTS_REQUEST,
-        typeof SEARCH_PRODUCTS_SUCCESS,
-        typeof SEARCH_PRODUCTS_FAIL
-      >
-    | BaseAction<
-        {
-          products: IProduct[];
-          count: number;
-        },
-        typeof PRODUCTS_NEXT_PAGE_REQUREST,
-        typeof PRODUCTS_NEXT_PAGE_SUCCESS,
-        typeof PRODUCTS_NEXT_PAGE_FAIL
-      >
+  }: BaseAction<
+    {
+      products: IProduct[];
+      count: number;
+    },
+    typeof SEARCH_PRODUCTS_REQUEST,
+    typeof SEARCH_PRODUCTS_SUCCESS,
+    typeof SEARCH_PRODUCTS_FAIL
+  >
 ): Search {
   switch (type) {
     case SEARCH_PRODUCTS_REQUEST:
@@ -55,24 +42,6 @@ export function searchProducts(
         count: payload.count,
       };
     case SEARCH_PRODUCTS_FAIL:
-      return {
-        ...state,
-        loading: false,
-        error: payload,
-      };
-    case PRODUCTS_NEXT_PAGE_REQUREST:
-      return {
-        ...state,
-        loading: true,
-      };
-    case PRODUCTS_NEXT_PAGE_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        products: payload.products,
-        count: payload.count,
-      };
-    case PRODUCTS_NEXT_PAGE_FAIL:
       return {
         ...state,
         loading: false,

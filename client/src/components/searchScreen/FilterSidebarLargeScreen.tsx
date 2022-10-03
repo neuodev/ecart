@@ -1,21 +1,16 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Radio, RadioGroup } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
 import { CATEGORY, PRICE, BRAND } from "../../actions/actionTypes";
 import getBrands, { BrandsList } from "../../utils/getBrands";
 import { CATEGORIES, PriceFilter, PRICES } from "./FilterSidebar";
+import { useAppDispatch, useAppSelector } from "../../store";
 import ClearFilter from "./ClearFilter";
-import { RootState, useAppDispatch } from "../../store";
 
 const FilterSidebar = () => {
   const dispatch = useAppDispatch();
-  const { products } = useSelector<RootState, RootState["searchProducts"]>(
-    (state) => state.searchProducts
-  );
+  const { products } = useAppSelector((state) => state.searchProducts);
+  const filters = useAppSelector((state) => state.filters);
   const [brands, setBrands] = useState<BrandsList>([]);
-  const filters = useSelector<RootState, RootState["filters"]>(
-    (state) => state.filters
-  );
 
   useEffect(() => {
     const brandList = getBrands(products);

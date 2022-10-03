@@ -24,7 +24,7 @@ const OrderItem: React.FC<{
   } = order;
 
   return (
-    <div className="bg-gray-100 shadow-lg  mb-4 border rounded-lg overflow-hidden col-span-12 md:col-span-6 lg:col-span-4">
+    <div className="bg-gray-100 shadow-lg mb-4 border rounded-lg overflow-hidden col-span-12 md:col-span-6 lg:col-span-4">
       <div className="bg-gray-200 w-full py-4 px-4 rounded-t-md">
         <Tooltip
           arrow

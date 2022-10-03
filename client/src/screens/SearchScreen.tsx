@@ -3,11 +3,7 @@ import styled from "styled-components";
 import ProductCard from "../components/HomeScreen/ProductCard";
 import FilterSidebarLargeScreen from "../components/searchScreen/FilterSidebarLargeScreen";
 import Header from "../components/searchScreen/Header";
-import {
-  nextPageProducts,
-  recommend,
-  serachProducts,
-} from "../actions/products";
+import { recommend, searchProducts } from "../actions/products";
 import Recommend from "../components/searchScreen/Recommend";
 import ProductSkeleton from "../components/utils/ProductSkeleton";
 import {
@@ -31,7 +27,7 @@ const StyledDiv = styled.div`
 const SearchScreen: React.FC<{}> = () => {
   const dispatch = useAppDispatch();
   let [page, setPage] = useState<number>(1);
-  let [numOfBtns, setNumOfBtns] = useState<number[]>([]);
+  let [numOfPages, setNumOfPages] = useState<number>(0);
   const loc = useLocation();
   const params = new URLSearchParams(loc.search);
   const q = params.get("q");
@@ -48,7 +44,7 @@ const SearchScreen: React.FC<{}> = () => {
   );
 
   useEffect(() => {
-    dispatch(serachProducts({ q, category, price, sort, brand, page, limit }));
+    dispatch(searchProducts({ q, category, price, sort, brand, page, limit }));
   }, [q, category, price, sort, brand, page, limit]);
 
   useEffect(() => {
@@ -59,17 +55,12 @@ const SearchScreen: React.FC<{}> = () => {
 
   const fetchData = (nextPage: number) => {
     if (page === nextPage) return;
-    dispatch(nextPageProducts(nextPage, limit));
     setPage(nextPage);
   };
 
   useEffect(() => {
-    let countOfPages = [];
-    const number = Math.ceil(count / limit);
-    for (let i = 0; i < number; i++) {
-      countOfPages.push(i);
-    }
-    setNumOfBtns(countOfPages);
+    const pages = Math.ceil(count / limit);
+    setNumOfPages(pages);
   }, [limit, count]);
 
   const prevPage = () => {
@@ -80,7 +71,7 @@ const SearchScreen: React.FC<{}> = () => {
   };
 
   const nextPage = () => {
-    if (page === numOfBtns.length) return;
+    if (page === numOfPages) return;
     let nextPage = page + 1;
     setPage(nextPage);
     fetchData(nextPage);
@@ -94,9 +85,9 @@ const SearchScreen: React.FC<{}> = () => {
           <div className="hidden md:block">
             <FilterSidebarLargeScreen />
           </div>
-          <div className="flex items-center justify-center w-full">
-            <div className="grid col-span-12 mx-auto md:row-start-4 md:row-end-6 md:col-span-8  grid-cols-12 lg:col-span-9 xl:col-span-10 min-h-600">
-              {recommendLoading ? (
+          <div className="flex items-center justify-center w-full pt-3">
+            <div className="grid gap-5 grid-cols-12 mx-auto min-h-600">
+              {recommendLoading || loading ? (
                 new Array(3).fill(0).map((_, idx) => {
                   return (
                     <div
@@ -112,7 +103,7 @@ const SearchScreen: React.FC<{}> = () => {
                   <Recommend recommendedProducts={recommendedProducts} />
                 </div>
               ) : loading ? (
-                new Array(6).fill(0).map((_, idx) => (
+                new Array(6).fill(1).map((_, idx) => (
                   <div
                     key={idx}
                     className="col-span-12 mx-auto lg:col-span-6 xl:col-span-4"
@@ -124,9 +115,9 @@ const SearchScreen: React.FC<{}> = () => {
                 products.map((product, idx: number) => (
                   <div
                     key={idx}
-                    className="grid col-span-12 mx-auto lg:col-span-6 xl:col-span-4"
+                    className="col-span-12 lg:col-span-6 xl:col-span-4"
                   >
-                    <ProductCard product={product} screen="search" />
+                    <ProductCard product={product} />
                   </div>
                 ))
               )}
@@ -146,7 +137,7 @@ const SearchScreen: React.FC<{}> = () => {
                   >
                     <BsChevronLeft />
                   </PaginationBtn>
-                  {numOfBtns.map((_, idx: number) => (
+                  {new Array(numOfPages).fill(1).map((_, idx: number) => (
                     <PaginationBtn
                       key={idx}
                       onClick={() => fetchData(idx + 1)}
@@ -160,13 +151,13 @@ const SearchScreen: React.FC<{}> = () => {
                   ))}
                   <PaginationBtn
                     color="default"
-                    disabled={page === numOfBtns.length}
-                    onClick={() => fetchData(numOfBtns.length)}
+                    disabled={page === numOfPages}
+                    onClick={() => fetchData(numOfPages)}
                   >
                     <BsChevronRight />
                   </PaginationBtn>
                   <PaginationBtn
-                    disabled={page === numOfBtns.length}
+                    disabled={page === numOfPages}
                     color="default"
                     onClick={nextPage}
                   >

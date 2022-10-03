@@ -1,11 +1,9 @@
-import { Button, IconButton, Link, MenuItem, Menu } from "@mui/material";
-import { styled } from "@mui/styles";
+import { Button, IconButton, MenuItem, Menu } from "@mui/material";
 import React, { useState } from "react";
 import {
   AiOutlineSortAscending,
   AiOutlineSortDescending,
 } from "react-icons/ai";
-
 import { useSelector } from "react-redux";
 import {
   ASCENDING_ORDER,

@@ -2,6 +2,7 @@ import { Rating } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
 import { IProduct } from "../../types";
+import { currFormat } from "../../utils/currency";
 
 const ProductCard2: React.FC<{
   product: IProduct;
@@ -32,7 +33,7 @@ const ProductCard2: React.FC<{
             <span className="ml-1">({reviews.length})</span>
           )}
         </div>
-        <p className="font-bold ">${price.toFixed(2)}</p>
+        <p className="font-bold">{currFormat(price)}</p>
       </div>
     </div>
   );
