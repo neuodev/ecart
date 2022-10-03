@@ -2,8 +2,14 @@ import { Button, Tooltip, Typography } from "@mui/material";
 import React from "react";
 import Item from "./Order";
 import moment from "moment";
+import { IOrder } from "../../types";
+import { currFormat } from "../../utils/currency";
 
-const OrderItem = ({ order, idx, payOrder }) => {
+const OrderItem: React.FC<{
+  order: IOrder;
+  idx: number;
+  payOrder(order: IOrder): void;
+}> = ({ order, idx, payOrder }) => {
   const {
     totalPrice,
     isPaid,
@@ -68,7 +74,7 @@ const OrderItem = ({ order, idx, payOrder }) => {
               : "Will be shipped by"}
           </TextSlice>
           <span className="font-medium mr-1">
-            {shippingMethod.name} (${shippingMethod.cost.toFixed(2)}).
+            {shippingMethod.name} ({currFormat(shippingMethod.cost)}).
           </span>
         </p>
 

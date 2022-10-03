@@ -1,19 +1,18 @@
 import React, { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import OrderSummary from "./OrderSummary";
 import CheckoutSteps from "../common/CheckoutSteps";
 import EditIcon from "@mui/icons-material/Edit";
 import { IconButton } from "@mui/material";
 import PayPal from "../common/PayPal";
+import { useAppSelector } from "../../store";
+import { ROUTES } from "../../constants/routes";
 
-const Payment = () => {
+const Payment: React.FC<{}> = () => {
   const navigate = useNavigate();
-  const { shippingAddress } = useSelector((state) => state.cart);
-  const { email, address, city, postalCode, country, apartment } =
-    shippingAddress;
-  const { userInfo } = useSelector((state) => state.userLogin);
-  const { order } = useSelector((state) => state.orderCreate);
+  const { shippingAddress } = useAppSelector((state) => state.cart);
+  const { userInfo } = useAppSelector((state) => state.userLogin);
+  const { order } = useAppSelector((state) => state.orderCreate);
 
   useEffect(() => {
     if (!userInfo) {
@@ -22,6 +21,14 @@ const Payment = () => {
       navigate("/cart/1");
     }
   }, [userInfo, order, navigate]);
+
+  if (shippingAddress === null) {
+    navigate(ROUTES.CHECKOUTS.INFO);
+    return null;
+  }
+
+  const { email, address, city, postalCode, country, apartment } =
+    shippingAddress;
 
   return (
     <div>
@@ -36,7 +43,7 @@ const Payment = () => {
         <div className="flex items-center justify-between mb-2 border-b pb-3 ">
           <h1 className="text-gray-600">Contact</h1>
           <p className="text-left mr-auto ml-10 text-sm">{email}</p>
-          <IconButton LinkComponent={Link} to="/checkouts" size="small">
+          <IconButton href="/checkouts" size="small">
             <EditIcon />
           </IconButton>
         </div>
@@ -46,7 +53,7 @@ const Payment = () => {
             {`${address}, ${apartment}, ${postalCode}, ${city},${country}`}
           </p>
 
-          <IconButton LinkComponent={Link} to="/checkouts" size="small">
+          <IconButton href="/checkouts" size="small">
             <EditIcon />
           </IconButton>
         </div>
@@ -55,11 +62,7 @@ const Payment = () => {
           <p className="text-left mr-auto ml-10 text-sm">
             {order && order.shippingMethod.name}
           </p>
-          <IconButton
-            LinkComponent={Link}
-            to="/checkouts/shipping/"
-            size="small"
-          >
+          <IconButton href="/checkouts/shipping/" size="small">
             <EditIcon />
           </IconButton>
         </div>

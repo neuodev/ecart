@@ -6,11 +6,11 @@ import {
   CART_CLEAR_ITEMS,
   CART_SAVE_SHIPPING_METHOD,
 } from "../actions/actionTypes";
-import { ICartItem } from "../types";
+import { ICartItem, ShippingAddr } from "../types";
 
 type CartState = {
   cartItems: ICartItem[];
-  shippingAddress: {} | null;
+  shippingAddress: ShippingAddr | null;
   paymentMethod: {} | null;
   shippingMethod: {} | null;
 };
@@ -26,11 +26,7 @@ type Action =
     }
   | {
       type: typeof CART_SAVE_SHIPPING_ADDRESS;
-      payload: {};
-    }
-  | {
-      type: typeof CART_SAVE_SHIPPING_ADDRESS;
-      payload: {};
+      payload: ShippingAddr;
     }
   | {
       type: typeof CART_SAVE_SHIPPING_METHOD;

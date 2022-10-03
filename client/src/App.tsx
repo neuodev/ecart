@@ -20,24 +20,25 @@ import Orders from "./components/account/Orders";
 import WishList from "./components/account/WishList";
 import Settings from "./components/account/Settings";
 import ScrollToTop from "./components/Layout/ScrollToTop";
+import { ROUTES } from "./constants/routes";
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: ROUTES.ROOT,
     element: <Root />,
     errorElement: <ErrorScreen />,
     children: [
       {
-        path: "/",
+        path: ROUTES.ROOT,
         element: <HomeScreen />,
       },
       {
-        path: "products",
+        path: ROUTES.PRODUCTS,
         element: <SearchScreen />,
       },
 
       {
-        path: "product/:id",
+        path: ROUTES.PRODUCT,
         element: (
           <ScrollToTop>
             <ProductScreen />,
@@ -45,49 +46,49 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "cart/:id",
+        path: ROUTES.CART,
         element: <CartScreen />,
       },
       {
-        path: "checkouts",
+        path: ROUTES.CHECKOUTS.ROOT,
         element: <Checkouts />,
         children: [
           {
-            path: "/checkouts/",
+            path: ROUTES.CHECKOUTS.INFO,
             element: <Information />,
           },
           {
-            path: "/checkouts/shipping/",
+            path: ROUTES.CHECKOUTS.SHIPPING,
             element: <Shipping />,
           },
           {
-            path: "/checkouts/payment/",
+            path: ROUTES.CHECKOUTS.PAYMENT,
             element: <Payment />,
           },
         ],
       },
       {
-        path: "login",
+        path: ROUTES.LOGIN,
         element: <LoginScreen />,
       },
       {
-        path: "register",
+        path: ROUTES.REGISTER,
         element: <RegisterScreen />,
       },
       {
-        path: "account",
+        path: ROUTES.ACCOUNT.ROOT,
         element: <AccountScreen />,
         children: [
           {
-            path: "/account/",
+            path: ROUTES.ACCOUNT.ORDERS,
             element: <Orders />,
           },
           {
-            path: "/account/wishlist/",
+            path: ROUTES.ACCOUNT.WISHLIST,
             element: <WishList />,
           },
           {
-            path: "/account/settings/",
+            path: ROUTES.ACCOUNT.SETTINGS,
             element: <Settings />,
           },
         ],

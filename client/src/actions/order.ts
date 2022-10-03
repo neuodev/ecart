@@ -1,6 +1,12 @@
 import axios, { AxiosError } from "axios";
+import { LOCAL_STORAGE } from "../constants";
 import { AppDispatch, GetState } from "../store";
-import { IOrder, IPaymentResult } from "../types";
+import {
+  ICartItem,
+  IPaymentResult,
+  ShippingAddr,
+  shippingMethod,
+} from "../types";
 import {
   CART_CLEAR_ITEMS,
   ORDER_CREATE_REQUEST,
@@ -16,7 +22,16 @@ import {
 import { logout } from "./user";
 
 export const createOrder =
-  (order: IOrder) => async (dispatch: AppDispatch, getState: GetState) => {
+  (order: {
+    orderItems: ICartItem[];
+    shippingAddress: ShippingAddr;
+    shippingMethod: shippingMethod;
+    itemsPrice: number;
+    shippingPrice: number;
+    taxPrice: number;
+    totalPrice: number;
+  }) =>
+  async (dispatch: AppDispatch, getState: GetState) => {
     try {
       dispatch({
         type: ORDER_CREATE_REQUEST,
@@ -40,7 +55,7 @@ export const createOrder =
         payload: data,
       });
 
-      localStorage.removeItem("cartItems");
+      localStorage.removeItem(LOCAL_STORAGE.cartItems);
     } catch (error) {
       if (error instanceof AxiosError) {
         const message =

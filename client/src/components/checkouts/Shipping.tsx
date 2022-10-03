@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { saveShippingMethod } from "../../actions/cart";
 import { createOrder } from "../../actions/order";
 import { calcTotal } from "../../utils/cost";
@@ -18,8 +18,10 @@ import { useNavigate } from "react-router-dom";
 import CheckoutSteps from "../common/CheckoutSteps";
 import EditIcon from "@mui/icons-material/Edit";
 import CircularProgress from "@mui/material/CircularProgress";
+import { useAppDispatch, useAppSelector } from "../../store";
+import { shippingMethod } from "../../types";
 
-const shippingMethods = [
+const shippingMethods: Array<shippingMethod> = [
   {
     name: "International Shipping",
     cost: 40.0,
@@ -30,24 +32,23 @@ const shippingMethods = [
   },
 ];
 
-const Shipping = () => {
-  const dispatch = useDispatch();
+const Shipping: React.FC<{}> = () => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
-  const [alert, setAlert] = useState("");
-  const { cartItems, shippingAddress } = useSelector((state) => state.cart);
-
-  let [shippingMethod, setShippingMethod] = useState(null);
-  const { userInfo } = useSelector((state) => state.userLogin);
+  const { cartItems, shippingAddress } = useAppSelector((state) => state.cart);
+  let [shippingMethod, setShippingMethod] = useState<shippingMethod | null>(
+    null
+  );
+  const { loading, order, error } = useAppSelector(
+    (state) => state.orderCreate
+  );
+  const { userInfo } = useAppSelector((state) => state.userLogin);
 
   useEffect(() => {
     if (cartItems.length === 0) {
       navigate("/");
     }
   }, [cartItems, navigate]);
-
-  const { email, address, city, postalCode, country, apartment } =
-    shippingAddress;
 
   // Calculate the prices
   let totalPriceBeforeShipping = 0;
@@ -59,13 +60,17 @@ const Shipping = () => {
   let taxPrice =
     totalPriceBeforeShipping > 100
       ? 0
-      : (totalPriceBeforeShipping * 0.1).toFixed(2);
-
-  const { loading, order, error } = useSelector((state) => state.orderCreate);
+      : Number((totalPriceBeforeShipping * 0.1).toFixed(2));
 
   const submitHandler = () => {
+    if (shippingMethod === null) return;
     if (!userInfo || !userInfo._id) {
       navigate("/login");
+      return;
+    }
+
+    if (!shippingAddress) {
+      navigate("/checkout/");
       return;
     }
 
@@ -79,8 +84,8 @@ const Shipping = () => {
         orderItems: cartItems,
         shippingAddress: shippingAddress,
         shippingMethod,
-        itemsPrice: Number(totalPriceBeforeShipping).toFixed(2),
-        shippingPrice: Number(shippingMethod.cost).toFixed(2),
+        itemsPrice: Number(totalPriceBeforeShipping.toFixed(2)),
+        shippingPrice: Number(shippingMethod.cost.toFixed(2)),
         taxPrice,
         totalPrice,
       })
@@ -89,7 +94,7 @@ const Shipping = () => {
     dispatch({ type: ORDER_PAY_RESET });
   };
 
-  const updateShippingMethod = (method) => {
+  const updateShippingMethod = (method: shippingMethod) => {
     setShippingMethod(method);
     dispatch(saveShippingMethod(method));
   };
@@ -99,6 +104,14 @@ const Shipping = () => {
       navigate("/checkouts/payment");
     }
   }, [order, userInfo, navigate]);
+
+  if (shippingAddress === null) {
+    navigate("/checkouts/");
+    return null;
+  }
+
+  const { address, apartment, postalCode, city, country, email } =
+    shippingAddress;
 
   return (
     <div className="py-4 px-4">
@@ -110,7 +123,7 @@ const Shipping = () => {
         <div className="flex items-center justify-between border-b pb-1">
           <h1 className="text-gray-600">Contact</h1>
           <p className="text-left mr-auto ml-10">{email}</p>
-          <IconButton LinkComponent={Link} to="/checkouts" size="small">
+          <IconButton href="/checkouts" size="small">
             <EditIcon />
           </IconButton>
         </div>
@@ -120,7 +133,7 @@ const Shipping = () => {
             {`${address}, ${apartment}, ${postalCode}, ${city}, ${country}`}
           </p>
 
-          <IconButton LinkComponent={Link} to="/checkouts" size="small">
+          <IconButton href="/checkouts" size="small">
             <EditIcon />
           </IconButton>
         </div>
@@ -167,8 +180,7 @@ const Shipping = () => {
           fullWidth
           sx={{ "& input": { padding: "12px 20px" } }}
           size="small"
-          LinkComponent={Link}
-          to="/checkouts"
+          href="/checkouts"
         >
           Back to shpping information
         </Button>

@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import OrderSummary from "./OrderSummary";
 import ShippingForm from "./ShippingForm";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../store";
 
 const Information = () => {
   const navigate = useNavigate();
-  const { cartItems } = useSelector((state) => state.cart);
+  const { cartItems } = useAppSelector((state) => state.cart);
+
   useEffect(() => {
     // Redirect if the cart is empty
     if (cartItems.length === 0) {

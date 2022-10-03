@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Button,
   Checkbox,
@@ -10,10 +11,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import React from "react";
 import { BsChevronCompactLeft } from "react-icons/bs";
-import { Link } from "react-router-dom";
-import countries from "../../utils/countries";
-import { useSelector, useDispatch } from "react-redux";
-import { useState } from "react";
+import countries from "../../constants/countries.json";
 import { saveShippingAddress } from "../../actions/cart";
 import CheckoutSteps from "../common/CheckoutSteps";
 import {
@@ -23,37 +21,50 @@ import {
   isValidPostalCode,
   notEmpty,
 } from "../../utils/validation";
+import { useAppDispatch, useAppSelector } from "../../store";
 
 const validators = {
   email: isValidEmail,
   firstName: isValidName,
   lastName: isValidName,
-  address: (val) => atLeastOfLength(val, 5),
-  city: (val) => atLeastOfLength(val, 3),
+  address: (val: string) => atLeastOfLength(val, 5),
+  city: (val: string) => atLeastOfLength(val, 3),
   postalCode: isValidPostalCode,
   country: notEmpty,
-  apartment: (val) => atLeastOfLength(val, 5),
+  apartment: (val: string) => atLeastOfLength(val, 5),
 };
 
+type FormField = keyof typeof validators;
+
 const ShippingForm = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const { shippingAddress } = useSelector((state) => state.cart);
-  const { userInfo } = useSelector((state) => state.userLogin);
+  const { shippingAddress } = useAppSelector((state) => state.cart);
+  const { userInfo } = useAppSelector((state) => state.userLogin);
 
-  const [state, setState] = useState({
-    email: shippingAddress.email || (userInfo && userInfo.email) || "",
-    firstName: shippingAddress.firstName || "",
-    lastName: shippingAddress.lastName || "",
-    address: shippingAddress.address || "",
-    city: shippingAddress.city || "",
-    postalCode: shippingAddress.postalCode || "",
-    country: shippingAddress.country
-      ? shippingAddress.country
+  const [state, setState] = useState<{
+    email: string;
+    firstName: string;
+    lastName: string;
+    address: string;
+    city: string;
+    postalCode: string;
+    country: string;
+    apartment: string;
+    save: boolean;
+  }>({
+    email: shippingAddress?.email || (userInfo && userInfo.email) || "",
+    firstName: shippingAddress?.firstName || "",
+    lastName: shippingAddress?.lastName || "",
+    address: shippingAddress?.address || "",
+    city: shippingAddress?.city || "",
+    postalCode: shippingAddress?.postalCode || "",
+    country: shippingAddress?.country
+      ? shippingAddress?.country
       : countries[1].name,
-    apartment: shippingAddress.apartment || "",
-    save: shippingAddress.save === true,
+    apartment: shippingAddress?.apartment || "",
+    save: shippingAddress?.save === true,
   });
 
   const [errors, setErrors] = useState({
@@ -67,8 +78,8 @@ const ShippingForm = () => {
     save: false,
   });
 
-  const stateHandler = (e) => {
-    let field = e.target.name;
+  const stateHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let field = e.target.name as FormField;
     let value = e.target.value;
 
     let isValid = validators[field];
@@ -87,7 +98,8 @@ const ShippingForm = () => {
 
   const isCurrStateValid = () => {
     for (let field in validators) {
-      let isValid = validators[field](state[field]);
+      let f = field as FormField;
+      let isValid = validators[f](state[f]);
       if (!isValid) return false;
     }
 
@@ -217,9 +229,9 @@ const ShippingForm = () => {
                 name="country"
                 size="small"
                 label="Country/Region"
-                onChange={stateHandler}
+                onChange={stateHandler as any}
               >
-                {countries.map((country) => (
+                {countries.map((country: { name: string; code: string }) => (
                   <MenuItem key={country.name} value={country.name} dense>
                     {country.name} ({country.code})
                   </MenuItem>
@@ -251,8 +263,7 @@ const ShippingForm = () => {
           Continue to shipping
         </Button>
         <Button
-          LinkComponent={Link}
-          to="/cart/1"
+          href="/cart/1"
           startIcon={<BsChevronCompactLeft />}
           onClick={submitHandler}
           variant="dark-outlined"

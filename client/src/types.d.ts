@@ -66,10 +66,7 @@ export interface IOrder {
     lastName: string;
   };
   paymentMethod: string;
-  shippingMethod: {
-    name: string;
-    cost: string;
-  };
+  shippingMethod: shippingMethod;
   paymentResult: IPaymentResult;
   taxPrice: number;
   shippingPrice: number;
@@ -90,6 +87,23 @@ export interface ICartItem {
   image: string;
   product: string;
   rating: number;
+}
+
+export interface ShippingAddr {
+  address: string;
+  city: string;
+  postalCode: string;
+  country: string;
+  apartment: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  save: boolean;
+}
+
+export interface shippingMethod {
+  name: string;
+  cost: number;
 }
 
 export type BaseState<T> = T & {
