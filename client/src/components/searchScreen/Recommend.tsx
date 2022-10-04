@@ -46,7 +46,7 @@ const Recommend: React.FC<{
                 key={product._id}
                 className="col-span-12 mx-auto  lg:col-span-6 xl:col-span-4 "
               >
-                <ProductCard product={product} screen="search" />
+                <ProductCard product={product} />
               </div>
             ))}
           </div>

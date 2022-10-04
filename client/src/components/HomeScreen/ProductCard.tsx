@@ -2,33 +2,15 @@ import { FavoriteBorderOutlined, Favorite } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import { IconButton, Rating } from "@mui/material";
 import React from "react";
-import styled from "styled-components";
 import { addToWishlist } from "../../actions/whishlist";
 import { IProduct } from "../../types";
 import { useAppDispatch, useAppSelector } from "../../store";
-import "./style.css";
 import { currFormat } from "../../utils/currency";
-
-type Screen = "search" | "home";
-
-const StyledDiv = styled.div<{
-  screen?: Screen;
-}>`
-  width: ${(props) => (props.screen === "search" ? "300px" : "240px")};
-  height: 400px;
-
-  @media (min-width: 600px) {
-    width: ${(props) => (props.screen === "search" ? "400px" : "250px")};
-  }
-  @media (min-width: 1000px) {
-    width: ${(props) => (props.screen === "search" ? "300px" : "250px")};
-  }
-`;
+import "./style.css";
 
 const ProductCard: React.FC<{
   product: IProduct;
-  screen?: Screen;
-}> = ({ product, screen }) => {
+}> = ({ product }) => {
   const dispatch = useAppDispatch();
   const wishlist = useAppSelector((state) => state.wishlist);
 
@@ -48,7 +30,7 @@ const ProductCard: React.FC<{
       </div>
       <div className="overflow-hidden">
         <Link to={`/product/${_id}`}>
-          <div className="h-72 w-64">
+          <div className="h-72">
             <img
               className="border h-full w-full inline-block object-contain p-3 rounded-md overflow-hidden"
               src={images[0]}
