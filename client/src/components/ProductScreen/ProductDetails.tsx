@@ -9,9 +9,9 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import { FavoriteBorderOutlined, Favorite } from "@mui/icons-material";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import "./style.css";
-import { addToWishlist } from "../../actions/whishlist";
+import { toggleWishslistItem } from "../../actions/whishlist";
 import { useNavigate } from "react-router-dom";
 import { RootState, useAppDispatch } from "../../store";
 import { IProduct } from "../../types";
@@ -60,7 +60,7 @@ const ProductDetails: React.FC<{
   };
 
   const addToWishlistHandler = () => {
-    dispatch(addToWishlist(product));
+    dispatch(toggleWishslistItem(product));
   };
   const isWished = wishlist.find((item) => item._id === product._id);
 

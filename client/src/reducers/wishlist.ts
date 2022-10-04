@@ -1,11 +1,11 @@
-import { ADD_ITEM_WISHLIST, CLEAR_WISHLIST } from "../actions/actionTypes";
+import { TOGGLE_WISHLIST_ITEM, CLEAR_WISHLIST } from "../actions/actionTypes";
 import { LOCAL_STORAGE } from "../constants";
 import { IProduct } from "../types";
 
 export type Wishlist = Array<IProduct>;
 type Action =
   | {
-      type: typeof ADD_ITEM_WISHLIST;
+      type: typeof TOGGLE_WISHLIST_ITEM;
       payload: IProduct;
     }
   | {
@@ -20,7 +20,7 @@ export function wishlist(
   let newState: Wishlist;
 
   switch (type) {
-    case ADD_ITEM_WISHLIST:
+    case TOGGLE_WISHLIST_ITEM:
       const exist = state.find((product) => product._id === payload._id);
       newState = exist
         ? state.filter((product) => product._id !== payload._id)

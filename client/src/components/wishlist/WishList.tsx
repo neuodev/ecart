@@ -8,7 +8,7 @@ import { FavoriteBorder } from "@mui/icons-material";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { IProduct } from "../../types";
 
-const WishList = () => {
+const WishList: React.FC<{}> = () => {
   const dispatch = useAppDispatch();
   const wishlist = useAppSelector((state) => state.wishlist);
   const [open, setOpen] = useState(false);
