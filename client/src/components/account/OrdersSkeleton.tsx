@@ -12,7 +12,7 @@ const OrdersSkeleton = () => {
           <div className="p-6">
             <Skeleton variant="text" />
             {new Array(3).fill(1).map((_, idx) => (
-              <Skeleton variant="text" />
+              <Skeleton variant="text" key={idx * 1.2} />
             ))}
           </div>
           <Skeleton variant="rectangular" width="100%" height={40} />
