@@ -4,6 +4,7 @@ export const LOCAL_STORAGE = {
   shippingAddr: "SHIPPING_ADDRESS",
   paymentMethod: "PAYMENT_METHOD",
   shippingMethod: "SHIPPING_METHOD",
+  wishlist: "WISHLIST",
 };
 
 export type LocalStorageKey = keyof typeof LOCAL_STORAGE;

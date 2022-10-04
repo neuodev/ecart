@@ -1,25 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import { Facebook, Twitter, Instagram } from "@mui/icons-material";
 import React from "react";
 import { logout } from "../../actions/user";
 import { Tooltip, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { ROUTES } from "../../constants/routes";
-
-const SOCIAL_LINKS = [
-  {
-    icon: <Facebook />,
-    tooltip: "Follow us on Facebook",
-  },
-  {
-    icon: <Twitter />,
-    tooltip: "Follow us on Twitter",
-  },
-  {
-    icon: <Instagram />,
-    tooltip: "Follow us on Instagram",
-  },
-];
+import { SOCIAL_LINKS } from "../../constants/social";
 
 const MiniNav: React.FC<{}> = () => {
   const dispatch = useAppDispatch();

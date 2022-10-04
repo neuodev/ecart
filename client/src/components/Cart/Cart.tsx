@@ -30,12 +30,13 @@ export default function MenuListComposition() {
 
       <Modal
         open={open}
+        minWidth="700px"
         onClose={() => {
           setOpen(false);
         }}
       >
         {isEmpty ? (
-          <div className="p-4">
+          <div className="p-4 w-full">
             <EmptyCart variant="h5" />
           </div>
         ) : (

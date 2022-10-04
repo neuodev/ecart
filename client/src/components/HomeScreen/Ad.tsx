@@ -4,9 +4,6 @@ import { IconButton } from "@mui/material";
 
 const Ad: React.FC<{}> = () => {
   const [open, setOpen] = useState(true);
-  const onClick = () => {
-    setOpen(false);
-  };
 
   return (
     <div
@@ -24,7 +21,7 @@ const Ad: React.FC<{}> = () => {
                 time only
               </span>
             </p>
-            <IconButton>
+            <IconButton onClick={() => setOpen(false)}>
               <CloseOutlined />
             </IconButton>
           </div>

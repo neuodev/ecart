@@ -1,19 +1,12 @@
-import {
-  ADD_ITEM_WISHLIST,
-  CLEAR_WISHLIST,
-  REMOVE_ITEM_WISHLIST,
-} from "../actions/actionTypes";
+import { ADD_ITEM_WISHLIST, CLEAR_WISHLIST } from "../actions/actionTypes";
+import { LOCAL_STORAGE } from "../constants";
 import { IProduct } from "../types";
 
-type Wishlist = Array<IProduct>;
+export type Wishlist = Array<IProduct>;
 type Action =
   | {
       type: typeof ADD_ITEM_WISHLIST;
       payload: IProduct;
-    }
-  | {
-      type: typeof REMOVE_ITEM_WISHLIST;
-      payload: string;
     }
   | {
       type: typeof CLEAR_WISHLIST;
@@ -24,20 +17,22 @@ export function wishlist(
   state: Wishlist = [],
   { type, payload }: Action
 ): Wishlist {
+  let newState: Wishlist;
+
   switch (type) {
     case ADD_ITEM_WISHLIST:
       const exist = state.find((product) => product._id === payload._id);
-      if (exist) {
-        state = state.filter((product) => product._id !== payload._id);
-        return state;
-      }
-      return [...state, payload];
-    case REMOVE_ITEM_WISHLIST:
-      const wishlistItems = state.filter((product) => product._id !== payload);
-      return wishlistItems;
+      newState = exist
+        ? state.filter((product) => product._id !== payload._id)
+        : [...state, payload];
+      break;
     case CLEAR_WISHLIST:
-      return [];
+      newState = [];
+      break;
     default:
       return state;
   }
+
+  localStorage.setItem(LOCAL_STORAGE.wishlist, JSON.stringify(newState));
+  return newState;
 }
