@@ -1,6 +1,14 @@
+import { createAction } from "@reduxjs/toolkit";
+import { IProduct } from "../types";
+
 export const FEATURED_PRODUCTS_REQUEST = "FEATURED_PRODUCTS_REQUEST";
 export const FEATURED_PRODUCTS_SUCCESS = "FEATURED_PRODUCTS_SUCCESS";
 export const FEATURED_PRODUCTS_FAIL = "FEATURED_PRODUCTS_FAIL";
+
+export const featuredProductRequest = createAction("featured/req");
+export const featuredProductSuccess =
+  createAction<IProduct[]>("featured/success");
+export const featuredProductFail = createAction<string>("featured/fail");
 
 export const TOP_RATED_PRODUCTS_REQUEST = "TOP_RATED_PRODUCTS_REQUEST";
 export const TOP_RATED_PRODUCTS_SUCCESS = "TOP_RATED_PRODUCTS_SUCCESS";

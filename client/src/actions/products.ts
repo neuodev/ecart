@@ -28,6 +28,9 @@ import {
   PRODUCT_DELETE_REVIEW_FAIL,
   PRODUCT_CREATE_REVIEW_RESET,
   PRODUCT_DELETE_REVIEW_RESET,
+  featuredProductRequest,
+  featuredProductSuccess,
+  featuredProductFail,
 } from "./actionTypes";
 import axios, { AxiosError } from "axios";
 import { logout } from "./user";
@@ -38,22 +41,22 @@ export const getFeaturedProducts =
   (limit = 5) =>
   async (dispatch: AppDispatch) => {
     try {
-      dispatch({ type: FEATURED_PRODUCTS_REQUEST });
+      dispatch(featuredProductRequest());
       const { data } = await axios.get("/api/v1/products", {
         params: {
           limit,
         },
       });
-      dispatch({ type: FEATURED_PRODUCTS_SUCCESS, payload: data.products });
+      dispatch(featuredProductSuccess(data.products));
     } catch (error) {
       if (error instanceof AxiosError) {
-        dispatch({
-          type: FEATURED_PRODUCTS_FAIL,
-          payload:
+        dispatch(
+          featuredProductFail(
             error.response && error.response.data.error
               ? error.response.data.error
-              : error.message,
-        });
+              : error.message
+          )
+        );
       }
     }
   };
