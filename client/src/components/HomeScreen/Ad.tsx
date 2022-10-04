@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { CloseOutlined } from "@mui/icons-material";
+import { IconButton } from "@mui/material";
 
 const Ad: React.FC<{}> = () => {
   const [open, setOpen] = useState(true);
@@ -15,14 +16,17 @@ const Ad: React.FC<{}> = () => {
     >
       <div className="w-full text-center bg-green-300 text-green-800 font-bold  text-sm flex items-center justify-between  ">
         <div className="container mx-auto  flex  items-center w-full">
-          <div className="w-full  flex text-center items-center justify-between">
-            <p className="py-4 text-center w-full">
+          <div className="w-full flex text-center items-center justify-between">
+            <p className="py-4 text-center w-full -mr-4">
               Get Up to 40% OFF New-Season Styles{" "}
-              <span className="text-green-500 text-xs">
-                &bull; Limited time only
+              <span className="text-green-500 text-xs hidden md:block lg:inline-block">
+                <span className="hidden lg:inline-block">&bull;</span> Limited
+                time only
               </span>
             </p>
-            <CloseOutlined className="" onClick={onClick} />
+            <IconButton>
+              <CloseOutlined />
+            </IconButton>
           </div>
         </div>
       </div>
