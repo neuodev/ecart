@@ -1,48 +1,51 @@
 import { createAction } from "@reduxjs/toolkit";
 import { IProduct } from "../types";
 
-export const FEATURED_PRODUCTS_REQUEST = "FEATURED_PRODUCTS_REQUEST";
-export const FEATURED_PRODUCTS_SUCCESS = "FEATURED_PRODUCTS_SUCCESS";
-export const FEATURED_PRODUCTS_FAIL = "FEATURED_PRODUCTS_FAIL";
+export const featuredProductReq = createAction("featured/req");
+export const featuredProductSuc = createAction<IProduct[]>("featured/success");
+export const featuredProductErr = createAction<string>("featured/error");
 
-export const featuredProductRequest = createAction("featured/req");
-export const featuredProductSuccess =
-  createAction<IProduct[]>("featured/success");
-export const featuredProductFail = createAction<string>("featured/fail");
+export const getTopRatedProducsReq = createAction("top-rated/req");
+export const getTopRatedProductsSuc =
+  createAction<IProduct[]>("top-rated/success");
+export const getTopRatedProducsErr = createAction<string>("top-rated/fail");
 
-export const TOP_RATED_PRODUCTS_REQUEST = "TOP_RATED_PRODUCTS_REQUEST";
-export const TOP_RATED_PRODUCTS_SUCCESS = "TOP_RATED_PRODUCTS_SUCCESS";
-export const TOP_RATED_PRODUCTS_FAIL = "TOP_RATED_PRODUCTS_FAIL";
+export const getBestSellingProductsReq = createAction("best-selling/req");
+export const getBestSellingProductsSuc = createAction<IProduct[]>(
+  "best-selling/success"
+);
+export const getBestSellingProductsErr =
+  createAction<string>("best-selling/error");
 
-export const BEST_SELLING_PRODUCTS_REQUEST = "BEST_SELLING_PRODUCTS_REQUEST";
-export const BEST_SELLING_PRODUCTS_SUCCESS = "BEST_SELLING_PRODUCTS_SUCCESS";
-export const BEST_SELLING_PRODUCTS_FAIL = "BEST_SELLING_PRODUCTS_FAIL";
+export const getLatestProductsReq = createAction("lates-products/req");
+export const getLatestProductsSuc = createAction<IProduct[]>(
+  "latest-products/success"
+);
+export const getLatestProductsErr = createAction<string>(
+  "latest-products/error"
+);
 
-export const LATEST_PRODUCTS_REQUEST = "LATEST_PRODUCTS_REQUEST";
-export const LATEST_PRODUCTS_SUCCESS = "LATEST_PRODUCTS_SUCCESS";
-export const LATEST_PRODUCTS_FAIL = "LATEST_PRODUCTS_FAIL";
+export const searchProductReq = createAction("search/req");
+export const searchProductsSuc = createAction<IProduct[]>("search/success");
+export const searchProductErr = createAction<string>("search/error");
 
-export const SEARCH_PRODUCTS_REQUEST = "SEARCH_PRODUCTS_REQUEST";
-export const SEARCH_PRODUCTS_SUCCESS = "SEARCH_PRODUCTS_SUCCESS";
-export const SEARCH_PRODUCTS_FAIL = "SEARCH_PRODUCTS_FAIL";
+export const sortAsc = createAction("filter/sort-asc");
+export const sortDesc = createAction("filter/sort-desc");
+export const filterByCat = createAction("filter/cat");
+export const filterByPrice = createAction("filter/price");
+export const filterByBrand = createAction("filter/brand");
+export const resetFilters = createAction("filter/reset");
 
-export const ASCENDING_ORDER = "ASCENDING_ORDER";
-export const DECENDING_ORDER = "DECENDING_ORDER";
-export const CATEGORY = "CATEGORY";
-export const PRICE = "PRICE";
-export const BRAND = "BRAND";
-export const RESET_FILTERS = "RESET_FILTERS";
+export const getProductReq = createAction("product/req");
+export const getProductSuc = createAction("product/success");
+export const getProductErr = createAction("product/error");
 
-export const GET_PRODUCT_REQUEST = "GET_PRODUCT_REQUEST";
-export const GET_PRODUCT_SUCCESS = "GET_PRODUCT_SUCCESS";
-export const GET_PRODUCT_FAIL = "GET_PRODUCT_FAIL";
-
-export const CART_ADD_ITEM = "CART_ADD_ITEM";
-export const CART_REMOVE_ITEM = "CART_REMOVE_ITEM";
-export const CART_SAVE_SHIPPING_ADDRESS = "CART_SAVE_SHIPPING_ADDRESS";
-export const CART_SAVE_PAYMENT_METHOD = "CART_SAVE_PAYMENT_METHOD";
-export const CART_CLEAR_ITEMS = "CART_CLEAR_ITEMS";
-export const CART_SAVE_SHIPPING_METHOD = "CART_SAVE_SHIPPING_METHOD";
+export const addCartItemAction = createAction("cart/add");
+export const delCartItemAction = createAction("cart/del");
+export const saveShippingAddr = createAction("cart/save-shipping-addr");
+export const savePayment = createAction("cart/save-payment");
+export const saveShippingMethod = createAction("cart/save-shipping-method");
+export const clearCart = createAction("cart/clear");
 
 export const USER_DETAILS_FAIL = "USER_DETAILS_FAIL";
 export const USER_DETAILS_REQUEST = "USER_DETAILS_REQUEST";

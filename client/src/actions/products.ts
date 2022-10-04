@@ -1,13 +1,4 @@
 import {
-  FEATURED_PRODUCTS_FAIL,
-  FEATURED_PRODUCTS_REQUEST,
-  FEATURED_PRODUCTS_SUCCESS,
-  TOP_RATED_PRODUCTS_FAIL,
-  TOP_RATED_PRODUCTS_REQUEST,
-  TOP_RATED_PRODUCTS_SUCCESS,
-  BEST_SELLING_PRODUCTS_REQUEST,
-  BEST_SELLING_PRODUCTS_SUCCESS,
-  BEST_SELLING_PRODUCTS_FAIL,
   LATEST_PRODUCTS_REQUEST,
   LATEST_PRODUCTS_SUCCESS,
   LATEST_PRODUCTS_FAIL,
@@ -31,11 +22,18 @@ import {
   featuredProductRequest,
   featuredProductSuccess,
   featuredProductFail,
+  getBestSellingProductsErr,
+  getBestSellingProductsSuc,
+  getTopRatedProducsErr,
+  getTopRatedProductsSuc,
+  getTopRatedProducsReq,
+  getBestSellingProductsReq,
 } from "./actionTypes";
 import axios, { AxiosError } from "axios";
 import { logout } from "./user";
 import { AppDispatch, GetState } from "../store";
 import { PriceFilter } from "../components/searchScreen/FilterSidebar";
+import { getErrMsg } from "../utils/error";
 
 export const getFeaturedProducts =
   (limit = 5) =>
@@ -49,54 +47,42 @@ export const getFeaturedProducts =
       });
       dispatch(featuredProductSuccess(data.products));
     } catch (error) {
-      if (error instanceof AxiosError) {
-        dispatch(
-          featuredProductFail(
-            error.response && error.response.data.error
-              ? error.response.data.error
-              : error.message
-          )
-        );
-      }
+      dispatch(featuredProductFail(getErrMsg(error)));
     }
   };
 
-export const getTopRatedProducts = () => async (dispatch: AppDispatch) => {
-  try {
-    dispatch({ type: TOP_RATED_PRODUCTS_REQUEST });
-    const { data } = await axios.get("/api/v1/products?limit=3&sort=-rating");
-    dispatch({ type: TOP_RATED_PRODUCTS_SUCCESS, payload: data.products });
-  } catch (error) {
-    if (error instanceof AxiosError) {
-      dispatch({
-        type: TOP_RATED_PRODUCTS_FAIL,
-        payload:
-          error.response && error.response.data.error
-            ? error.response.data.error
-            : error.message,
+export const getTopRatedProducts =
+  (limit = 3) =>
+  async (dispatch: AppDispatch) => {
+    try {
+      dispatch(getTopRatedProducsReq());
+      const { data } = await axios.get("/api/v1/products", {
+        params: {
+          limit,
+          sort: "-rating",
+        },
       });
+      dispatch(getTopRatedProductsSuc(data.products));
+    } catch (error) {
+      dispatch(getTopRatedProducsErr(getErrMsg(error)));
     }
-  }
-};
-export const getBestSellingProducts = () => async (dispatch: AppDispatch) => {
-  try {
-    dispatch({ type: BEST_SELLING_PRODUCTS_REQUEST });
-    const { data } = await axios.get(
-      "/api/v1/products?limit=3&sort=-rating,numReviews"
-    );
-    dispatch({ type: BEST_SELLING_PRODUCTS_SUCCESS, payload: data.products });
-  } catch (error) {
-    if (error instanceof AxiosError) {
-      dispatch({
-        type: BEST_SELLING_PRODUCTS_FAIL,
-        payload:
-          error.response && error.response.data.error
-            ? error.response.data.error
-            : error.message,
+  };
+export const getBestSellingProducts =
+  (limit = 3) =>
+  async (dispatch: AppDispatch) => {
+    try {
+      dispatch(getBestSellingProductsReq());
+      const { data } = await axios.get("/api/v1/products", {
+        params: {
+          limit,
+          sort: "-rating,numReviews",
+        },
       });
+      dispatch(getBestSellingProductsSuc(data.products));
+    } catch (error) {
+      dispatch(getBestSellingProductsErr(getErrMsg(error)));
     }
-  }
-};
+  };
 
 export const getLatestProducts =
   (limit = 3) =>

@@ -1,45 +1,33 @@
+import { createReducer } from "@reduxjs/toolkit";
 import {
-  TOP_RATED_PRODUCTS_REQUEST,
-  TOP_RATED_PRODUCTS_SUCCESS,
-  TOP_RATED_PRODUCTS_FAIL,
+  getTopRatedProducsReq,
+  getTopRatedProductsSuc,
+  getTopRatedProducsErr,
 } from "../actions/actionTypes";
-import { BaseAction, BaseState, IProduct } from "../types";
+import { BaseState, IProduct } from "../types";
 
 type TopRated = BaseState<{
   products: IProduct[];
 }>;
 
-export function topRatedProducts(
-  state: TopRated = { products: [], loading: false, error: null },
-  {
-    payload,
-    type,
-  }: BaseAction<
-    IProduct[],
-    typeof TOP_RATED_PRODUCTS_REQUEST,
-    typeof TOP_RATED_PRODUCTS_SUCCESS,
-    typeof TOP_RATED_PRODUCTS_FAIL
-  >
-): TopRated {
-  switch (type) {
-    case TOP_RATED_PRODUCTS_REQUEST:
-      return {
+export const topRatedProducts = createReducer<TopRated>(
+  { products: [], loading: false, error: null },
+  (builder) => {
+    builder
+      .addCase(getTopRatedProducsReq, (state) => ({
         ...state,
         loading: true,
-      };
-    case TOP_RATED_PRODUCTS_SUCCESS:
-      return {
+      }))
+      .addCase(getTopRatedProductsSuc, (state, { payload }) => ({
         ...state,
         loading: false,
+        error: null,
         products: payload,
-      };
-    case TOP_RATED_PRODUCTS_FAIL:
-      return {
+      }))
+      .addCase(getTopRatedProducsErr, (state, { payload }) => ({
         ...state,
         loading: false,
         error: payload,
-      };
-    default:
-      return state;
+      }));
   }
-}
+);
