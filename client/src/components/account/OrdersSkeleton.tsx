@@ -1,7 +1,7 @@
 import { Skeleton } from "@mui/material";
 import React from "react";
 
-const OrdersSkeleton = () => {
+const OrdersSkeleton: React.FC<{}> = () => {
   return (
     <ul className="grid gap-4 grid-cols-12 mb-32">
       {new Array(10).fill(1).map((_, idx) => (

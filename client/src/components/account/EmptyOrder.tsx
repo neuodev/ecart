@@ -1,7 +1,7 @@
 import { Button, Typography } from "@mui/material";
 import React from "react";
 
-const EmptyOrder = () => {
+const EmptyOrder: React.FC<{}> = () => {
   return (
     <div className="flex felx-row items-center justify-center">
       <img
