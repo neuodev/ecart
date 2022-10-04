@@ -1,5 +1,5 @@
-import { Breadcrumbs, Tooltip, Typography } from "@mui/material";
 import React from "react";
+import { Breadcrumbs, Tooltip, Typography, useMediaQuery } from "@mui/material";
 import { BsChevronCompactRight } from "react-icons/bs";
 import { Link } from "react-router-dom";
 
@@ -24,16 +24,13 @@ const CHECKOUT_STEPS = [
     to: "/checkouts/payment",
     tooltip: "Choose your payment method",
   },
-  {
-    label: "Complete order",
-    tooltip: "Confirme your order",
-    to: "#",
-  },
 ];
 
 const CheckoutSteps: React.FC<{
   currStep: number;
 }> = ({ currStep }) => {
+  let islg = useMediaQuery("(min-width: 1024px)");
+
   return (
     <Breadcrumbs separator={<BsChevronCompactRight />}>
       {CHECKOUT_STEPS.map((step, stepIdx) => {
@@ -44,13 +41,11 @@ const CheckoutSteps: React.FC<{
             </Link>
           ) : stepIdx + 1 > currStep ? (
             <Link to="#" className="text-xs md:text-sm cursor-not-allowed">
-              {" "}
-              {step.label}{" "}
+              {step.label}
             </Link>
           ) : (
             <Link to={step.to} className="text-xs md:text-sm">
-              {" "}
-              {step.label}{" "}
+              {step.label}
             </Link>
           );
         return (
@@ -68,6 +63,21 @@ const CheckoutSteps: React.FC<{
           </Tooltip>
         );
       })}
+      {islg && (
+        <Tooltip
+          placement="bottom"
+          arrow
+          title={
+            <Typography sx={{ textAlign: "center", fontFamily: "Rubik" }}>
+              Complete your order
+            </Typography>
+          }
+        >
+          <Link to="#" className="text-xs md:text-sm">
+            Complete order
+          </Link>
+        </Tooltip>
+      )}
     </Breadcrumbs>
   );
 };

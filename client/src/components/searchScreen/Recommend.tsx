@@ -2,6 +2,7 @@ import { Button } from "@mui/material";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { RESET_FILTERS } from "../../actions/actionTypes";
+import { ROUTES } from "../../constants/routes";
 import { useAppDispatch } from "../../store";
 import { IProduct } from "../../types";
 import ProductCard from "../HomeScreen/ProductCard";
@@ -27,7 +28,7 @@ const Recommend: React.FC<{
           <Button
             onClick={() => {
               dispatch({ type: RESET_FILTERS });
-              navigate("/products");
+              navigate(ROUTES.PRODUCTS);
             }}
             variant="dark"
           >
@@ -35,16 +36,16 @@ const Recommend: React.FC<{
           </Button>
         </div>
       </div>
-      {recommendedProducts && (
+      {recommendedProducts.length !== 0 && (
         <div className="px-4">
-          <h1 className="uppercase tracking-wider font-medium text-gray-700 text-xl mx-1.5">
+          <h1 className="uppercase tracking-wider font-medium text-gray-700 text-2xl mb-4">
             Recommendation
           </h1>
-          <div className="col-span-12 mx-auto md:row-start-4 md:row-end-6 md:col-span-8 grid grid-cols-12 lg:col-span-9 xl:col-span-10">
+          <div className="grid grid-cols-12 gap-5">
             {recommendedProducts.map((product) => (
               <div
                 key={product._id}
-                className="col-span-12 mx-auto  lg:col-span-6 xl:col-span-4 "
+                className="col-span-12 sm:col-span-6 lg:col-span-4 xl:col-span-3"
               >
                 <ProductCard product={product} />
               </div>

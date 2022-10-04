@@ -86,13 +86,13 @@ const SearchScreen: React.FC<{}> = () => {
             <FilterSidebarLargeScreen />
           </div>
           <div className="flex items-center justify-center w-full pt-3">
-            <div className="grid gap-5 grid-cols-12 mx-auto min-h-600">
+            <div className="grid gap-5 grid-cols-12 mx-auto min-h-600 md:ml-8 w-full">
               {recommendLoading || loading ? (
-                new Array(3).fill(0).map((_, idx) => {
+                new Array(8).fill(0).map((_, idx) => {
                   return (
                     <div
                       key={idx * 2}
-                      className="col-span-12 mx-auto  lg:col-span-6 xl:col-span-4"
+                      className="col-span-12 lg:col-span-6 xl:col-span-3 -mr-5"
                     >
                       <ProductSkeleton />
                     </div>
@@ -102,20 +102,11 @@ const SearchScreen: React.FC<{}> = () => {
                 <div className="col-span-12 mx-auto lg:col-span-12 xl:col-span-12 min-h-500">
                   <Recommend recommendedProducts={recommendedProducts} />
                 </div>
-              ) : loading ? (
-                new Array(6).fill(1).map((_, idx) => (
-                  <div
-                    key={idx}
-                    className="col-span-12 mx-auto lg:col-span-6 xl:col-span-4"
-                  >
-                    <ProductSkeleton />
-                  </div>
-                ))
               ) : (
                 products.map((product, idx: number) => (
                   <div
                     key={idx}
-                    className="col-span-12 lg:col-span-6 xl:col-span-4"
+                    className="col-span-12 sm:col-span-6 lg:col-span-4 xl:col-span-3"
                   >
                     <ProductCard product={product} />
                   </div>

@@ -1,13 +1,12 @@
 import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { BiCart, BiChevronDown } from "react-icons/bi";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import OrderSummaryItem from "./OrderSummaryItem";
-import { useSelector } from "react-redux";
 import { calcTotalPrice, calcSubTotal } from "../../utils/cost";
 import { useAppSelector } from "../../store";
 import { currFormat } from "../../utils/currency";
 
-const OrderSummary = () => {
+const OrderSummary: React.FC<{}> = () => {
   const { cartItems, shippingMethod } = useAppSelector((state) => state.cart);
   const [currentShppingCost, setCurrentShppingCost] = useState<number | null>(
     null
@@ -22,21 +21,20 @@ const OrderSummary = () => {
   }, [shippingMethod]);
 
   return (
-    <Accordion square>
+    <Accordion square about="Check your order summary">
       <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
         <div className="flex items-center justify-between w-full container mx-auto px-4">
           <div className="flex items-center  text-green-400 font-medium ">
-            <BiCart className="mr-1 text-xl" />
-            <p>Show order Summary</p>
-            <BiChevronDown className="text-xl mt-1 " />
+            <p>Order Summary</p>
+            <ExpandMoreIcon />
           </div>
           <p className="font-bold text-gray-800 ">{currFormat(total)}</p>
         </div>
       </AccordionSummary>
       <AccordionDetails>
         <div className="w-full container mx-auto px-4">
-          {cartItems.map((product, idx) => (
-            <OrderSummaryItem key={idx} product={product} />
+          {cartItems.map((product) => (
+            <OrderSummaryItem key={product.name} product={product} />
           ))}
 
           <div className="border-b "></div>
@@ -55,10 +53,9 @@ const OrderSummary = () => {
           <div className="border-b"></div>
           <div className="flex items-center justify-between py-4">
             <h1 className="font-light text-lg">Total</h1>
-            <p>
-              <span className="text-sm font-light">USD</span>
-              <span className="font-medium text-xl ml-1">${total}</span>
-            </p>
+            <span className="font-medium text-xl ml-1">
+              {currFormat(total)}
+            </span>
           </div>
         </div>
       </AccordionDetails>

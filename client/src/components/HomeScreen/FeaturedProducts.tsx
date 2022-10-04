@@ -27,7 +27,7 @@ const FeaturedProducts: React.FC<{}> = () => {
         <div>
           <Swiper
             style={{
-              padding: "20px 0 0  0px",
+              padding: "20px 0 0 0px",
             }}
             autoplay={{
               delay: 2000,

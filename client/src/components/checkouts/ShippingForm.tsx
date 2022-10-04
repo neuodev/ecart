@@ -107,10 +107,7 @@ const ShippingForm = () => {
   };
 
   return (
-    <div className="container mx-auto px-4">
-      <div className="py-4">
-        <CheckoutSteps currStep={2} />
-      </div>
+    <div className="container mx-auto px-4 mb-12">
       <div>
         <div>
           <div>

@@ -21,11 +21,11 @@ const OrderSummaryLargScreen: React.FC<{}> = () => {
   }, [shippingMethod]);
 
   return (
-    <div className="p-4 my-4 h-full">
+    <div className="p-4 h-full">
       {cartItems.map((product, idx) => (
         <OrderSummaryItem key={idx} product={product} />
       ))}
-      <div className="py-4">
+      <div className="pt-4">
         <LabelValue label="Subtotal" value={currFormat(subTotal)} />
         <LabelValue
           label="Shipping"

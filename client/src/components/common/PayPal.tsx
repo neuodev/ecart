@@ -9,11 +9,11 @@ import {
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { PayPalButton } from "react-paypal-button-v2";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { ORDER_CREATE_RESET, ORDER_PAY_RESET } from "../../actions/actionTypes";
 import { payOrder } from "../../actions/order";
-import { RootState, useAppDispatch, useAppSelector } from "../../store";
+import { ROUTES } from "../../constants/routes";
+import { useAppDispatch, useAppSelector } from "../../store";
 import { IPaymentResult } from "../../types";
 import LoadSdk from "../utils/LoadSdk";
 import Modal from "./Modal";
@@ -71,7 +71,7 @@ const PayPal: React.FC<{
 
   const goHome = () => {
     resetPayment();
-    navigate("/");
+    navigate(ROUTES.ROOT);
   };
 
   return (
@@ -133,9 +133,15 @@ const PayPal: React.FC<{
         )
       )}
 
-      <Modal open={success} onClose={goHome}>
-        <div>
-          <img src="/images/shopping.gif" alt="Order completed" title="Order" />
+      <Modal minWidth="800px" open={success} onClose={goHome}>
+        <div className="">
+          <div className="flex items-center justify-center">
+            <img
+              src="/images/shopping.gif"
+              alt="Order completed"
+              title="Order"
+            />
+          </div>
           <Typography fontFamily="Rubik" variant="h6" textAlign="center">
             You made it. Your order will reach you soon!
           </Typography>
@@ -147,7 +153,7 @@ const PayPal: React.FC<{
             <Button
               onClick={() => {
                 resetPayment();
-                navigate("/account/");
+                navigate(ROUTES.ACCOUNT.ORDERS);
               }}
               variant="dark"
             >

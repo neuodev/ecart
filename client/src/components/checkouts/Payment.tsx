@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import OrderSummary from "./OrderSummary";
+import OrderSummary from "./OrderSummaryLargScreen";
 import CheckoutSteps from "../common/CheckoutSteps";
 import EditIcon from "@mui/icons-material/Edit";
 import { IconButton } from "@mui/material";
@@ -32,14 +32,14 @@ const Payment: React.FC<{}> = () => {
 
   return (
     <div>
+      <div className="px-4 pt-4">
+        <CheckoutSteps currStep={4} />
+      </div>
       <div className="block md:hidden">
         <OrderSummary />
       </div>
-      <div className="p-3">
-        <CheckoutSteps currStep={4} />
-      </div>
 
-      <div className="rounded-md py-4 ml-3 mr-3 mt-4 mb-10">
+      <div className="rounded-md pb-4 ml-3 mr-3 mb-10">
         <div className="flex items-center justify-between mb-2 border-b pb-3 ">
           <h1 className="text-gray-600">Contact</h1>
           <p className="text-left mr-auto ml-10 text-sm">{email}</p>

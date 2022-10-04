@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { listMyOrders } from "../../actions/order";
-import { Link } from "react-router-dom";
 import OrderItem from "./OrderItem";
 import Modal from "../common/Modal";
 import { Typography, Alert } from "@mui/material";
@@ -11,7 +10,7 @@ import OrdersSkeleton from "./OrdersSkeleton";
 import ErrorScreen from "../ProductScreen/ErrorScreen";
 import EmptyOrder from "./EmptyOrder";
 
-const Orders = () => {
+const Orders: React.FC<{}> = () => {
   const dispatch = useAppDispatch();
   const { userInfo } = useAppSelector((state) => state.userLogin);
   const { loading, error, orders } = useAppSelector(
@@ -22,7 +21,7 @@ const Orders = () => {
 
   useEffect(() => {
     if (userInfo) dispatch(listMyOrders());
-  }, [success, userInfo]);
+  }, [success, userInfo, dispatch]);
 
   return (
     <div>
@@ -49,11 +48,9 @@ const Orders = () => {
 
       {order !== null && (
         <Modal open onClose={() => setOrder(null)}>
-          <div className="min-w-500">
-            <Typography variant="h4" textAlign="center">
-              Pay your order
-            </Typography>
-          </div>
+          <Typography variant="h4" textAlign="center">
+            Pay your order
+          </Typography>
 
           <PayPal
             orderId={order._id}

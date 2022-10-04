@@ -2,7 +2,6 @@ import {
   IconButton,
   ListItemIcon,
   ListItemText,
-  Menu,
   MenuItem,
   MenuList,
   SwipeableDrawer,
@@ -19,7 +18,6 @@ import {
 import { useNavigate } from "react-router-dom";
 import { FiUsers, FiHeadphones } from "react-icons/fi";
 import { BiCartAlt } from "react-icons/bi";
-import { useDispatch } from "react-redux";
 import { RESET_FILTERS } from "../../actions/actionTypes";
 import { Search } from "@mui/icons-material";
 import { useAppDispatch } from "../../store";
@@ -109,7 +107,7 @@ const Sidebar: React.FC<{}> = () => {
                 placeholder="Search products.."
                 className="inline-block w-full focus:outline-none px-2 py-1"
               />
-              <IconButton type="submit" disabled={!search}>
+              <IconButton type="submit">
                 <Search />
               </IconButton>
             </form>

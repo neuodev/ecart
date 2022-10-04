@@ -30,7 +30,7 @@ const LatestProducts: React.FC<{}> = () => {
         <div>
           <Swiper
             style={{
-              padding: "20px 0 0  0px",
+              padding: "20px 0 0 0px",
             }}
             slidesPerView={numOfSlides}
             spaceBetween={20}
