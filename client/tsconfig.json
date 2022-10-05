@@ -17,5 +17,5 @@
     "strict": true,
     "skipLibCheck": true
   },
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "postcss.config.js", "tailwind.config.js"]
 }
