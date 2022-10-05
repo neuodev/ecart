@@ -1,7 +1,6 @@
 import { Close } from "@mui/icons-material";
 import { IconButton, Rating } from "@mui/material";
 import React from "react";
-import { useDispatch } from "react-redux";
 import { removeFromCart } from "../../actions/cart";
 import { useAppDispatch } from "../../store";
 import { ICartItem } from "../../types";

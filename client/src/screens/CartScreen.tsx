@@ -39,15 +39,13 @@ const CartScreen = () => {
               <EmptyCart />
             </div>
           ) : (
-            <div className="col-span-12 md:col-span-7 lg:col-span-9 flex flex-col space-y-3 pr-6">
-              <div>
-                <div className="mb-8">
-                  {cartItems.map((item, idx) => (
-                    <div key={idx} className="mb-4">
-                      <CartItems cartItem={item} />
-                    </div>
-                  ))}
-                </div>
+            <div className="col-span-12 lg:col-span-9 flex flex-col space-y-3 pr-6">
+              <div className="mb-8">
+                {cartItems.map((item, idx) => (
+                  <div key={idx} className="mb-4">
+                    <CartItems cartItem={item} />
+                  </div>
+                ))}
               </div>
               {cartItems.length > 0 && (
                 <div className="col-span-12 md:col-span-5 lg:col-span-3 lg:absolute top-0 right-0 z-10 ">
