@@ -239,7 +239,7 @@ type Body = {
 </details>
 
 <details>
-<summary>GET /api/v1/users</summary>
+<summary>POST /api/v1/users</summary>
 
 <br />
 
@@ -249,37 +249,25 @@ type Body = {
 
 ### Request
 
+```json
+{
+  "firstName": "Joen",
+  "lastName": "Doe",
+  "email": "jone_1@wallet.io",
+  "password": "1234567"
+}
+```
+
 ### Response
 
 ```json
 {
-  "users": [
-    {
-      "_id": "6326a3633979c3a722be8411",
-      "firstName": "Jane",
-      "lastName": "Doe",
-      "email": "jane@wallet.io",
-      "password": "$2a$10$eajsr5X/E3D2B8N8anLa8O3LlF7Sj/sCquBs2xPH.n7wXBai4viI2",
-      "isAdmin": true,
-      "createdAt": "2022-09-18T04:49:39.687Z",
-      "updatedAt": "2022-09-18T05:43:23.695Z",
-      "__v": 0
-    },
-    {
-      "_id": "6326a4fda8012c4bc02d6368",
-      "firstName": "Jone",
-      "lastName": "Doe",
-      "email": "jone@wallet.io",
-      "password": "$2a$10$wKNngaZrvxMsTRQajNfzjekiLhTSZRSdAWdWkrJ1U3D8gCE9nQoZ2",
-      "isAdmin": true,
-      "createdAt": "2022-09-18T04:56:29.313Z",
-      "updatedAt": "2022-09-18T05:59:20.404Z",
-      "__v": 0,
-      "resetPasswordExpire": "2022-09-18T06:09:20.402Z",
-      "resetPasswordToken": "999913f36209979914b407d615589e04d923be68175f80debafd2bdf5b838767"
-    }
-  ],
-  "count": 2
+  "_id": "633d4c6abd2e35a18c53e777",
+  "firstName": "Joen",
+  "lastName": "Doe",
+  "email": "jone_3@wallet.io",
+  "isAdmin": false,
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzM2Q0YzZhYmQyZTM1YTE4YzUzZTc3NyIsImlhdCI6MTY2NDk2MTY0MiwiZXhwIjoxNjY3NTUzNjQyfQ.OgnvSKOiyoCziTcU9q6yElFpd0REM2BBuP6L53Loz8Q"
 }
 ```
 
