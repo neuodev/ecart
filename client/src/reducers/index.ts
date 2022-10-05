@@ -3,7 +3,7 @@ import { featuredProducts } from "./featuredProducts";
 import { topRatedProducts } from "./topRatedProducts";
 import { bestSellingProducts } from "./bestSellingProducts";
 import { latestProducts } from "./latestProducts";
-import { searchProducts, recommendedProducts } from "./SearchProducts";
+import { searchProducts, recommendedProducts } from "./products";
 import { filters } from "./filters";
 import {
   getProduct,

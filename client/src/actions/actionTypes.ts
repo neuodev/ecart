@@ -4,6 +4,7 @@ import {
   ICartItem,
   IOrder,
   IProduct,
+  IUser,
   ShippingAddr,
   ShippingMethod,
 } from "../types";
@@ -67,14 +68,14 @@ export const getUserSuc = createAction("user-info/success");
 export const getUserErr = createAction("user-info/error");
 
 export const userLoginReq = createAction("login/req");
-export const userLoginSuc = createAction("login/success");
-export const userLoginErr = createAction("login/error");
+export const userLoginSuc = createAction<IUser>("login/success");
+export const userLoginErr = createAction<string>("login/error");
 export const userLoginReset = createAction("login/reset");
 export const userLogout = createAction("logout");
 
 export const userRegisterReq = createAction("register/req");
-export const userRegisterSuc = createAction("register/success");
-export const userRegisterErr = createAction("register/error");
+export const userRegisterSuc = createAction<IUser>("register/success");
+export const userRegisterErr = createAction<string>("register/error");
 
 export const getRecommendedProdsReq = createAction("recommened-products/req");
 export const getRecommendedProdsSuc = createAction<IProduct[]>(
