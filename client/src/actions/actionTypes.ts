@@ -1,5 +1,5 @@
 import { createAction } from "@reduxjs/toolkit";
-import { IProduct } from "../types";
+import { ICartItem, IProduct, ShippingAddr, ShippingMethod } from "../types";
 
 export const featuredProductReq = createAction("featured/req");
 export const featuredProductSuc = createAction<IProduct[]>("featured/success");
@@ -30,6 +30,7 @@ export const searchProductsSuc = createAction<IProduct[]>("search/success");
 export const searchProductErr = createAction<string>("search/error");
 
 export const sortAsc = createAction("filter/sort-asc");
+export const addPageLimit = createAction("filter/limit");
 export const sortDesc = createAction("filter/sort-desc");
 export const filterByCat = createAction("filter/cat");
 export const filterByPrice = createAction("filter/price");
@@ -40,92 +41,63 @@ export const getProductReq = createAction("product/req");
 export const getProductSuc = createAction("product/success");
 export const getProductErr = createAction("product/error");
 
-export const addCartItemAction = createAction("cart/add");
-export const delCartItemAction = createAction("cart/del");
-export const saveShippingAddr = createAction("cart/save-shipping-addr");
-export const savePayment = createAction("cart/save-payment");
-export const saveShippingMethod = createAction("cart/save-shipping-method");
+export const addCartItemAction = createAction<ICartItem>("cart/add");
+export const delCartItemAction = createAction<string>("cart/del");
+export const saveShippingAddr = createAction<ShippingAddr>(
+  "cart/save-shipping-addr"
+);
+export const savePayment = createAction<string>("cart/save-payment");
+export const saveShippingMethod = createAction<ShippingMethod>(
+  "cart/save-shipping-method"
+);
 export const clearCart = createAction("cart/clear");
 
-export const USER_DETAILS_FAIL = "USER_DETAILS_FAIL";
-export const USER_DETAILS_REQUEST = "USER_DETAILS_REQUEST";
-export const USER_DETAILS_SUCCESS = "USER_DETAILS_SUCCESS";
+export const getUserReq = createAction("user-info/req");
+export const getUserSuc = createAction("user-info/success");
+export const getUserErr = createAction("user-info/error");
 
-export const USER_LOGIN_FAIL = "USER_LOGIN_FAIL";
-export const USER_LOGIN_REQUEST = "USER_LOGIN_REQUEST";
-export const USER_LOGIN_SUCCESS = "USER_LOGIN_SUCCESS";
-export const USER_LOGIN_RESET = "USER_LOGIN_RESET";
+export const userLoginReq = createAction("login/req");
+export const userLoginSuc = createAction("login/success");
+export const userLoginErr = createAction("login/error");
+export const userLoginReset = createAction("login/reset");
+export const userLogout = createAction("logout");
 
-export const USER_LOGOUT = "USER_LOGOUT";
+export const userRegisterReq = createAction("register/req");
+export const userRegisterSuc = createAction("register/success");
+export const userRegisterErr = createAction("register/error");
 
-export const USER_REGISTER_FAIL = "USER_REGISTER_FAIL";
-export const USER_REGISTER_REQUEST = "USER_REGISTER_REQUEST";
-export const USER_REGISTER_SUCCESS = "USER_REGISTER_SUCCESS";
+export const getRecommendedProdsReq = createAction("recommened-products/req");
+export const getRecommendedProdsSuc = createAction(
+  "recommened-products/success"
+);
+export const getRecommendedProdsErr = createAction("recommened-products/error");
 
-export const USER_UPDATE_PROFILE_FAIL = "USER_UPDATE_PROFILE_FAIL";
-export const USER_UPDATE_PROFILE_REQUEST = "USER_UPDATE_PROFILE_REQUEST";
-export const USER_UPDATE_PROFILE_SUCCESS = "USER_UPDATE_PROFILE_SUCCESS";
+export const createOrderReq = createAction("create-order/req");
+export const createOrderSuc = createAction("create-order/success");
+export const createOrderErr = createAction("create-order/error");
 
-export const USER_DETAILS_RESET = "USER_DETAILS_RESET";
+export const getOrderReq = createAction("get-order/error");
+export const getOrderSuc = createAction("get-order/success");
+export const getOrderErr = createAction("get-order/error");
 
-export const USER_LIST_FAIL = "USER_LIST_FAIL";
-export const USER_LIST_SUCCESS = "USER_LIST_SUCCESS";
-export const USER_LIST_REQUEST = "USER_LIST_REQUEST";
-export const USER_LIST_RESET = "USER_LIST_RESET";
+export const payOrderReq = createAction("pay-order/req");
+export const payOrderSuc = createAction("pay-order/success");
+export const payOrderErr = createAction("pay-order/error");
+export const payOrderReset = createAction("pay-order/reset");
 
-export const USER_DELETE_REQUEST = "USER_DELETE_REQUEST";
-export const USER_DELETE_SUCCESS = "USER_DELETE_SUCCESS";
-export const USER_DELETE_FAIL = "USER_DELETE_FAIL";
+export const getOrdersListReq = createAction("get-orders/req");
+export const getOrdersListSuc = createAction("get-orders/success");
+export const getOrdersListErr = createAction("get-orders/error");
 
-export const USER_UPDATE_FAIL = "USER_UPDATE_FAIL";
-export const USER_UPDATE_SUCCESS = "USER_UPDATE_SUCCESS";
-export const USER_UPDATE_REQUEST = "USER_UPDATE_REQUEST";
+export const addReviewReq = createAction("add-review/req");
+export const addReviewSuc = createAction("add-review/success");
+export const addReviewErr = createAction("add-review/error");
+export const addReviewReset = createAction("add-review/reset");
 
-export const USER_UPDATE_PROFILE_RESET = "USER_UPDATE_PROFILE_RESET";
-export const USER_UPDATE_RESET = "USER_UPDATE_RESET";
+export const delReviewReq = createAction("del-review/req");
+export const delReviewSuc = createAction("del-review/success");
+export const delReviewErr = createAction("del-review/error");
+export const delReviewReset = createAction("del-review/reset");
 
-export const RECOMMEND_PRODUCTS_RQUIEST = "RECOMMEND_PRODUCTS_RQUIEST";
-export const RECOMMEND_PRODUCTS_SUCCESS = "RECOMMEND_PRODUCTS_SUCCESS";
-export const RECOMMEND_PRODUCTS_FAIL = "RECOMMEND_PRODUCTS_FAIL";
-
-export const ORDER_CREATE_REQUEST = "ORDER_CREATE_REQUEST";
-export const ORDER_CREATE_SUCCESS = "ORDER_CREATE_SUCCESS";
-export const ORDER_CREATE_FAIL = "ORDER_CREATE_FAIL";
-export const ORDER_CREATE_RESET = "ORDER_CREATE_RESET";
-
-export const ORDER_DETAILS_FAIL = "ORDER_DETAILS_FAIL";
-export const ORDER_DETAILS_SUCCESS = "ORDER_DETAILS_SUCCESS";
-export const ORDER_DETAILS_REQUEST = "ORDER_DETAILS_REQUEST";
-
-export const ORDER_PAY_FAIL = "ORDER_PAY_FAIL";
-export const ORDER_PAY_SUCCESS = "ORDER_PAY_SUCCESS";
-export const ORDER_PAY_REQUEST = "ORDER_PAY_REQUEST";
-export const ORDER_PAY_RESET = "ORDER_PAY_RESET";
-
-export const ORDER_LIST_FAIL = "ORDER_LIST_FAIL";
-export const ORDER_LIST_SUCCESS = "ORDER_LIST_SUCCESS";
-export const ORDER_LIST_REQUEST = "ORDER_LIST_REQUEST";
-
-export const ORDER_DELIVER_RESET = "ORDER_DELIVER_RESET";
-export const ORDER_DELIVER_FAIL = "ORDER_DELIVER_FAIL";
-export const ORDER_DELIVER_SUCCESS = "ORDER_DELIVER_SUCCESS";
-export const ORDER_DELIVER_REQUEST = "ORDER_DELIVER_REQUEST";
-
-export const PRODUCT_CREATE_REVIEW_REQUEST = "PRODUCT_CREATE_REVIEW_REQUEST";
-export const PRODUCT_CREATE_REVIEW_SUCCESS = "PRODUCT_CREATE_REVIEW_SUCCESS";
-export const PRODUCT_CREATE_REVIEW_FAIL = "PRODUCT_CREATE_REVIEW_FAIL";
-export const PRODUCT_CREATE_REVIEW_RESET = "PRODUCT_CREATE_REVIEW_RESET";
-
-export const PRODUCT_DELETE_REVIEW_REQUEST = "PRODUCT_DELETE_REVIEW_REQUEST";
-export const PRODUCT_DELETE_REVIEW_SUCCESS = "PRODUCT_DELETE_REVIEW_SUCCESS";
-export const PRODUCT_DELETE_REVIEW_FAIL = "PRODUCT_DELETE_REVIEW_FAIL";
-export const PRODUCT_DELETE_REVIEW_RESET = "PRODUCT_DELETE_REVIEW_RESET";
-
-export const TOGGLE_WISHLIST_ITEM = "TOGGLE_WISHLIST_ITEM";
-export const CLEAR_WISHLIST = "CLEAR_WISHLIST ";
-
-export const PRODUCTS_NEXT_PAGE_REQUREST = "PRODUCTS_NEXT_PAGE_REQUREST";
-export const PRODUCTS_NEXT_PAGE_SUCCESS = "PRODUCTS_NEXT_PAGE_SUCCESS";
-export const PRODUCTS_NEXT_PAGE_FAIL = "PRODUCTS_NEXT_PAGE_FAIL";
-
-export const ITEMS_LIMIT = "ITEMS_LIMIT";
+export const toggleWishlistItem = createAction("wishlist/toggle");
+export const clearWishlist = createAction("wishlist/clear");
