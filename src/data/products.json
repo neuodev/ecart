@@ -28,5 +28,15 @@
     "discount": 2,
     "price": 200.0,
     "countInStock": 1000
+  },
+  {
+    "name": "LG 29WQ600-W 29 Inch 21:9 UltraWide Full HD",
+    "images": ["/images/ipad.jpg"],
+    "brand": "Apple",
+    "caregory": ["phones"],
+    "description": "10.9-inch Liquid Retina display with True Tone, P3 wide color, and an antireflective coating",
+    "discount": 10,
+    "price": 1000.0,
+    "countInStock": 100
   }
 ]
