@@ -52,13 +52,13 @@ export const getProductReq = createAction("product/req");
 export const getProductSuc = createAction<IProduct>("product/success");
 export const getProductErr = createAction<string>("product/error");
 
-export const addCartItemAction = createAction<ICartItem>("cart/add");
-export const delCartItemAction = createAction<string>("cart/del");
+export const addCartItem = createAction<ICartItem>("cart/add");
+export const delCartItem = createAction<string>("cart/del");
 export const saveShippingAddr = createAction<ShippingAddr>(
   "cart/save-shipping-addr"
 );
 export const savePayment = createAction<string>("cart/save-payment");
-export const saveShippingMethod = createAction<ShippingMethod>(
+export const saveShippingMethodAction = createAction<ShippingMethod>(
   "cart/save-shipping-method"
 );
 export const clearCart = createAction("cart/clear");

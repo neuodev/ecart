@@ -22,6 +22,7 @@ import {
   notEmpty,
 } from "../../utils/validation";
 import { useAppDispatch, useAppSelector } from "../../store";
+import { ShippingAddr } from "../../types";
 
 const validators = {
   email: isValidEmail,
@@ -43,17 +44,7 @@ const ShippingForm = () => {
   const { shippingAddress } = useAppSelector((state) => state.cart);
   const { userInfo } = useAppSelector((state) => state.userLogin);
 
-  const [state, setState] = useState<{
-    email: string;
-    firstName: string;
-    lastName: string;
-    address: string;
-    city: string;
-    postalCode: string;
-    country: string;
-    apartment: string;
-    save: boolean;
-  }>({
+  const [state, setState] = useState<ShippingAddr>({
     email: shippingAddress?.email || (userInfo && userInfo.email) || "",
     firstName: shippingAddress?.firstName || "",
     lastName: shippingAddress?.lastName || "",

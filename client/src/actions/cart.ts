@@ -1,46 +1,47 @@
 import axios from "axios";
 import { LOCAL_STORAGE } from "../constants";
 import { AppDispatch, GetState } from "../store";
+import { ShippingAddr, ShippingMethod } from "../types";
+import { getErrMsg } from "../utils/error";
 import {
-  CART_ADD_ITEM,
-  CART_REMOVE_ITEM,
-  CART_SAVE_SHIPPING_ADDRESS,
-  CART_SAVE_PAYMENT_METHOD,
-  CART_SAVE_SHIPPING_METHOD,
+  addCartItem,
+  delCartItem,
+  savePayment,
+  saveShippingAddr,
+  saveShippingMethodAction,
 } from "./actionTypes";
 
 export const addToCart =
   (id: string, qty: number) =>
   async (dispatch: AppDispatch, getState: GetState) => {
-    const { data } = await axios.get(`/api/v1/products/${id}`);
+    try {
+      const { data } = await axios.get(`/api/v1/products/${id}`);
+      dispatch(
+        addCartItem({
+          product: data._id,
+          name: data.name,
+          price: data.price,
+          discount: data.discount,
+          image: data.images[0],
+          qty,
+          rating: data.rating,
+        })
+      );
 
-    dispatch({
-      type: CART_ADD_ITEM,
-      payload: {
-        product: data._id,
-        name: data.name,
-        price: data.price,
-        countInStock: data.countInStock,
-        discount: data.discount,
-        image: data.images[0],
-        qty,
-        rating: data.rating,
-      },
-    });
-
-    localStorage.setItem(
-      LOCAL_STORAGE.cartItems,
-      JSON.stringify(getState().cart.cartItems)
-    );
+      localStorage.setItem(
+        LOCAL_STORAGE.cartItems,
+        JSON.stringify(getState().cart.cartItems)
+      );
+    } catch (error) {
+      const err = getErrMsg(error);
+      // todo: Should be handled by the UI
+      alert(err);
+    }
   };
 
 export const removeFromCart =
   (id: string) => (dispatch: AppDispatch, getState: GetState) => {
-    dispatch({
-      type: CART_REMOVE_ITEM,
-      payload: id,
-    });
-
+    dispatch(delCartItem(id));
     localStorage.setItem(
       LOCAL_STORAGE.cartItems,
       JSON.stringify(getState().cart.cartItems)
@@ -48,31 +49,22 @@ export const removeFromCart =
   };
 
 export const saveShippingAddress =
-  (data: { save: boolean }) => (dispatch: AppDispatch) => {
-    dispatch({
-      type: CART_SAVE_SHIPPING_ADDRESS,
-      payload: data,
-    });
-
-    if (data.save === true) {
-      localStorage.setItem(LOCAL_STORAGE.shippingAddr, JSON.stringify(data));
+  (addr: ShippingAddr) => (dispatch: AppDispatch) => {
+    dispatch(saveShippingAddr(addr));
+    if (addr.save === true) {
+      localStorage.setItem(LOCAL_STORAGE.shippingAddr, JSON.stringify(addr));
     }
   };
 
-export const savePaymentMethod = (data: {}) => (dispatch: AppDispatch) => {
-  dispatch({
-    type: CART_SAVE_PAYMENT_METHOD,
-    payload: data,
-  });
+export const savePaymentMethod =
+  (method: string) => (dispatch: AppDispatch) => {
+    dispatch(savePayment(method));
+    localStorage.setItem(LOCAL_STORAGE.paymentMethod, JSON.stringify(method));
+  };
 
-  localStorage.setItem(LOCAL_STORAGE.paymentMethod, JSON.stringify(data));
-};
+export const saveShippingMethod =
+  (method: ShippingMethod) => (dispatch: AppDispatch) => {
+    dispatch(saveShippingMethodAction(method));
 
-export const saveShippingMethod = (data: {}) => (dispatch: AppDispatch) => {
-  dispatch({
-    type: CART_SAVE_SHIPPING_METHOD,
-    payload: data,
-  });
-
-  localStorage.setItem(LOCAL_STORAGE.shippingMethod, JSON.stringify(data));
-};
+    localStorage.setItem(LOCAL_STORAGE.shippingMethod, JSON.stringify(method));
+  };
