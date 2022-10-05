@@ -1,11 +1,12 @@
+import { createReducer } from "@reduxjs/toolkit";
 import {
-  ASCENDING_ORDER,
-  DECENDING_ORDER,
-  PRICE,
-  CATEGORY,
-  BRAND,
-  ITEMS_LIMIT,
-  RESET_FILTERS,
+  sortAsc,
+  sortDesc,
+  filterByCat,
+  filterByPrice,
+  filterByBrand,
+  addPageLimit,
+  resetFilters,
 } from "../actions/actionTypes";
 import { PriceFilter } from "../components/searchScreen/FilterSidebar";
 
@@ -17,73 +18,45 @@ type FilterState = {
   brand: string | null;
 };
 
-type Action =
-  | {
-      type:
-        | typeof ASCENDING_ORDER
-        | typeof DECENDING_ORDER
-        | typeof RESET_FILTERS;
-      payload: undefined;
-    }
-  | {
-      type: typeof CATEGORY | typeof BRAND | typeof ITEMS_LIMIT;
-      payload: string;
-    }
-  | {
-      type: typeof PRICE;
-      payload: PriceFilter;
-    };
-
-export function filters(
-  state: FilterState = {
+export const filters = createReducer<FilterState>(
+  {
     sort: "name",
     limit: 6,
     category: null,
     price: null,
     brand: null,
   },
-  { type, payload }: Action
-): FilterState {
-  switch (type) {
-    case ASCENDING_ORDER:
-      return {
+  (builder) => {
+    builder
+      .addCase(sortAsc, (state) => ({
         ...state,
         sort: "name",
-      };
-    case DECENDING_ORDER:
-      return {
+      }))
+      .addCase(sortDesc, (state) => ({
         ...state,
         sort: "-name",
-      };
-
-    case CATEGORY:
-      return {
+      }))
+      .addCase(filterByCat, (state, { payload }) => ({
         ...state,
         category: payload,
-      };
-    case PRICE:
-      return {
+      }))
+      .addCase(filterByPrice, (state, { payload }) => ({
         ...state,
         price: payload,
-      };
-    case BRAND:
-      return {
+      }))
+      .addCase(filterByBrand, (state, { payload }) => ({
         ...state,
         brand: payload,
-      };
-    case ITEMS_LIMIT:
-      return {
+      }))
+      .addCase(addPageLimit, (state, { payload }) => ({
         ...state,
-        limit: Number(payload),
-      };
-    case RESET_FILTERS:
-      return {
+        limit: payload,
+      }))
+      .addCase(resetFilters, (state) => ({
         ...state,
         category: null,
         brand: null,
         price: null,
-      };
-    default:
-      return state;
+      }));
   }
-}
+);

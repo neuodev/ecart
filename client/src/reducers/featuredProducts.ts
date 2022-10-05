@@ -1,8 +1,8 @@
 import { createReducer } from "@reduxjs/toolkit";
 import {
-  featuredProductFail,
-  featuredProductRequest,
-  featuredProductSuccess,
+  featuredProductErr,
+  featuredProductReq,
+  featuredProductSuc,
 } from "../actions/actionTypes";
 import { BaseState, IProduct } from "../types";
 
@@ -16,20 +16,20 @@ export const featuredProducts = createReducer<FeaturedProducts>(
   },
   (builder) => {
     builder
-      .addCase(featuredProductRequest, (state) => {
+      .addCase(featuredProductReq, (state) => {
         return {
           ...state,
           loading: true,
         };
       })
-      .addCase(featuredProductSuccess, (state, { payload }) => {
+      .addCase(featuredProductSuc, (state, { payload }) => {
         return {
           ...state,
           loading: false,
           products: payload,
         };
       })
-      .addCase(featuredProductFail, (state, { payload }) => ({
+      .addCase(featuredProductErr, (state, { payload }) => ({
         ...state,
         loading: false,
         error: payload,

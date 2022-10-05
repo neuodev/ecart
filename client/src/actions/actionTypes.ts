@@ -1,4 +1,5 @@
 import { createAction } from "@reduxjs/toolkit";
+import { PriceFilter } from "../components/searchScreen/FilterSidebar";
 import { ICartItem, IProduct, ShippingAddr, ShippingMethod } from "../types";
 
 export const featuredProductReq = createAction("featured/req");
@@ -30,11 +31,11 @@ export const searchProductsSuc = createAction<IProduct[]>("search/success");
 export const searchProductErr = createAction<string>("search/error");
 
 export const sortAsc = createAction("filter/sort-asc");
-export const addPageLimit = createAction("filter/limit");
+export const addPageLimit = createAction<number>("filter/limit");
 export const sortDesc = createAction("filter/sort-desc");
-export const filterByCat = createAction("filter/cat");
-export const filterByPrice = createAction("filter/price");
-export const filterByBrand = createAction("filter/brand");
+export const filterByCat = createAction<string>("filter/cat");
+export const filterByPrice = createAction<PriceFilter>("filter/price");
+export const filterByBrand = createAction<string>("filter/brand");
 export const resetFilters = createAction("filter/reset");
 
 export const getProductReq = createAction("product/req");
