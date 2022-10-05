@@ -24,11 +24,11 @@ const list = [
 const Features: React.FC<{}> = () => {
   return (
     <div className="border-y-2">
-      <div className="container mx-auto px-4 lg:flex justify-between items-center lg:py-7">
+      <div className="container mx-auto px-4 flex flex-col justify-between items-center py-7">
         {list.map((item, idx) => (
           <div
             key={idx}
-            className="flex flex-row items-center justify-start py-2"
+            className="flex flex-row items-center justify-start py-2 w-80"
           >
             <div className="text-3xl lg:text-2xl text-gray-800 p-2 m-2 border bg-gray-50 rounded-full ">
               {item.icon}

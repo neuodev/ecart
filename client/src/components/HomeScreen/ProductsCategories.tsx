@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import ProductCard2 from "./ProductCard2";
-import { Skeleton } from "@mui/material";
+import SmallCard from "./smallCard";
+import { Alert, AlertTitle, Skeleton } from "@mui/material";
 import {
   getBestSellingProducts,
   getLatestProducts,
@@ -19,71 +19,56 @@ const ProductsCategories: React.FC<{}> = () => {
     dispatch(getLatestProducts());
   }, []);
 
+  const categories = [
+    {
+      title: "Top rated products",
+      products: topRatedProducts,
+    },
+    {
+      title: "Best selling products",
+      products: bestSellingProducts,
+    },
+    {
+      title: "Latest products",
+      products: latestProducts,
+    },
+  ];
+
   return (
-    <div className="py-12">
+    <div className="pb-12 md:py-12">
       <div className="grid grid-cols-12 container mx-auto">
-        <div className="mb-8 col-span-12 md:col-span-6 lg:col-span-4 ">
-          <h1 className="uppercase mx-4 font-medium tracking-wide text-xl text-gray-600">
-            top rated products
-          </h1>
-          {topRatedProducts.loading && (
-            <div className="mt-4">
-              <div className="mb-4">
-                <Skeleton width={210} height={118} />
+        {categories.map(({ title, products: { loading, products, error } }) => (
+          <div className="mb-8 col-span-12 md:col-span-6 lg:col-span-4 ">
+            <h1 className="uppercase mx-4 font-medium tracking-wide text-2xl md:text-xl text-gray-600 text-center md:text-start">
+              {title}
+            </h1>
+            {topRatedProducts.loading ? (
+              <div className="mt-4">
+                <div className="mb-4">
+                  <Skeleton width={210} height={118} />
+                  <Skeleton variant="text" width={210} />
+                  <Skeleton variant="text" width={210} />
+                </div>
+                <Skeleton variant="rectangular" width={210} height={118} />{" "}
                 <Skeleton variant="text" width={210} />
                 <Skeleton variant="text" width={210} />
               </div>
-              <Skeleton variant="rectangular" width={210} height={118} />{" "}
-              <Skeleton variant="text" width={210} />
-              <Skeleton variant="text" width={210} />
-            </div>
-          )}
-          {topRatedProducts.products.map((product) => (
-            <ProductCard2 key={product._id} product={product} />
-          ))}
-        </div>
-        <div className="mb-8 col-span-12  md:col-span-6 lg:col-span-4">
-          <h1 className="uppercase mx-4 font-medium tracking-wide  text-gray-600">
-            BEST SELLING PRODUCTS
-          </h1>
-          {bestSellingProducts.loading && (
-            <div className="mt-4">
-              {" "}
-              <div className="mb-4">
-                <Skeleton variant="rectangular" width={210} height={118} />
-                <Skeleton variant="text" width={210} />
-                <Skeleton variant="text" width={210} />
-              </div>{" "}
-              <Skeleton variant="rectangular" width={210} height={118} />{" "}
-              <Skeleton variant="text" width={210} />
-              <Skeleton variant="text" width={210} />
-            </div>
-          )}
-          {bestSellingProducts.products.map((product, idx) => (
-            <ProductCard2 product={product} key={idx} />
-          ))}
-        </div>
-        <div className=" col-span-12 md:col-span-6 lg:col-span-4">
-          <h1 className="uppercase mx-4 font-medium tracking-wide text-gray-600">
-            LATEST PRODUCTS
-          </h1>
-          {latestProducts.loading && (
-            <div className="mt-4">
-              {" "}
-              <div className="mb-4">
-                <Skeleton variant="rectangular" width={210} height={118} />
-                <Skeleton variant="text" width={210} />
-                <Skeleton variant="text" width={210} />
-              </div>{" "}
-              <Skeleton variant="rectangular" width={210} height={118} />{" "}
-              <Skeleton variant="text" width={210} />
-              <Skeleton variant="text" width={210} />
-            </div>
-          )}
-          {latestProducts.products.map((product, idx) => (
-            <ProductCard2 product={product} key={idx} />
-          ))}
-        </div>
+            ) : error ? (
+              <div>
+                <Alert color="error">
+                  <AlertTitle>Error</AlertTitle>
+                  {error}
+                </Alert>
+              </div>
+            ) : (
+              <div>
+                {products.map((product) => (
+                  <SmallCard key={product._id} product={product} />
+                ))}
+              </div>
+            )}
+          </div>
+        ))}
       </div>
     </div>
   );

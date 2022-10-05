@@ -17,6 +17,7 @@ export const latestProducts = createReducer<LatestProducts>(
       .addCase(getLatestProductsReq, (state) => ({ ...state, loading: true }))
       .addCase(getLatestProductsSuc, (state, { payload }) => ({
         ...state,
+        loading: false,
         products: payload,
       }))
       .addCase(getLatestProductsErr, (state, { payload }) => ({

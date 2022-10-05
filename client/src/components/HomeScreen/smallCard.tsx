@@ -4,18 +4,18 @@ import { Link } from "react-router-dom";
 import { IProduct } from "../../types";
 import { currFormat } from "../../utils/currency";
 
-const ProductCard2: React.FC<{
+const SmallCard: React.FC<{
   product: IProduct;
 }> = ({ product }) => {
   const { images, rating, price, name, category, _id, reviews } = product;
 
   return (
-    <div className="py-2 px-3 text-centerr mt-1 flex items-center  overflow-hidden ">
+    <div className="py-2 px-3 text-centerr mt-1 flex items-center overflow-hidden ">
       <div className="relative">
         <Link to={`/product/${_id}`}>
           <img
             src={images[0]}
-            className="h-48 w-48 lg:h-32 flex-none block overflow-hidden mb-2 p-1.5 rounded-sm border object-contain transition-all delay-75  duration-1000 mr-2"
+            className="h-28 w-28 md:h-48 md:w-48 lg:h-32 flex-none block overflow-hidden mb-2 p-1.5 rounded-sm border object-contain mr-2"
             alt={name}
           />
         </Link>
@@ -39,4 +39,4 @@ const ProductCard2: React.FC<{
   );
 };
 
-export default ProductCard2;
+export default SmallCard;

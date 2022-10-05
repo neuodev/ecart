@@ -24,17 +24,17 @@ const list = [
   },
 ];
 
-const Features2: React.FC<{}> = () => {
+const Services: React.FC<{}> = () => {
   return (
     <div className="container mx-auto mt-12 mb-24">
-      <div className="grid grid-cols-12 gap-4 mb-4">
+      <div className="grid grid-cols-12 gap-5 mb-4">
         {list.map((item, idx) => (
           <div
             className="col-span-12 md:col-span-6 lg:col-span-4 flex flex-col items-center justify-between text-center mx-4"
             key={idx}
           >
             <div className="bg-green-50 p-5 rounded-full mb-4">
-              <i className="text-2xl  text-green-400 ">{item.icon}</i>
+              <i className="text-2xl text-green-400 ">{item.icon}</i>
             </div>
             <h1 className="text-lg uppercase font-medium tracking-wide leading-tight mb-1">
               {item.h1}
@@ -50,4 +50,4 @@ const Features2: React.FC<{}> = () => {
   );
 };
 
-export default Features2;
+export default Services;
