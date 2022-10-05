@@ -11,7 +11,7 @@ const Showcase = () => {
     <div>
       <Swiper
         loop
-        className="h-70vh"
+        className="min-h-70vh"
         // autoplay={{
         //   delay: 2000,
         //   disableOnInteraction: false,

@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import WishList from "../wishlist/WishList";
 import Search from "./Search";
 import { IconButton } from "@mui/material";
+import { ROUTES } from "../../constants/routes";
 
 const MainNavbar: React.FC<{}> = () => {
   return (
@@ -26,7 +27,7 @@ const MainNavbar: React.FC<{}> = () => {
           <Search />
         </div>
         <div className="flex items-center justify-between text-gray-700 -mr-2">
-          <IconButton href="/account">
+          <IconButton href={ROUTES.ACCOUNT.ROOT}>
             <BiUser />
           </IconButton>
           <WishList />
