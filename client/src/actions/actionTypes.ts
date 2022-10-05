@@ -1,6 +1,12 @@
 import { createAction } from "@reduxjs/toolkit";
 import { PriceFilter } from "../components/searchScreen/FilterSidebar";
-import { ICartItem, IProduct, ShippingAddr, ShippingMethod } from "../types";
+import {
+  ICartItem,
+  IOrder,
+  IProduct,
+  ShippingAddr,
+  ShippingMethod,
+} from "../types";
 
 export const featuredProductReq = createAction("featured/req");
 export const featuredProductSuc = createAction<IProduct[]>("featured/success");
@@ -74,8 +80,9 @@ export const getRecommendedProdsSuc = createAction(
 export const getRecommendedProdsErr = createAction("recommened-products/error");
 
 export const createOrderReq = createAction("create-order/req");
-export const createOrderSuc = createAction("create-order/success");
-export const createOrderErr = createAction("create-order/error");
+export const createOrderSuc = createAction<IOrder>("create-order/success");
+export const createOrderErr = createAction<string>("create-order/error");
+export const createOrderReset = createAction<string>("create-order/reset");
 
 export const getOrderReq = createAction("get-order/error");
 export const getOrderSuc = createAction("get-order/success");
@@ -83,12 +90,12 @@ export const getOrderErr = createAction("get-order/error");
 
 export const payOrderReq = createAction("pay-order/req");
 export const payOrderSuc = createAction("pay-order/success");
-export const payOrderErr = createAction("pay-order/error");
+export const payOrderErr = createAction<string>("pay-order/error");
 export const payOrderReset = createAction("pay-order/reset");
 
 export const getOrdersListReq = createAction("get-orders/req");
-export const getOrdersListSuc = createAction("get-orders/success");
-export const getOrdersListErr = createAction("get-orders/error");
+export const getOrdersListSuc = createAction<IOrder[]>("get-orders/success");
+export const getOrdersListErr = createAction<string>("get-orders/error");
 
 export const addReviewReq = createAction("add-review/req");
 export const addReviewSuc = createAction("add-review/success");
