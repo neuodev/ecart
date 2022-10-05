@@ -1,60 +1,47 @@
+import { createReducer } from "@reduxjs/toolkit";
 import {
-  GET_PRODUCT_FAIL,
-  GET_PRODUCT_REQUEST,
-  GET_PRODUCT_SUCCESS,
-  PRODUCT_CREATE_REVIEW_FAIL,
-  PRODUCT_CREATE_REVIEW_REQUEST,
-  PRODUCT_CREATE_REVIEW_RESET,
-  PRODUCT_CREATE_REVIEW_SUCCESS,
-  PRODUCT_DELETE_REVIEW_FAIL,
-  PRODUCT_DELETE_REVIEW_REQUEST,
-  PRODUCT_DELETE_REVIEW_RESET,
-  PRODUCT_DELETE_REVIEW_SUCCESS,
+  addReviewErr,
+  addReviewReq,
+  addReviewReset,
+  addReviewSuc,
+  delReviewErr,
+  delReviewReq,
+  delReviewReset,
+  delReviewSuc,
+  getProductErr,
+  getProductReq,
+  getProductSuc,
 } from "../actions/actionTypes";
-import { BaseAction, BaseState, IProduct } from "../types";
+import { BaseState, IProduct } from "../types";
 
 type ProductDetails = BaseState<{
   product: IProduct | null;
 }>;
 
-export function getProduct(
-  state: ProductDetails = {
+export const getProduct = createReducer<ProductDetails>(
+  {
     loading: false,
     error: null,
     product: null,
   },
-  {
-    type,
-    payload,
-  }: BaseAction<
-    IProduct,
-    typeof GET_PRODUCT_REQUEST,
-    typeof GET_PRODUCT_SUCCESS,
-    typeof GET_PRODUCT_FAIL
-  >
-): ProductDetails {
-  switch (type) {
-    case GET_PRODUCT_REQUEST:
-      return {
+  (builder) => {
+    builder
+      .addCase(getProductReq, (state) => ({
         ...state,
         loading: true,
-      };
-    case GET_PRODUCT_SUCCESS:
-      return {
+      }))
+      .addCase(getProductSuc, (state, { payload }) => ({
         ...state,
         loading: false,
         product: payload,
-      };
-    case GET_PRODUCT_FAIL:
-      return {
+      }))
+      .addCase(getProductErr, (state, { payload }) => ({
         ...state,
         loading: false,
         error: payload,
-      };
-    default:
-      return state;
+      }));
   }
-}
+);
 
 type Review = BaseState<{
   success: boolean;
@@ -65,50 +52,50 @@ const initState: Review = {
   error: null,
 };
 
-export function productReviewCreateReducer(
-  state = { ...initState },
-  action: BaseAction<
-    undefined,
-    typeof PRODUCT_CREATE_REVIEW_REQUEST,
-    typeof PRODUCT_CREATE_REVIEW_SUCCESS,
-    typeof PRODUCT_CREATE_REVIEW_FAIL,
-    typeof PRODUCT_CREATE_REVIEW_RESET
-  >
-): Review {
-  switch (action.type) {
-    case PRODUCT_CREATE_REVIEW_REQUEST:
-      return { ...state, loading: true };
-    case PRODUCT_CREATE_REVIEW_SUCCESS:
-      return { ...state, loading: false, success: true };
-    case PRODUCT_CREATE_REVIEW_FAIL:
-      return { ...state, loading: false, error: action.payload };
-    case PRODUCT_CREATE_REVIEW_RESET:
-      return { ...initState };
-    default:
-      return state;
+export const productReviewCreateReducer = createReducer<Review>(
+  { ...initState },
+  (builder) => {
+    builder
+      .addCase(addReviewReq, (state) => ({
+        ...state,
+        loading: true,
+      }))
+      .addCase(addReviewSuc, (state, { payload }) => ({
+        ...state,
+        loading: false,
+        success: true,
+      }))
+      .addCase(addReviewErr, (state, { payload }) => ({
+        ...state,
+        loading: false,
+        error: payload,
+      }))
+      .addCase(addReviewReset, () => ({
+        ...initState,
+      }));
   }
-}
+);
 
-export function productReviewDeleteReducer(
-  state = { ...initState },
-  action: BaseAction<
-    undefined,
-    typeof PRODUCT_DELETE_REVIEW_REQUEST,
-    typeof PRODUCT_DELETE_REVIEW_SUCCESS,
-    typeof PRODUCT_DELETE_REVIEW_FAIL,
-    typeof PRODUCT_DELETE_REVIEW_RESET
-  >
-): Review {
-  switch (action.type) {
-    case PRODUCT_DELETE_REVIEW_REQUEST:
-      return { ...state, loading: true };
-    case PRODUCT_DELETE_REVIEW_SUCCESS:
-      return { ...state, loading: false, success: true };
-    case PRODUCT_DELETE_REVIEW_FAIL:
-      return { ...state, loading: false, error: action.payload };
-    case PRODUCT_DELETE_REVIEW_RESET:
-      return { ...initState };
-    default:
-      return state;
+export const productReviewDeleteReducer = createReducer<Review>(
+  { ...initState },
+  (builder) => {
+    builder
+      .addCase(delReviewReq, (state) => ({
+        ...state,
+        loading: true,
+      }))
+      .addCase(delReviewSuc, (state) => ({
+        ...state,
+        loading: false,
+        success: true,
+      }))
+      .addCase(delReviewErr, (state, { payload }) => ({
+        ...state,
+        loading: false,
+        error: payload,
+      }))
+      .addCase(delReviewReset, () => ({
+        ...initState,
+      }));
   }
-}
+);

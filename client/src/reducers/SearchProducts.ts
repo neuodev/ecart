@@ -1,94 +1,63 @@
+import { createReducer } from "@reduxjs/toolkit";
 import {
-  SEARCH_PRODUCTS_REQUEST,
-  SEARCH_PRODUCTS_SUCCESS,
-  SEARCH_PRODUCTS_FAIL,
-  RECOMMEND_PRODUCTS_RQUIEST,
-  RECOMMEND_PRODUCTS_SUCCESS,
-  RECOMMEND_PRODUCTS_FAIL,
+  searchProductReq,
+  searchProductsSuc,
+  searchProductErr,
+  getRecommendedProdsReq,
+  getRecommendedProdsSuc,
+  getRecommendedProdsErr,
 } from "../actions/actionTypes";
-import { BaseAction, BaseState, IProduct } from "../types";
+import { BaseState, IProduct } from "../types";
 
 type Search = BaseState<{
   products: IProduct[];
   count: number;
 }>;
 
-export function searchProducts(
-  state: Search = { products: [], count: 0, loading: false, error: null },
-  {
-    payload,
-    type,
-  }: BaseAction<
-    {
-      products: IProduct[];
-      count: number;
-    },
-    typeof SEARCH_PRODUCTS_REQUEST,
-    typeof SEARCH_PRODUCTS_SUCCESS,
-    typeof SEARCH_PRODUCTS_FAIL
-  >
-): Search {
-  switch (type) {
-    case SEARCH_PRODUCTS_REQUEST:
-      return {
+export const searchProducts = createReducer<Search>(
+  { products: [], count: 0, loading: false, error: null },
+  (builder) => {
+    builder
+      .addCase(searchProductReq, (state) => ({
         ...state,
         loading: true,
-      };
-    case SEARCH_PRODUCTS_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        products: payload.products,
-        count: payload.count,
-      };
-    case SEARCH_PRODUCTS_FAIL:
-      return {
+      }))
+      .addCase(
+        searchProductsSuc,
+        (state, { payload: { products, count } }) => ({
+          ...state,
+          loading: false,
+          products,
+          count,
+        })
+      )
+      .addCase(searchProductErr, (state, { payload }) => ({
         ...state,
         loading: false,
         error: payload,
-      };
-    default:
-      return state;
+      }));
   }
-}
+);
 
-export const recommendedProducts = (
-  state: BaseState<{ products: IProduct[] }> = {
-    loading: false,
-    error: null,
-    products: [],
-  },
-  {
-    payload,
-    type,
-  }: BaseAction<
-    {
-      products: IProduct[];
-      count: number;
-    },
-    typeof RECOMMEND_PRODUCTS_RQUIEST,
-    typeof RECOMMEND_PRODUCTS_SUCCESS,
-    typeof RECOMMEND_PRODUCTS_FAIL
-  >
-) => {
-  switch (type) {
-    case RECOMMEND_PRODUCTS_RQUIEST:
-      return {
+type RecommendedProducts = BaseState<{ products: IProduct[] }>;
+
+export const recommendedProducts = createReducer<RecommendedProducts>(
+  { products: [], loading: false, error: null },
+  (builder) => {
+    builder
+      .addCase(getRecommendedProdsReq, (state) => ({
         ...state,
         loading: true,
-      };
-    case RECOMMEND_PRODUCTS_SUCCESS:
-      return {
+      }))
+      .addCase(getRecommendedProdsSuc, (state, { payload }) => ({
+        ...state,
         loading: false,
         products: payload,
-      };
-    case RECOMMEND_PRODUCTS_FAIL:
-      return {
+      }))
+      .addCase(getRecommendedProdsErr, (state, { payload }) => ({
         ...state,
         loading: false,
         error: payload,
-      };
-    default:
-      return state;
+      }));
   }
-};
+);

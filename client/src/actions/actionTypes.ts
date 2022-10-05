@@ -33,7 +33,10 @@ export const getLatestProductsErr = createAction<string>(
 );
 
 export const searchProductReq = createAction("search/req");
-export const searchProductsSuc = createAction<IProduct[]>("search/success");
+export const searchProductsSuc = createAction<{
+  products: IProduct[];
+  count: number;
+}>("search/success");
 export const searchProductErr = createAction<string>("search/error");
 
 export const sortAsc = createAction("filter/sort-asc");
@@ -45,8 +48,8 @@ export const filterByBrand = createAction<string>("filter/brand");
 export const resetFilters = createAction("filter/reset");
 
 export const getProductReq = createAction("product/req");
-export const getProductSuc = createAction("product/success");
-export const getProductErr = createAction("product/error");
+export const getProductSuc = createAction<IProduct>("product/success");
+export const getProductErr = createAction<string>("product/error");
 
 export const addCartItemAction = createAction<ICartItem>("cart/add");
 export const delCartItemAction = createAction<string>("cart/del");
@@ -74,10 +77,12 @@ export const userRegisterSuc = createAction("register/success");
 export const userRegisterErr = createAction("register/error");
 
 export const getRecommendedProdsReq = createAction("recommened-products/req");
-export const getRecommendedProdsSuc = createAction(
+export const getRecommendedProdsSuc = createAction<IProduct[]>(
   "recommened-products/success"
 );
-export const getRecommendedProdsErr = createAction("recommened-products/error");
+export const getRecommendedProdsErr = createAction<string>(
+  "recommened-products/error"
+);
 
 export const createOrderReq = createAction("create-order/req");
 export const createOrderSuc = createAction<IOrder>("create-order/success");
@@ -99,12 +104,12 @@ export const getOrdersListErr = createAction<string>("get-orders/error");
 
 export const addReviewReq = createAction("add-review/req");
 export const addReviewSuc = createAction("add-review/success");
-export const addReviewErr = createAction("add-review/error");
+export const addReviewErr = createAction<string>("add-review/error");
 export const addReviewReset = createAction("add-review/reset");
 
 export const delReviewReq = createAction("del-review/req");
 export const delReviewSuc = createAction("del-review/success");
-export const delReviewErr = createAction("del-review/error");
+export const delReviewErr = createAction<string>("del-review/error");
 export const delReviewReset = createAction("del-review/reset");
 
 export const toggleWishlistItem = createAction("wishlist/toggle");

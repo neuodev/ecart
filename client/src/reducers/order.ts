@@ -12,7 +12,7 @@ import {
   getOrdersListSuc,
   getOrdersListErr,
 } from "../actions/actionTypes";
-import { BaseAction, BaseState, IOrder } from "../types";
+import { BaseState, IOrder } from "../types";
 
 type CreateOrder = BaseState<{
   order: IOrder | null;
