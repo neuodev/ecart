@@ -113,5 +113,6 @@ export const delReviewSuc = createAction("del-review/success");
 export const delReviewErr = createAction<string>("del-review/error");
 export const delReviewReset = createAction("del-review/reset");
 
-export const toggleWishlistItem = createAction("wishlist/toggle");
-export const clearWishlist = createAction("wishlist/clear");
+export const toggleWishlistItemAction =
+  createAction<IProduct>("wishlist/toggle");
+export const clearWishlistAction = createAction("wishlist/clear");
