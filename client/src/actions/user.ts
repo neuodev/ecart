@@ -1,22 +1,21 @@
-import axios, { Axios, AxiosError } from "axios";
+import axios from "axios";
 import { LOCAL_STORAGE } from "../constants";
-import { AppDispatch, GetState } from "../store";
+import { AppDispatch } from "../store";
+import { getErrMsg } from "../utils/error";
 import {
-  USER_LOGIN_FAIL,
-  USER_LOGIN_REQUEST,
-  USER_LOGIN_SUCCESS,
-  USER_LOGOUT,
-  USER_REGISTER_FAIL,
-  USER_REGISTER_REQUEST,
-  USER_REGISTER_SUCCESS,
+  userLoginErr,
+  userLoginReq,
+  userLoginSuc,
+  userLogout,
+  userRegisterErr,
+  userRegisterReq,
+  userRegisterSuc,
 } from "./actionTypes";
 
 export const login =
   (email: string, password: string) => async (dispatch: AppDispatch) => {
     try {
-      dispatch({
-        type: USER_LOGIN_REQUEST,
-      });
+      dispatch(userLoginReq());
 
       const config = {
         headers: {
@@ -30,22 +29,11 @@ export const login =
         config
       );
 
-      dispatch({
-        type: USER_LOGIN_SUCCESS,
-        payload: data,
-      });
+      dispatch(userLoginSuc(data));
 
       localStorage.setItem(LOCAL_STORAGE.userInfo, JSON.stringify(data));
     } catch (error) {
-      if (error instanceof AxiosError) {
-        dispatch({
-          type: USER_LOGIN_FAIL,
-          payload:
-            error.response && error.response.data.error
-              ? error.response.data.error
-              : error.message,
-        });
-      }
+      dispatch(userLoginErr(getErrMsg(error)));
     }
   };
 
@@ -54,7 +42,7 @@ export const logout = () => (dispatch: AppDispatch) => {
     localStorage.removeItem(key);
   });
 
-  dispatch({ type: USER_LOGOUT });
+  dispatch(userLogout());
   document.location.href = "/login";
 };
 
@@ -68,10 +56,7 @@ export type UserRegister = {
 export const register =
   (info: UserRegister) => async (dispatch: AppDispatch) => {
     try {
-      dispatch({
-        type: USER_REGISTER_REQUEST,
-      });
-
+      dispatch(userRegisterReq());
       const config = {
         headers: {
           "Content-Type": "application/json",
@@ -79,27 +64,10 @@ export const register =
       };
 
       const { data } = await axios.post("/api/v1/users", info, config);
-
-      dispatch({
-        type: USER_REGISTER_SUCCESS,
-        payload: data,
-      });
-
-      dispatch({
-        type: USER_LOGIN_SUCCESS,
-        payload: data,
-      });
+      dispatch(userRegisterSuc(data));
 
       localStorage.setItem(LOCAL_STORAGE.userInfo, JSON.stringify(data));
     } catch (error) {
-      if (error instanceof AxiosError) {
-        dispatch({
-          type: USER_REGISTER_FAIL,
-          payload:
-            error.response && error.response.data.error
-              ? error.response.data.error
-              : error.message,
-        });
-      }
+      dispatch(userRegisterErr(getErrMsg(error)));
     }
   };

@@ -10,24 +10,14 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { PayPalButton } from "react-paypal-button-v2";
 import { useNavigate } from "react-router";
-import { ORDER_CREATE_RESET, ORDER_PAY_RESET } from "../../actions/actionTypes";
+import { createOrderReset, payOrderReset } from "../../actions/actionTypes";
 import { payOrder } from "../../actions/order";
+import { BUYER_ACCOUNTS } from "../../constants/emails";
 import { ROUTES } from "../../constants/routes";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { IPaymentResult } from "../../types";
 import LoadSdk from "../utils/LoadSdk";
 import Modal from "./Modal";
-
-const BUYER_ACCOUNTS = [
-  {
-    email: "sb-senam5133887@personal.example.com",
-    password: "IZ)&dJ8e",
-  },
-  {
-    email: "sb-cjvpf4639472@business.example.com",
-    password: "6}Zb&ks7",
-  },
-];
 
 const PayPal: React.FC<{
   orderId: string;
@@ -64,8 +54,8 @@ const PayPal: React.FC<{
   };
 
   let resetPayment = () => {
-    dispatch({ type: ORDER_PAY_RESET });
-    dispatch({ type: ORDER_CREATE_RESET });
+    dispatch(payOrderReset());
+    dispatch(createOrderReset());
     if (resetOrder) resetOrder();
   };
 

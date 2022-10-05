@@ -8,3 +8,7 @@ export const LOCAL_STORAGE = {
 };
 
 export type LocalStorageKey = keyof typeof LOCAL_STORAGE;
+
+// Number of letters to display in the default description view before
+// clicking 'Read more'
+export const DESC_NUM_OF_LETTERS = 100;

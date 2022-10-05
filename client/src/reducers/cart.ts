@@ -1,10 +1,11 @@
+import { createReducer } from "@reduxjs/toolkit";
 import {
-  CART_ADD_ITEM,
-  CART_REMOVE_ITEM,
-  CART_SAVE_SHIPPING_ADDRESS,
-  CART_SAVE_PAYMENT_METHOD,
-  CART_CLEAR_ITEMS,
-  CART_SAVE_SHIPPING_METHOD,
+  addCartItem,
+  delCartItem,
+  saveShippingAddr,
+  savePayment,
+  saveShippingMethodAction,
+  clearCart,
 } from "../actions/actionTypes";
 import { ICartItem, ShippingAddr, ShippingMethod } from "../types";
 
@@ -15,82 +16,56 @@ type CartState = {
   shippingMethod: ShippingMethod | null;
 };
 
-type Action =
-  | {
-      type: typeof CART_ADD_ITEM;
-      payload: ICartItem;
-    }
-  | {
-      type: typeof CART_REMOVE_ITEM;
-      payload: string;
-    }
-  | {
-      type: typeof CART_SAVE_SHIPPING_ADDRESS;
-      payload: ShippingAddr;
-    }
-  | {
-      type: typeof CART_SAVE_SHIPPING_METHOD;
-      payload: ShippingMethod;
-    }
-  | { type: typeof CART_SAVE_PAYMENT_METHOD; payload: string }
-  | {
-      type: typeof CART_CLEAR_ITEMS;
-      payload: undefined;
-    };
-
-export function cartReducer(
-  state: CartState = {
+export const cartReducer = createReducer<CartState>(
+  {
     cartItems: [],
     shippingAddress: null,
     paymentMethod: null,
     shippingMethod: null,
   },
-  { type, payload }: Action
-): CartState {
-  switch (type) {
-    case CART_ADD_ITEM:
-      const item = payload;
-      const existItem = state.cartItems.find((x) => x.product === item.product);
+  (builder) => {
+    builder
+      .addCase(addCartItem, (state, { payload }) => {
+        const item = payload;
+        const existItem = state.cartItems.find(
+          (x) => x.product === item.product
+        );
 
-      if (existItem) {
+        if (existItem) {
+          return {
+            ...state,
+            cartItems: state.cartItems.map((x) =>
+              x.product === existItem.product ? item : x
+            ),
+          };
+        } else {
+          return {
+            ...state,
+            cartItems: [...state.cartItems, item],
+          };
+        }
+      })
+      .addCase(delCartItem, (state, { payload }) => {
         return {
           ...state,
-          cartItems: state.cartItems.map((x) =>
-            x.product === existItem.product ? item : x
-          ),
+          cartItems: state.cartItems.filter((x) => x.product !== payload),
         };
-      } else {
-        return {
-          ...state,
-          cartItems: [...state.cartItems, item],
-        };
-      }
-    case CART_REMOVE_ITEM:
-      return {
-        ...state,
-        cartItems: state.cartItems.filter((x) => x.product !== payload),
-      };
-    case CART_SAVE_SHIPPING_ADDRESS:
-      return {
+      })
+      .addCase(saveShippingAddr, (state, { payload }) => ({
         ...state,
         shippingAddress: payload,
-      };
-    case CART_SAVE_PAYMENT_METHOD:
-      return {
+      }))
+      .addCase(savePayment, (state, { payload }) => ({
         ...state,
         paymentMethod: payload,
-      };
-    case CART_SAVE_SHIPPING_METHOD:
-      return {
+      }))
+      .addCase(saveShippingMethodAction, (state, { payload }) => ({
         ...state,
         shippingMethod: payload,
-      };
-    case CART_CLEAR_ITEMS:
-      return {
+      }))
+      .addCase(clearCart, (state, { payload }) => ({
         ...state,
         cartItems: [],
-      };
-    default:
-      return state;
+      }));
   }
-}
+);

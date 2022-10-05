@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { Radio, RadioGroup } from "@mui/material";
-import { CATEGORY, PRICE, BRAND } from "../../actions/actionTypes";
+import {
+  filterByBrand,
+  filterByCat,
+  filterByPrice,
+} from "../../actions/actionTypes";
 import getBrands, { BrandsList } from "../../utils/getBrands";
 import { CATEGORIES, PriceFilter, PRICES } from "./FilterSidebar";
 import { useAppDispatch, useAppSelector } from "../../store";
@@ -18,15 +22,15 @@ const FilterSidebar = () => {
   }, [products]);
 
   const setCategory = (category: string | null) => {
-    dispatch({ type: CATEGORY, payload: category });
+    dispatch(filterByCat(category));
   };
 
   const setPrice = (price: PriceFilter | null) => {
-    dispatch({ type: PRICE, payload: price });
+    dispatch(filterByPrice(price));
   };
 
   const setBrand = (brand: string | null) => {
-    dispatch({ type: BRAND, payload: brand });
+    dispatch(filterByBrand(brand));
   };
 
   return (

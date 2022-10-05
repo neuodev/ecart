@@ -11,10 +11,12 @@ import React, { useState } from "react";
 import { FavoriteBorderOutlined, Favorite } from "@mui/icons-material";
 import { useSelector } from "react-redux";
 import "./style.css";
-import { toggleWishslistItem } from "../../actions/whishlist";
 import { useNavigate } from "react-router-dom";
 import { RootState, useAppDispatch } from "../../store";
 import { IProduct } from "../../types";
+import { DESC_NUM_OF_LETTERS } from "../../constants";
+import { currFormat } from "../../utils/currency";
+import { toggleWishlistItem } from "../../actions/actionTypes";
 
 const ProductDetails: React.FC<{
   product: IProduct;
@@ -36,7 +38,6 @@ const ProductDetails: React.FC<{
     discount,
   } = product;
 
-  const [dot, setDot] = useState<boolean>(true);
   const [more, setMore] = useState<boolean>(false);
   const [quantity, setQuantity] = useState<number>(1);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
@@ -51,7 +52,6 @@ const ProductDetails: React.FC<{
   };
 
   const readMore = () => {
-    setDot(!dot);
     setMore(!more);
   };
 
@@ -60,9 +60,11 @@ const ProductDetails: React.FC<{
   };
 
   const addToWishlistHandler = () => {
-    dispatch(toggleWishslistItem(product));
+    dispatch(toggleWishlistItem(product));
   };
   const isWished = wishlist.find((item) => item._id === product._id);
+
+  const shouldShowReadMore = description.length > DESC_NUM_OF_LETTERS;
 
   return (
     <div className="px-4 py-4  max-w-2xl">
@@ -73,27 +75,29 @@ const ProductDetails: React.FC<{
       </div>
       <div>
         <p className="text-gray-400 font-light  text-base line-through inline-block mt-4">
-          ${price.toFixed(2)}
+          {currFormat(price)}
         </p>
         <span className="text-gray-700  ml-1 font-semibold">{discount}%</span>
         <p className="text-gray-700 font-semibold text-2xl pb-4">
-          ${(price - price * (discount / 100)).toFixed(2)}
+          {currFormat(price - price * (discount / 100))}
         </p>
 
-        <div className="leading-relaxed tracking-wide  text-gray-500 mb-10  ">
-          {description.slice(0, 100)}
-          <span className={`${dot ? "inline-block" : "hidden"}`} id="dots">
-            ...
-          </span>{" "}
-          <span className={`${more ? "block" : "hidden"}`}>
-            {product.description.slice(100)}
-          </span>
-          <button
-            className="text-gray-700 font-bold uppercase focus:outline-none hover:border-black border-b border-transparent"
-            onClick={readMore}
-          >
-            {more ? "Read Less" : "Read More"}
-          </button>
+        <div className="leading-relaxed tracking-wide text-gray-500 mb-10">
+          {description.slice(0, DESC_NUM_OF_LETTERS)}
+          {more && product.description.slice(DESC_NUM_OF_LETTERS)}
+          {shouldShowReadMore && (
+            <>
+              <span className={`${!more ? "inline-block" : "hidden"}`}>
+                ...
+              </span>{" "}
+              <button
+                className="text-gray-800 capitalize focus:outline-none inline-block"
+                onClick={readMore}
+              >
+                {more ? "Show less" : "More"}
+              </button>
+            </>
+          )}
         </div>
         <div className="mt-6 ">
           <p className="font-light text-gray-500">

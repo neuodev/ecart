@@ -1,45 +1,28 @@
+import { createReducer } from "@reduxjs/toolkit";
 import {
-  LATEST_PRODUCTS_REQUEST,
-  LATEST_PRODUCTS_SUCCESS,
-  LATEST_PRODUCTS_FAIL,
+  getLatestProductsReq,
+  getLatestProductsSuc,
+  getLatestProductsErr,
 } from "../actions/actionTypes";
-import { BaseAction, BaseState, IProduct } from "../types";
+import { BaseState, IProduct } from "../types";
 
 type LatestProducts = BaseState<{
   products: IProduct[];
 }>;
 
-export function latestProducts(
-  state: LatestProducts = { products: [], loading: false, error: null },
-  {
-    payload,
-    type,
-  }: BaseAction<
-    IProduct[],
-    typeof LATEST_PRODUCTS_REQUEST,
-    typeof LATEST_PRODUCTS_SUCCESS,
-    typeof LATEST_PRODUCTS_FAIL
-  >
-): LatestProducts {
-  switch (type) {
-    case LATEST_PRODUCTS_REQUEST:
-      return {
+export const latestProducts = createReducer<LatestProducts>(
+  { products: [], loading: false, error: null },
+  (builder) => {
+    builder
+      .addCase(getLatestProductsReq, (state) => ({ ...state, loading: true }))
+      .addCase(getLatestProductsSuc, (state, { payload }) => ({
         ...state,
-        loading: true,
-      };
-    case LATEST_PRODUCTS_SUCCESS:
-      return {
-        ...state,
-        loading: false,
         products: payload,
-      };
-    case LATEST_PRODUCTS_FAIL:
-      return {
+      }))
+      .addCase(getLatestProductsErr, (state, { payload }) => ({
         ...state,
         loading: false,
         error: payload,
-      };
-    default:
-      return state;
+      }));
   }
-}
+);

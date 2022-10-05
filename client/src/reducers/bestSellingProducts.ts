@@ -1,47 +1,33 @@
+import { createReducer } from "@reduxjs/toolkit";
 import {
-  BEST_SELLING_PRODUCTS_REQUEST,
-  BEST_SELLING_PRODUCTS_SUCCESS,
-  BEST_SELLING_PRODUCTS_FAIL,
+  getBestSellingProductsReq,
+  getBestSellingProductsSuc,
+  getBestSellingProductsErr,
 } from "../actions/actionTypes";
-import { BaseAction, BaseState, IProduct } from "../types";
+import { BaseState, IProduct } from "../types";
 
-type State = BaseState<{
+type BestSelling = BaseState<{
   products: IProduct[];
 }>;
 
-export function bestSellingProducts(
-  state: State = { products: [], loading: false, error: null },
-  {
-    payload,
-    type,
-  }: BaseAction<
-    IProduct[],
-    typeof BEST_SELLING_PRODUCTS_REQUEST,
-    typeof BEST_SELLING_PRODUCTS_SUCCESS,
-    typeof BEST_SELLING_PRODUCTS_FAIL
-  >
-): State {
-  switch (type) {
-    case BEST_SELLING_PRODUCTS_REQUEST:
-      return {
+export const bestSellingProducts = createReducer<BestSelling>(
+  { products: [], loading: false, error: null },
+  (builder) => {
+    builder
+      .addCase(getBestSellingProductsReq, (state) => ({
         ...state,
         loading: true,
-      };
-
-    case BEST_SELLING_PRODUCTS_SUCCESS:
-      return {
+      }))
+      .addCase(getBestSellingProductsSuc, (state, { payload }) => ({
         ...state,
         loading: false,
+        error: null,
         products: payload,
-      };
-    case BEST_SELLING_PRODUCTS_FAIL:
-      return {
+      }))
+      .addCase(getBestSellingProductsErr, (state, { payload }) => ({
         ...state,
         loading: false,
         error: payload,
-      };
-
-    default:
-      return state;
+      }));
   }
-}
+);

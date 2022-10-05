@@ -1,12 +1,13 @@
+import { createReducer } from "@reduxjs/toolkit";
 import {
-  USER_LOGIN_FAIL,
-  USER_LOGIN_REQUEST,
-  USER_LOGIN_SUCCESS,
-  USER_LOGOUT,
-  USER_REGISTER_FAIL,
-  USER_REGISTER_REQUEST,
-  USER_REGISTER_SUCCESS,
-  USER_LOGIN_RESET,
+  userLoginReq,
+  userLoginSuc,
+  userLoginErr,
+  userLoginReset,
+  userRegisterReq,
+  userRegisterSuc,
+  userRegisterErr,
+  userLogout,
 } from "../actions/actionTypes";
 import { BaseAction, BaseState, IUser } from "../types";
 
@@ -20,62 +21,52 @@ let initState: UserInfo = {
   userInfo: null,
 };
 
-export function userLoginReducer(
-  state: UserInfo = {
-    ...initState,
-  },
-  action:
-    | BaseAction<
-        IUser & { token: string },
-        typeof USER_LOGIN_REQUEST,
-        typeof USER_LOGIN_SUCCESS,
-        typeof USER_LOGIN_FAIL,
-        typeof USER_LOGIN_RESET
-      >
-    | {
-        type: typeof USER_LOGOUT;
-      }
-): UserInfo {
-  switch (action.type) {
-    case USER_LOGIN_REQUEST:
-      return { ...state, loading: true };
-    case USER_LOGIN_SUCCESS:
-      return { ...state, loading: false, userInfo: action.payload };
-    case USER_LOGIN_FAIL:
-      return { ...state, loading: false, error: action.payload };
-    case USER_LOGOUT:
-      return { ...initState };
-    case USER_LOGIN_RESET:
-      return {
+export const userLoginReducer = createReducer<UserInfo>(
+  { ...initState },
+  (builder) => {
+    builder
+      .addCase(userLoginReq, (state) => ({
+        ...state,
+        loading: true,
+      }))
+      .addCase(userLoginSuc, (state, { payload }) => ({
+        ...state,
+        loading: false,
+        userInfo: payload,
+      }))
+      .addCase(userLoginErr, (state, { payload }) => ({
+        ...state,
+        loading: false,
+        error: payload,
+      }))
+      .addCase(userLoginReset, (state) => ({
         ...state,
         loading: false,
         error: null,
-      };
-    default:
-      return state;
+      }));
   }
-}
+);
 
-export function userRegisterReducer(
-  state: UserInfo = { ...initState },
-  action: BaseAction<
-    IUser & { token: string },
-    typeof USER_REGISTER_REQUEST,
-    typeof USER_REGISTER_SUCCESS,
-    typeof USER_REGISTER_FAIL,
-    typeof USER_LOGOUT
-  >
-): UserInfo {
-  switch (action.type) {
-    case USER_REGISTER_REQUEST:
-      return { ...state, loading: true };
-    case USER_REGISTER_SUCCESS:
-      return { ...state, loading: false, userInfo: action.payload };
-    case USER_REGISTER_FAIL:
-      return { ...state, loading: false, error: action.payload };
-    case USER_LOGOUT:
-      return { ...initState };
-    default:
-      return state;
+export const userRegisterReducer = createReducer<UserInfo>(
+  { ...initState },
+  (builder) => {
+    builder
+      .addCase(userRegisterReq, (state) => ({
+        ...state,
+        loading: true,
+      }))
+      .addCase(userRegisterSuc, (state, { payload }) => ({
+        ...state,
+        loading: false,
+        userInfo: payload,
+      }))
+      .addCase(userRegisterErr, (state, { payload }) => ({
+        ...state,
+        loading: false,
+        error: payload,
+      }))
+      .addCase(userLogout, () => ({
+        ...initState,
+      }));
   }
-}
+);

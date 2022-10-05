@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { IoOptionsOutline } from "react-icons/io5";
 import { Button, Collapse, Drawer, Radio, RadioGroup } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { CATEGORY, PRICE } from "../../actions/actionTypes";
+import { filterByCat, filterByPrice } from "../../actions/actionTypes";
 import { useSelector } from "react-redux";
 import ClearFilter from "./ClearFilter";
 import { RootState, useAppDispatch } from "../../store";
@@ -102,11 +102,11 @@ const FilterSidebar = () => {
   };
 
   const setCategory = (category: string | null) => {
-    dispatch({ type: CATEGORY, payload: category });
+    dispatch(filterByCat(category));
   };
 
   const setPrice = (price: PriceFilter | null) => {
-    dispatch({ type: PRICE, payload: price });
+    dispatch(filterByPrice(price));
   };
 
   return (

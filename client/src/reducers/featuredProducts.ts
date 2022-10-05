@@ -1,48 +1,38 @@
+import { createReducer } from "@reduxjs/toolkit";
 import {
-  FEATURED_PRODUCTS_FAIL,
-  FEATURED_PRODUCTS_REQUEST,
-  FEATURED_PRODUCTS_SUCCESS,
+  featuredProductErr,
+  featuredProductReq,
+  featuredProductSuc,
 } from "../actions/actionTypes";
-import { BaseAction, BaseState, IProduct } from "../types";
+import { BaseState, IProduct } from "../types";
 
 type FeaturedProducts = BaseState<{ products: IProduct[] }>;
 
-export function featuredProducts(
-  state: FeaturedProducts = {
+export const featuredProducts = createReducer<FeaturedProducts>(
+  {
     products: [],
     loading: false,
     error: null,
   },
-  {
-    payload,
-    type,
-  }: BaseAction<
-    IProduct[],
-    typeof FEATURED_PRODUCTS_REQUEST,
-    typeof FEATURED_PRODUCTS_SUCCESS,
-    typeof FEATURED_PRODUCTS_FAIL
-  >
-) {
-  switch (type) {
-    case FEATURED_PRODUCTS_REQUEST:
-      return {
-        ...state,
-        loading: true,
-      };
-    case FEATURED_PRODUCTS_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        products: payload,
-      };
-    case FEATURED_PRODUCTS_FAIL:
-      return {
+  (builder) => {
+    builder
+      .addCase(featuredProductReq, (state) => {
+        return {
+          ...state,
+          loading: true,
+        };
+      })
+      .addCase(featuredProductSuc, (state, { payload }) => {
+        return {
+          ...state,
+          loading: false,
+          products: payload,
+        };
+      })
+      .addCase(featuredProductErr, (state, { payload }) => ({
         ...state,
         loading: false,
         error: payload,
-      };
-
-    default:
-      return state;
+      }));
   }
-}
+);

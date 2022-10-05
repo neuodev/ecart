@@ -1,122 +1,103 @@
 import {
-  FEATURED_PRODUCTS_FAIL,
-  FEATURED_PRODUCTS_REQUEST,
-  FEATURED_PRODUCTS_SUCCESS,
-  TOP_RATED_PRODUCTS_FAIL,
-  TOP_RATED_PRODUCTS_REQUEST,
-  TOP_RATED_PRODUCTS_SUCCESS,
-  BEST_SELLING_PRODUCTS_REQUEST,
-  BEST_SELLING_PRODUCTS_SUCCESS,
-  BEST_SELLING_PRODUCTS_FAIL,
-  LATEST_PRODUCTS_REQUEST,
-  LATEST_PRODUCTS_SUCCESS,
-  LATEST_PRODUCTS_FAIL,
-  SEARCH_PRODUCTS_REQUEST,
-  SEARCH_PRODUCTS_SUCCESS,
-  SEARCH_PRODUCTS_FAIL,
-  GET_PRODUCT_REQUEST,
-  GET_PRODUCT_SUCCESS,
-  GET_PRODUCT_FAIL,
-  RECOMMEND_PRODUCTS_RQUIEST,
-  RECOMMEND_PRODUCTS_SUCCESS,
-  RECOMMEND_PRODUCTS_FAIL,
-  PRODUCT_CREATE_REVIEW_REQUEST,
-  PRODUCT_CREATE_REVIEW_SUCCESS,
-  PRODUCT_CREATE_REVIEW_FAIL,
-  PRODUCT_DELETE_REVIEW_REQUEST,
-  PRODUCT_DELETE_REVIEW_SUCCESS,
-  PRODUCT_DELETE_REVIEW_FAIL,
-  PRODUCT_CREATE_REVIEW_RESET,
-  PRODUCT_DELETE_REVIEW_RESET,
+  featuredProductReq,
+  featuredProductSuc,
+  featuredProductErr,
+  getBestSellingProductsErr,
+  getBestSellingProductsSuc,
+  getTopRatedProducsErr,
+  getTopRatedProductsSuc,
+  getTopRatedProducsReq,
+  getBestSellingProductsReq,
+  getLatestProductsReq,
+  getLatestProductsSuc,
+  getLatestProductsErr,
+  searchProductReq,
+  searchProductsSuc,
+  searchProductErr,
+  getProductReq,
+  getProductSuc,
+  addReviewReset,
+  delReviewReset,
+  getProductErr,
+  getRecommendedProdsReq,
+  getRecommendedProdsSuc,
+  getRecommendedProdsErr,
+  addReviewReq,
+  addReviewSuc,
+  addReviewErr,
+  delReviewReq,
+  delReviewSuc,
+  delReviewErr,
 } from "./actionTypes";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { logout } from "./user";
 import { AppDispatch, GetState } from "../store";
 import { PriceFilter } from "../components/searchScreen/FilterSidebar";
+import { getErrMsg } from "../utils/error";
 
 export const getFeaturedProducts =
   (limit = 5) =>
   async (dispatch: AppDispatch) => {
     try {
-      dispatch({ type: FEATURED_PRODUCTS_REQUEST });
+      dispatch(featuredProductReq());
       const { data } = await axios.get("/api/v1/products", {
         params: {
           limit,
         },
       });
-      dispatch({ type: FEATURED_PRODUCTS_SUCCESS, payload: data.products });
+      dispatch(featuredProductSuc(data.products));
     } catch (error) {
-      if (error instanceof AxiosError) {
-        dispatch({
-          type: FEATURED_PRODUCTS_FAIL,
-          payload:
-            error.response && error.response.data.error
-              ? error.response.data.error
-              : error.message,
-        });
-      }
+      dispatch(featuredProductErr(getErrMsg(error)));
     }
   };
 
-export const getTopRatedProducts = () => async (dispatch: AppDispatch) => {
-  try {
-    dispatch({ type: TOP_RATED_PRODUCTS_REQUEST });
-    const { data } = await axios.get("/api/v1/products?limit=3&sort=-rating");
-    dispatch({ type: TOP_RATED_PRODUCTS_SUCCESS, payload: data.products });
-  } catch (error) {
-    if (error instanceof AxiosError) {
-      dispatch({
-        type: TOP_RATED_PRODUCTS_FAIL,
-        payload:
-          error.response && error.response.data.error
-            ? error.response.data.error
-            : error.message,
+export const getTopRatedProducts =
+  (limit = 3) =>
+  async (dispatch: AppDispatch) => {
+    try {
+      dispatch(getTopRatedProducsReq());
+      const { data } = await axios.get("/api/v1/products", {
+        params: {
+          limit,
+          sort: "-rating",
+        },
       });
+      dispatch(getTopRatedProductsSuc(data.products));
+    } catch (error) {
+      dispatch(getTopRatedProducsErr(getErrMsg(error)));
     }
-  }
-};
-export const getBestSellingProducts = () => async (dispatch: AppDispatch) => {
-  try {
-    dispatch({ type: BEST_SELLING_PRODUCTS_REQUEST });
-    const { data } = await axios.get(
-      "/api/v1/products?limit=3&sort=-rating,numReviews"
-    );
-    dispatch({ type: BEST_SELLING_PRODUCTS_SUCCESS, payload: data.products });
-  } catch (error) {
-    if (error instanceof AxiosError) {
-      dispatch({
-        type: BEST_SELLING_PRODUCTS_FAIL,
-        payload:
-          error.response && error.response.data.error
-            ? error.response.data.error
-            : error.message,
+  };
+export const getBestSellingProducts =
+  (limit = 3) =>
+  async (dispatch: AppDispatch) => {
+    try {
+      dispatch(getBestSellingProductsReq());
+      const { data } = await axios.get("/api/v1/products", {
+        params: {
+          limit,
+          sort: "-rating,numReviews",
+        },
       });
+      dispatch(getBestSellingProductsSuc(data.products));
+    } catch (error) {
+      dispatch(getBestSellingProductsErr(getErrMsg(error)));
     }
-  }
-};
+  };
 
 export const getLatestProducts =
   (limit = 3) =>
   async (dispatch: AppDispatch) => {
     try {
-      dispatch({ type: LATEST_PRODUCTS_REQUEST });
+      dispatch(getLatestProductsReq());
       const { data } = await axios.get("/api/v1/products", {
         params: {
           limit,
           sort: "-createdAt",
         },
       });
-      dispatch({ type: LATEST_PRODUCTS_SUCCESS, payload: data.products });
+      dispatch(getLatestProductsSuc(data.products));
     } catch (error) {
-      if (error instanceof AxiosError) {
-        dispatch({
-          type: LATEST_PRODUCTS_FAIL,
-          payload:
-            error.response && error.response.data.error
-              ? error.response.data.error
-              : error.message,
-        });
-      }
+      dispatch(getLatestProductsErr(getErrMsg(error)));
     }
   };
 
@@ -140,7 +121,7 @@ export const searchProducts =
   }) =>
   async (dispatch: AppDispatch) => {
     try {
-      dispatch({ type: SEARCH_PRODUCTS_REQUEST });
+      dispatch(searchProductReq());
       const params: {
         [key: string]: string | number | null;
       } = {
@@ -161,65 +142,39 @@ export const searchProducts =
       const { data } = await axios.get("/api/v1/products", {
         params,
       });
-      console.log({ data });
-      dispatch({ type: SEARCH_PRODUCTS_SUCCESS, payload: data });
+
+      dispatch(searchProductsSuc(data));
     } catch (error) {
-      if (error instanceof AxiosError) {
-        dispatch({
-          type: SEARCH_PRODUCTS_FAIL,
-          payload:
-            error.response && error.response.data.error
-              ? error.response.data.error
-              : error.message,
-        });
-      }
+      dispatch(searchProductErr(getErrMsg(error)));
     }
   };
 
-export const getProductAction =
-  (id: string) => async (dispatch: AppDispatch) => {
-    try {
-      dispatch({ type: GET_PRODUCT_REQUEST });
-      let url = `/api/v1/products/${id}`;
-      const { data } = await axios.get(url);
-      dispatch({ type: GET_PRODUCT_SUCCESS, payload: data });
-      dispatch({ type: PRODUCT_CREATE_REVIEW_RESET });
-      dispatch({ type: PRODUCT_DELETE_REVIEW_RESET });
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        dispatch({
-          type: GET_PRODUCT_FAIL,
-          payload:
-            error.response && error.response.data.error
-              ? error.response.data.error
-              : error.message,
-        });
-      }
-    }
-  };
+export const getProduct = (id: string) => async (dispatch: AppDispatch) => {
+  try {
+    dispatch(getProductReq());
+
+    const { data } = await axios.get(`/api/v1/products/${id}`);
+    dispatch(getProductSuc(data));
+    dispatch(addReviewReset());
+    dispatch(delReviewReset());
+  } catch (error) {
+    dispatch(getProductErr(getErrMsg(error)));
+  }
+};
 
 export const recommend = () => async (dispatch: AppDispatch) => {
   try {
-    dispatch({ type: RECOMMEND_PRODUCTS_RQUIEST });
-    let url = "/api/v1/products";
-    const { data } = await axios.get(url, {
+    dispatch(getRecommendedProdsReq());
+    const { data } = await axios.get("/api/v1/products", {
       params: {
         limit: 3,
         sort: "-name",
         "rating[gte]": 4,
       },
     });
-    dispatch({ type: RECOMMEND_PRODUCTS_SUCCESS, payload: data.products });
+    dispatch(getRecommendedProdsSuc(data.products));
   } catch (error) {
-    if (error instanceof AxiosError) {
-      dispatch({
-        type: RECOMMEND_PRODUCTS_FAIL,
-        payload:
-          error.response && error.response.data.error
-            ? error.response.data.error
-            : error.message,
-      });
-    }
+    dispatch(getRecommendedProdsErr(getErrMsg(error)));
   }
 };
 
@@ -227,9 +182,7 @@ export const createProductReview =
   (productId: string, review: {}) =>
   async (dispatch: AppDispatch, getState: GetState) => {
     try {
-      dispatch({
-        type: PRODUCT_CREATE_REVIEW_REQUEST,
-      });
+      dispatch(addReviewReq());
 
       const {
         userLogin: { userInfo },
@@ -244,25 +197,12 @@ export const createProductReview =
 
       await axios.post(`/api/v1/products/${productId}/reviews`, review, config);
 
-      dispatch({
-        type: PRODUCT_CREATE_REVIEW_SUCCESS,
-        payload: undefined,
-      });
+      dispatch(addReviewSuc());
     } catch (error) {
-      if (error instanceof AxiosError) {
-        const message =
-          error.response && error.response.data.error
-            ? error.response.data.error
-            : error.message;
-
-        if (message === "Not authorized, token failed") {
-          logout()(dispatch);
-        }
-
-        dispatch({
-          type: PRODUCT_CREATE_REVIEW_FAIL,
-          payload: message,
-        });
+      let errMsg = getErrMsg(error);
+      dispatch(addReviewErr(errMsg));
+      if (errMsg.toLowerCase().includes("not authorized")) {
+        dispatch(logout());
       }
     }
   };
@@ -270,9 +210,7 @@ export const createProductReview =
 export const deleteProductReview =
   () => async (dispatch: AppDispatch, getState: GetState) => {
     try {
-      dispatch({
-        type: PRODUCT_DELETE_REVIEW_REQUEST,
-      });
+      dispatch(delReviewReq());
 
       const {
         userLogin: { userInfo },
@@ -288,26 +226,12 @@ export const deleteProductReview =
       };
 
       await axios.delete(`/api/v1/products/${productId}/reviews`, config);
-
-      dispatch({
-        type: PRODUCT_DELETE_REVIEW_SUCCESS,
-        payload: undefined,
-      });
+      dispatch(delReviewSuc());
     } catch (error) {
-      if (error instanceof AxiosError) {
-        const message =
-          error.response && error.response.data.error
-            ? error.response.data.error
-            : error.message;
-
-        if (message === "Not authorized, token failed") {
-          logout()(dispatch);
-        }
-
-        dispatch({
-          type: PRODUCT_DELETE_REVIEW_FAIL,
-          payload: message,
-        });
+      let errMsg = getErrMsg(error);
+      dispatch(delReviewErr(errMsg));
+      if (errMsg.toLowerCase().includes("not authorized")) {
+        dispatch(logout());
       }
     }
   };
