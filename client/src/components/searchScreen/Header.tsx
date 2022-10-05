@@ -5,27 +5,22 @@ import {
   AiOutlineSortDescending,
 } from "react-icons/ai";
 import { useSelector } from "react-redux";
-import {
-  ASCENDING_ORDER,
-  DECENDING_ORDER,
-  ITEMS_LIMIT,
-} from "../../actions/actionTypes";
+import { addPageLimit, sortAsc, sortDesc } from "../../actions/actionTypes";
 import { RootState, useAppDispatch } from "../../store";
 import FilterSidebar from "./FilterSidebar";
 
+type SortBy = "name" | "-name";
+
 const sortActions: Array<{
   icon: React.ReactNode;
-  type: typeof ASCENDING_ORDER | typeof DECENDING_ORDER;
-  sortBy: string;
+  sortBy: SortBy;
 }> = [
   {
     icon: <AiOutlineSortAscending />,
-    type: ASCENDING_ORDER,
     sortBy: "name",
   },
   {
     icon: <AiOutlineSortDescending />,
-    type: DECENDING_ORDER,
     sortBy: "-name",
   },
 ];
@@ -47,14 +42,14 @@ const Header = () => {
 
   const handleClose = (op: number | React.MouseEvent<HTMLElement>) => {
     if (typeof op === "number") {
-      dispatch({ type: ITEMS_LIMIT, payload: op });
+      dispatch(addPageLimit(op));
       setNumPerPage(op);
     }
     setAnchorEl(null);
   };
 
-  const sort = (filter: typeof ASCENDING_ORDER | typeof DECENDING_ORDER) => {
-    dispatch({ type: filter });
+  const sort = (sortBy: SortBy) => {
+    dispatch(sortBy === "name" ? sortAsc() : sortDesc());
   };
 
   return (
@@ -68,7 +63,7 @@ const Header = () => {
             <IconButton
               key={action.sortBy}
               disabled={action.sortBy === filters.sort}
-              onClick={() => sort(action.type)}
+              onClick={() => sort(action.sortBy)}
             >
               {action.icon}
             </IconButton>

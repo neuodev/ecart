@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import WishListItem from "./WishListItem";
-import { clearWishlist } from "../../actions/whishlist";
 import { Badge, Button, IconButton } from "@mui/material";
 import Modal from "../common/Modal";
 import EmptyWishlist from "./EmptyWishlist";
 import { FavoriteBorder } from "@mui/icons-material";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { IProduct } from "../../types";
+import { clearWishlist } from "../../actions/actionTypes";
 
 const WishList: React.FC<{}> = () => {
   const dispatch = useAppDispatch();

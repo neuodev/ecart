@@ -1,7 +1,7 @@
 import { Button, Rating } from "@mui/material";
 import React from "react";
-import { toggleWishslistItem } from "../../actions/whishlist";
 import { Link, useNavigate } from "react-router-dom";
+import { toggleWishlistItem } from "../../actions/actionTypes";
 import { useAppDispatch } from "../../store";
 import { IProduct } from "../../types";
 
@@ -17,11 +17,11 @@ const WishListItem: React.FC<{
   const addToCart = () => {
     naviage(`/cart/${_id}?qty=1`);
     if (handleClose) handleClose();
-    dispatch(toggleWishslistItem(product));
+    toggleWishslistItem();
   };
 
-  const removeFromWishlistHandler = () => {
-    dispatch(toggleWishslistItem(product));
+  const toggleWishslistItem = () => {
+    dispatch(toggleWishlistItem(product));
   };
 
   return (
@@ -44,7 +44,7 @@ const WishListItem: React.FC<{
         </Button>
         <Button
           sx={{ mt: "4px" }}
-          onClick={removeFromWishlistHandler}
+          onClick={toggleWishslistItem}
           variant="dark-outlined"
           size="small"
         >

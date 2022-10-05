@@ -1,12 +1,6 @@
 import { SearchOutlined } from "@mui/icons-material";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import {
-  BRAND,
-  CATEGORY,
-  PRICE,
-  RESET_FILTERS,
-} from "../../actions/actionTypes";
+import { resetFilters } from "../../actions/actionTypes";
 import { useNavigate } from "react-router-dom";
 import { Box } from "@mui/system";
 import { IconButton, OutlinedInput } from "@mui/material";
@@ -20,7 +14,7 @@ const Search = () => {
   const onSumit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     navigate(`/products?q=${search}`);
-    dispatch({ type: RESET_FILTERS });
+    dispatch(resetFilters());
   };
 
   return (

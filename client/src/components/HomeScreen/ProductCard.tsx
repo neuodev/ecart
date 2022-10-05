@@ -1,11 +1,11 @@
+import React from "react";
 import { FavoriteBorderOutlined, Favorite } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import { IconButton, Rating } from "@mui/material";
-import React from "react";
-import { toggleWishslistItem } from "../../actions/whishlist";
 import { IProduct } from "../../types";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { currFormat } from "../../utils/currency";
+import { toggleWishlistItem } from "../../actions/actionTypes";
 import "./style.css";
 
 const ProductCard: React.FC<{
@@ -18,7 +18,7 @@ const ProductCard: React.FC<{
   let existInWishlist = wishlist.find((product) => product._id === _id);
 
   const addToWishlistHandler = () => {
-    dispatch(toggleWishslistItem(product));
+    dispatch(toggleWishlistItem(product));
   };
 
   return (

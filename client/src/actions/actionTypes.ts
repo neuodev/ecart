@@ -41,11 +41,11 @@ export const searchProductsSuc = createAction<{
 export const searchProductErr = createAction<string>("search/error");
 
 export const sortAsc = createAction("filter/sort-asc");
-export const addPageLimit = createAction<number>("filter/limit");
 export const sortDesc = createAction("filter/sort-desc");
-export const filterByCat = createAction<string>("filter/cat");
-export const filterByPrice = createAction<PriceFilter>("filter/price");
-export const filterByBrand = createAction<string>("filter/brand");
+export const addPageLimit = createAction<number>("filter/limit");
+export const filterByCat = createAction<string | null>("filter/cat");
+export const filterByPrice = createAction<PriceFilter | null>("filter/price");
+export const filterByBrand = createAction<string | null>("filter/brand");
 export const resetFilters = createAction("filter/reset");
 
 export const getProductReq = createAction("product/req");
@@ -88,7 +88,7 @@ export const getRecommendedProdsErr = createAction<string>(
 export const createOrderReq = createAction("create-order/req");
 export const createOrderSuc = createAction<IOrder>("create-order/success");
 export const createOrderErr = createAction<string>("create-order/error");
-export const createOrderReset = createAction<string>("create-order/reset");
+export const createOrderReset = createAction("create-order/reset");
 
 export const getOrderReq = createAction("get-order/error");
 export const getOrderSuc = createAction("get-order/success");
@@ -113,6 +113,5 @@ export const delReviewSuc = createAction("del-review/success");
 export const delReviewErr = createAction<string>("del-review/error");
 export const delReviewReset = createAction("del-review/reset");
 
-export const toggleWishlistItemAction =
-  createAction<IProduct>("wishlist/toggle");
-export const clearWishlistAction = createAction("wishlist/clear");
+export const toggleWishlistItem = createAction<IProduct>("wishlist/toggle");
+export const clearWishlist = createAction("wishlist/clear");

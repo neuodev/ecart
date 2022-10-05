@@ -17,7 +17,7 @@ import {
   isValidPass,
   PASSWORD_ERR,
 } from "../utils/validation";
-import { USER_LOGIN_RESET } from "../actions/actionTypes";
+import { userLoginReset } from "../actions/actionTypes";
 import Input from "../components/common/Input";
 import { RootState, useAppDispatch } from "../store";
 import { ROUTES } from "../constants/routes";
@@ -91,7 +91,7 @@ const LoginScreen = () => {
 
   useEffect(() => {
     return () => {
-      dispatch({ type: USER_LOGIN_RESET });
+      dispatch(userLoginReset());
     };
   }, []);
 

@@ -11,12 +11,12 @@ import React, { useState } from "react";
 import { FavoriteBorderOutlined, Favorite } from "@mui/icons-material";
 import { useSelector } from "react-redux";
 import "./style.css";
-import { toggleWishslistItem } from "../../actions/whishlist";
 import { useNavigate } from "react-router-dom";
 import { RootState, useAppDispatch } from "../../store";
 import { IProduct } from "../../types";
 import { DESC_NUM_OF_LETTERS } from "../../constants";
 import { currFormat } from "../../utils/currency";
+import { toggleWishlistItem } from "../../actions/actionTypes";
 
 const ProductDetails: React.FC<{
   product: IProduct;
@@ -60,7 +60,7 @@ const ProductDetails: React.FC<{
   };
 
   const addToWishlistHandler = () => {
-    dispatch(toggleWishslistItem(product));
+    dispatch(toggleWishlistItem(product));
   };
   const isWished = wishlist.find((item) => item._id === product._id);
 

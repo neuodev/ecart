@@ -1,10 +1,10 @@
 import { createReducer } from "@reduxjs/toolkit";
 import {
-  addCartItemAction,
-  delCartItemAction,
+  addCartItem,
+  delCartItem,
   saveShippingAddr,
   savePayment,
-  saveShippingMethod,
+  saveShippingMethodAction,
   clearCart,
 } from "../actions/actionTypes";
 import { ICartItem, ShippingAddr, ShippingMethod } from "../types";
@@ -25,7 +25,7 @@ export const cartReducer = createReducer<CartState>(
   },
   (builder) => {
     builder
-      .addCase(addCartItemAction, (state, { payload }) => {
+      .addCase(addCartItem, (state, { payload }) => {
         const item = payload;
         const existItem = state.cartItems.find(
           (x) => x.product === item.product
@@ -45,7 +45,7 @@ export const cartReducer = createReducer<CartState>(
           };
         }
       })
-      .addCase(delCartItemAction, (state, { payload }) => {
+      .addCase(delCartItem, (state, { payload }) => {
         return {
           ...state,
           cartItems: state.cartItems.filter((x) => x.product !== payload),
@@ -59,7 +59,7 @@ export const cartReducer = createReducer<CartState>(
         ...state,
         paymentMethod: payload,
       }))
-      .addCase(saveShippingMethod, (state, { payload }) => ({
+      .addCase(saveShippingMethodAction, (state, { payload }) => ({
         ...state,
         shippingMethod: payload,
       }))

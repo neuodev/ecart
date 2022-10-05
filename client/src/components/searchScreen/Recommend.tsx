@@ -1,7 +1,7 @@
 import { Button } from "@mui/material";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { RESET_FILTERS } from "../../actions/actionTypes";
+import { resetFilters } from "../../actions/actionTypes";
 import { ROUTES } from "../../constants/routes";
 import { useAppDispatch } from "../../store";
 import { IProduct } from "../../types";
@@ -27,7 +27,7 @@ const Recommend: React.FC<{
           <h1 className="text-2xl font-semibold mb-4">Products not found</h1>
           <Button
             onClick={() => {
-              dispatch({ type: RESET_FILTERS });
+              dispatch(resetFilters());
               navigate(ROUTES.PRODUCTS);
             }}
             variant="dark"

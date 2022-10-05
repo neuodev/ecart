@@ -1,8 +1,5 @@
 import { createReducer } from "@reduxjs/toolkit";
-import {
-  toggleWishlistItemAction,
-  clearWishlistAction,
-} from "../actions/actionTypes";
+import { toggleWishlistItem, clearWishlist } from "../actions/actionTypes";
 import { LOCAL_STORAGE } from "../constants";
 import { IProduct } from "../types";
 
@@ -10,7 +7,7 @@ export type Wishlist = Array<IProduct>;
 
 export const wishlist = createReducer<Wishlist>([], (builder) => {
   builder
-    .addCase(toggleWishlistItemAction, (state, { payload }) => {
+    .addCase(toggleWishlistItem, (state, { payload }) => {
       const exist = state.find((product) => product._id === payload._id);
       const newState = exist
         ? state.filter((product) => product._id !== payload._id)
@@ -18,7 +15,7 @@ export const wishlist = createReducer<Wishlist>([], (builder) => {
       localStorage.setItem(LOCAL_STORAGE.wishlist, JSON.stringify(newState));
       return newState;
     })
-    .addCase(clearWishlistAction, () => {
+    .addCase(clearWishlist, () => {
       localStorage.setItem(LOCAL_STORAGE.wishlist, JSON.stringify([]));
       return [];
     });

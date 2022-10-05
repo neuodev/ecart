@@ -10,7 +10,7 @@ import React, { useEffect, useState } from "react";
 import { saveShippingMethod } from "../../actions/cart";
 import { createOrder } from "../../actions/order";
 import { calcTotal } from "../../utils/cost";
-import { ORDER_PAY_RESET } from "../../actions/actionTypes";
+import { payOrderReset } from "../../actions/actionTypes";
 import { useNavigate } from "react-router-dom";
 import CheckoutSteps from "../common/CheckoutSteps";
 import EditIcon from "@mui/icons-material/Edit";
@@ -89,7 +89,7 @@ const Shipping: React.FC<{}> = () => {
       })
     );
 
-    dispatch({ type: ORDER_PAY_RESET });
+    dispatch(payOrderReset());
   };
 
   const updateShippingMethod = (method: ShippingMethod) => {

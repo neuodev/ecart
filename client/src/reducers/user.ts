@@ -39,8 +39,10 @@ export const userLoginReducer = createReducer<UserInfo>(
         loading: false,
         error: payload,
       }))
-      .addCase(userLoginReset, () => ({
-        ...initState,
+      .addCase(userLoginReset, (state) => ({
+        ...state,
+        loading: false,
+        error: null,
       }));
   }
 );

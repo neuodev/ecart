@@ -18,7 +18,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { FiUsers, FiHeadphones } from "react-icons/fi";
 import { BiCartAlt } from "react-icons/bi";
-import { RESET_FILTERS } from "../../actions/actionTypes";
+import { resetFilters } from "../../actions/actionTypes";
 import { Search } from "@mui/icons-material";
 import { useAppDispatch } from "../../store";
 
@@ -74,7 +74,7 @@ const Sidebar: React.FC<{}> = () => {
   const onSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     navigate(`/products?q=${search}`);
-    dispatch({ type: RESET_FILTERS });
+    dispatch(resetFilters());
     setOpen(false);
     setSearch("");
   };

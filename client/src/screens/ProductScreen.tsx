@@ -3,7 +3,7 @@ import ImageGallary from "../components/ProductScreen/ImageGallary";
 import ProductDetails from "../components/ProductScreen/ProductDetails";
 import MoreInfo from "../components/ProductScreen/MoreInfo";
 import { useSelector } from "react-redux";
-import { getProductAction } from "../actions/products";
+import { getProduct } from "../actions/products";
 import ProductScreenSkeleton from "../components/ProductScreen/ProductScreenSkeleton";
 import { useParams } from "react-router-dom";
 import ErrorScreen from "../components/ProductScreen/ErrorScreen";
@@ -25,7 +25,7 @@ const ProductScreen = () => {
 
   useEffect(() => {
     if (productId) {
-      dispatch(getProductAction(productId));
+      dispatch(getProduct(productId));
     }
   }, [dispatch, productId, createReview.success, deleteReview.success]);
 
