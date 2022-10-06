@@ -5,28 +5,18 @@ import { randomIntFromInterval } from "../../utils";
 const ProductScreenSkeleton = () => {
   return (
     <div className="px-4 min-h-600">
-      <div className="grid grid-cols-12 gap-12">
-        <div className="mb-5 col-span-3 h-80">
+      <div className="grid grid-cols-12 lg:gap-12">
+        <div className="mb-28 lg:mb-5 col-span-12 lg:col-span-3 h-80">
           <Skeleton variant="rectangular" height="100%" />
-          <div className="flex">
-            <Skeleton
-              variant="rectangular"
-              height={80}
-              width={80}
-              className="mt-2 mr-2"
-            />
-            <Skeleton
-              variant="rectangular"
-              height={80}
-              width={80}
-              className="mt-2 mr-2"
-            />
-            <Skeleton
-              variant="rectangular"
-              height={80}
-              width={80}
-              className="mt-2"
-            />
+          <div className="flex mt-4 space-x-4 overflow-hidden">
+            {new Array(3).fill(1).map((_, idx) => (
+              <Skeleton
+                key={idx}
+                variant="rectangular"
+                height={80}
+                width={80}
+              />
+            ))}
           </div>
         </div>
 

@@ -172,7 +172,7 @@ const FilterSidebar = () => {
           </div>
           <Collapse in={openPrice}>
             <RadioGroup
-              value={filters.price}
+              value={JSON.stringify(filters.price)}
               onChange={(e) => {
                 setPrice(JSON.parse(e.target.value) as PriceFilter);
               }}

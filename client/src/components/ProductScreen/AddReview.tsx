@@ -1,4 +1,11 @@
-import { Button, Rating, TextField, Tooltip, Typography } from "@mui/material";
+import {
+  Button,
+  Rating,
+  TextField,
+  Tooltip,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createProductReview } from "../../actions/products";
@@ -32,6 +39,7 @@ const AddReview: React.FC<{
   };
 
   const { product } = useAppSelector((state) => state.product);
+  let issm = useMediaQuery("(min-width: 640px)");
 
   return (
     <form>
@@ -91,7 +99,7 @@ const AddReview: React.FC<{
         variant="dark"
         disabled={!review || !rating}
         onClick={reviewHandler}
-        sx={{ minWidth: "200px" }}
+        sx={{ minWidth: issm ? "200px" : "110px" }}
       >
         Submit
       </Button>
