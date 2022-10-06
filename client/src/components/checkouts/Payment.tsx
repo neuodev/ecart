@@ -30,6 +30,21 @@ const Payment: React.FC<{}> = () => {
   const { email, address, city, postalCode, country, apartment } =
     shippingAddress;
 
+  const info = [
+    {
+      label: "Contact",
+      value: email,
+    },
+    {
+      label: "Ship to",
+      value: `${address}, ${apartment}, ${postalCode}, ${city},${country}.`,
+    },
+    {
+      label: "Method",
+      value: order ? order.shippingMethod.name : "??",
+    },
+  ];
+
   return (
     <div>
       <div className="px-4 pt-4">
@@ -39,33 +54,13 @@ const Payment: React.FC<{}> = () => {
         <OrderSummary />
       </div>
 
-      <div className="rounded-md pb-4 ml-3 mr-3 mb-10">
-        <div className="flex items-center justify-between mb-2 border-b pb-3 ">
-          <h1 className="text-gray-600">Contact</h1>
-          <p className="text-left mr-auto ml-10 text-sm">{email}</p>
-          <IconButton href="/checkouts" size="small">
-            <EditIcon />
-          </IconButton>
-        </div>
-        <div className="flex items-center justify-between  border-b pb-3  mb-2">
-          <h1 className="text-gray-600">Ship to </h1>
-          <p className="text-left mr-auto ml-10 truncate text-sm">
-            {`${address}, ${apartment}, ${postalCode}, ${city},${country}`}
-          </p>
-
-          <IconButton href="/checkouts" size="small">
-            <EditIcon />
-          </IconButton>
-        </div>
-        <div className="flex items-center justify-between  mb-2">
-          <h1 className="text-gray-600">Method </h1>
-          <p className="text-left mr-auto ml-10 text-sm">
-            {order && order.shippingMethod.name}
-          </p>
-          <IconButton href="/checkouts/shipping/" size="small">
-            <EditIcon />
-          </IconButton>
-        </div>
+      <div className="rounded-md pb-4 px-4 md:mx-3 mb-10">
+        {info.map(({ label, value }) => (
+          <div className="flex items-center justify-between mb-2 border-b pb-3">
+            <h1 className="text-gray-600 w-20 flex-shrink-0">{label}</h1>
+            <p className="text-left mr-auto text-sm">{value}</p>
+          </div>
+        ))}
       </div>
       {order && <PayPal orderId={order._id} totalPrice={order.totalPrice} />}
     </div>

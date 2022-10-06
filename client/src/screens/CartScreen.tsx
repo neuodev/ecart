@@ -32,28 +32,26 @@ const CartScreen = () => {
           <CheckoutSteps currStep={1} />
         </div>
       </div>
-      <div className="max-w-screen-xl mx-auto px-4 py-12 min-h-700">
-        <div className="grid grid-cols-12 max-w-7xl relative min-h-600">
+      <div className="container mx-auto lg:px-4 py-12 lg:min-h-700">
+        <div className="grid grid-cols-12 lg:gap-5 max-w-7xl relative ">
           {cartItems.length === 0 ? (
-            <div className="col-span-12 flex items-center justify-center h-full">
+            <div className="col-span-12 flex items-center justify-center h-full lg:min-h-600">
               <EmptyCart />
             </div>
           ) : (
-            <div className="col-span-12 md:col-span-7 lg:col-span-9 flex flex-col space-y-3 pr-6">
-              <div>
-                <div className="mb-8">
-                  {cartItems.map((item, idx) => (
-                    <div key={idx} className="mb-4">
-                      <CartItems cartItem={item} />
-                    </div>
-                  ))}
-                </div>
+            <div className="col-span-12 lg:col-span-8 flex flex-col space-y-3 px-4 lg:px-0 mb-8">
+              <div className="">
+                {cartItems.map((item, idx) => (
+                  <div key={idx} className="mb-4">
+                    <CartItems cartItem={item} />
+                  </div>
+                ))}
               </div>
-              {cartItems.length > 0 && (
-                <div className="col-span-12 md:col-span-5 lg:col-span-3 lg:absolute top-0 right-0 z-10 ">
-                  <CartTotals cartItems={cartItems} />
-                </div>
-              )}
+            </div>
+          )}
+          {cartItems.length > 0 && (
+            <div className="col-span-12 lg:col-span-4 flex items-center lg:items-start justify-center">
+              <CartTotals cartItems={cartItems} />
             </div>
           )}
         </div>

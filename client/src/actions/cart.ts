@@ -34,8 +34,7 @@ export const addToCart =
       );
     } catch (error) {
       const err = getErrMsg(error);
-      // todo: Should be handled by the UI
-      alert(err);
+      console.error(err);
     }
   };
 

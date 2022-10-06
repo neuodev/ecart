@@ -1,10 +1,8 @@
 import React from "react";
 import Features from "../components/HomeScreen/Features";
-import Features2 from "../components/HomeScreen/Features2";
+import Services from "../components/HomeScreen/Services";
 import Products from "../components/HomeScreen/Products";
 import ProductsCategories from "../components/HomeScreen/ProductsCategories";
-import Sales from "../components/HomeScreen/Sales";
-import SaveUpTo from "../components/HomeScreen/SaveUpTo";
 import Showcase from "../components/HomeScreen/Showcase";
 import { getFeaturedProducts } from "../actions/products";
 import { useEffect } from "react";
@@ -21,10 +19,8 @@ const HomeScreen = () => {
     <div>
       <Showcase />
       <Features />
-      <SaveUpTo />
       <Products />
-      <Features2 />
-      <Sales />
+      <Services />
       <ProductsCategories />
     </div>
   );

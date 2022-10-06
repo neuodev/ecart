@@ -1,29 +1,28 @@
 import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperCore, { Autoplay } from "swiper";
+import { Autoplay } from "swiper";
 import ShowcaseSlide1 from "./ShowcaseSlide1";
 import ShowcaseSlide2 from "./ShowcaseSlide2";
 import "swiper/css";
 
-SwiperCore.use([]);
+const slides = [<ShowcaseSlide1 />, <ShowcaseSlide2 />];
 
 const Showcase = () => {
   return (
     <div>
       <Swiper
         loop
-        className="h-70vh"
+        className="bg-gray-900"
         autoplay={{
           delay: 2000,
           disableOnInteraction: false,
         }}
         modules={[Autoplay]}
       >
-        <SwiperSlide>
-          <ShowcaseSlide1 />
-        </SwiperSlide>
-        <SwiperSlide>
-          <ShowcaseSlide2 />
-        </SwiperSlide>
+        {slides.map((slide, idx) => (
+          <SwiperSlide key={idx} className="h-600 sm:h-70vh">
+            {slide}
+          </SwiperSlide>
+        ))}
       </Swiper>
     </div>
   );

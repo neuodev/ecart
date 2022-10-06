@@ -44,7 +44,7 @@ const Reviews: React.FC<{
 
   return (
     <div>
-      <div className="px-3 max-w-5xl">
+      <div className="lg:px-3 max-w-5xl">
         {displayReview()}
         <div className="mt-4">
           <div className="mb-8">
@@ -75,7 +75,7 @@ const Reviews: React.FC<{
             </Typography>
           </div>
         ) : (
-          <div className="max-w-5xl px-3">
+          <div className="max-w-5xl lg:px-3">
             {reviews.map((review, idx) => (
               <ReviewItem review={review} key={idx} />
             ))}

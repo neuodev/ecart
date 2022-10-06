@@ -2,13 +2,23 @@ import { useState } from "react";
 import { BiCartAlt } from "react-icons/bi";
 import CartItem from "./CartItem";
 import { calcTotal } from "../../utils/cost";
-import { Badge, Button, IconButton, Typography } from "@mui/material";
+import {
+  Badge,
+  Button,
+  IconButton,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import Modal from "../common/Modal";
 import { currFormat } from "../../utils/currency";
 import EmptyCart from "../Cartscreen/EmptyCart";
 import { useAppSelector } from "../../store";
+import { ROUTES } from "../../constants/routes";
+import { useLocation } from "react-router";
 
 export default function MenuListComposition() {
+  const loc = useLocation();
+  let ismd = useMediaQuery("(min-width: 768px)");
   const [open, setOpen] = useState<boolean>(false);
   const { cartItems } = useAppSelector((state) => state.cart);
 
@@ -22,7 +32,11 @@ export default function MenuListComposition() {
 
   return (
     <div>
-      <IconButton onClick={() => setOpen(true)}>
+      <IconButton
+        disabled={!ismd && loc.pathname.startsWith("/cart")}
+        href={!ismd ? ROUTES.CART.replace(":id", "1") : ""}
+        onClick={() => ismd && setOpen(true)}
+      >
         <Badge badgeContent={cartItems.length} color="primary">
           <BiCartAlt className="cursor-pointer btn p-0" />
         </Badge>

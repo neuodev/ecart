@@ -24,7 +24,7 @@ const OrderItem: React.FC<{
   } = order;
 
   return (
-    <div className="bg-gray-100 shadow-lg mb-4 border rounded-lg overflow-hidden col-span-12 md:col-span-6 lg:col-span-4">
+    <div className="bg-gray-100 shadow-lg mb-4 border rounded-lg overflow-hidden col-span-12 md:col-span-6 lg:col-span-4 flex flex-col">
       <div className="bg-gray-200 w-full py-4 px-4 rounded-t-md">
         <Tooltip
           arrow
@@ -44,7 +44,7 @@ const OrderItem: React.FC<{
         </Tooltip>
       </div>
       <div className="flex flex-col my-3 pb-4 px-4 rounded-md">
-        <p className="leading-relaxed">
+        <p className="leading-relaxed h-36 lg:w-auto">
           You made an order
           <TextSlice tooltip={moment(createdAt).format("MMM Do YY")}>
             {moment(createdAt).fromNow()}
@@ -85,7 +85,12 @@ const OrderItem: React.FC<{
         </div>
       </div>
       {!isPaid && (
-        <Button fullWidth variant="dark" onClick={() => payOrder(order)}>
+        <Button
+          sx={{ mt: "auto" }}
+          fullWidth
+          variant="dark"
+          onClick={() => payOrder(order)}
+        >
           Pay now
         </Button>
       )}

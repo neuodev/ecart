@@ -5,6 +5,7 @@ import {
   CircularProgress,
   Tooltip,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -26,6 +27,7 @@ const PayPal: React.FC<{
 }> = ({ orderId, totalPrice, resetOrder }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  let issm = useMediaQuery("(min-width: 640px)");
   const { loading, error, success } = useAppSelector((state) => state.orderPay);
   const [sdkReady, setSdkReady] = useState<boolean>(false);
 
@@ -123,8 +125,13 @@ const PayPal: React.FC<{
         )
       )}
 
-      <Modal minWidth="800px" open={success} onClose={goHome}>
-        <div className="">
+      <Modal
+        minWidth={issm ? "800px" : "200px"}
+        width={issm ? "800px" : "350px"}
+        open={success}
+        onClose={goHome}
+      >
+        <div>
           <div className="flex items-center justify-center">
             <img
               src="/images/shopping.gif"
@@ -136,8 +143,13 @@ const PayPal: React.FC<{
             You made it. Your order will reach you soon!
           </Typography>
 
-          <div className="grid grid-cols-2 gap-5 mt-5">
-            <Button onClick={goHome} variant="outlined" color="error">
+          <div className="flex flex-col-reverse md:grid md:grid-cols-2 md:gap-5 mt-5">
+            <Button
+              onClick={goHome}
+              variant="outlined"
+              sx={{ mt: issm ? "0px" : "8px" }}
+              color="error"
+            >
               Close
             </Button>
             <Button

@@ -1,14 +1,18 @@
 import React, { useState } from "react";
 import WishListItem from "./WishListItem";
-import { Badge, Button, IconButton } from "@mui/material";
+import { Badge, Button, IconButton, useMediaQuery } from "@mui/material";
 import Modal from "../common/Modal";
 import EmptyWishlist from "./EmptyWishlist";
 import { FavoriteBorder } from "@mui/icons-material";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { IProduct } from "../../types";
 import { clearWishlist } from "../../actions/actionTypes";
+import { ROUTES } from "../../constants/routes";
+import { useLocation } from "react-router";
 
 const WishList: React.FC<{}> = () => {
+  const loc = useLocation();
+  let ismd = useMediaQuery("(min-width: 768px)");
   const dispatch = useAppDispatch();
   const wishlist = useAppSelector((state) => state.wishlist);
   const [open, setOpen] = useState(false);
@@ -27,7 +31,11 @@ const WishList: React.FC<{}> = () => {
 
   return (
     <div>
-      <IconButton onClick={onOpen}>
+      <IconButton
+        disabled={!ismd && loc.pathname.startsWith(ROUTES.ACCOUNT.WISHLIST)}
+        href={!ismd ? ROUTES.ACCOUNT.WISHLIST : ""}
+        onClick={() => ismd && onOpen()}
+      >
         <Badge badgeContent={wishlist.length} color="primary">
           <FavoriteBorder />
         </Badge>

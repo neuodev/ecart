@@ -1,6 +1,5 @@
 import { Avatar, IconButton, Rating } from "@mui/material";
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
 import { deleteProductReview } from "../../actions/products";
 import DeleteIcon from "@mui/icons-material/Delete";
 import moment from "moment";
@@ -35,7 +34,7 @@ const ReviewItem: React.FC<{
   };
 
   return (
-    <div className="my-2 flex  space-x-3 bg-gray-50 px-2 py-2">
+    <div className="mb-2 flex space-x-3 bg-gray-50 px-2 py-2">
       <Avatar {...stringAvatar(name)} />
       <div className="w-full">
         <div className="flex items-center justify-between w-full">

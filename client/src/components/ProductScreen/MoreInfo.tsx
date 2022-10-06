@@ -6,7 +6,7 @@ import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
-import { Box } from "@mui/material";
+import { Box, useMediaQuery } from "@mui/material";
 import { IProduct } from "../../types";
 
 const REVIEW_TAB = "reviews";
@@ -31,10 +31,6 @@ const MoreInfo: React.FC<{
       title: "Description",
       value: DESC_TAB,
     },
-    {
-      title: "Shipping Delivery",
-      value: SHIPPING_TAB,
-    },
   ];
 
   const [value, setValue] = React.useState<TabId>(REVIEW_TAB);
@@ -45,6 +41,7 @@ const MoreInfo: React.FC<{
     setValue(newValue);
   };
 
+  let issm = useMediaQuery("(min-width: 640px)");
   return (
     <div className="min-h-500">
       <TabContext value={value}>
@@ -53,6 +50,7 @@ const MoreInfo: React.FC<{
             {TABS.map((t) => (
               <Tab label={t.title} value={t.value} key={t.value} />
             ))}
+            {issm && <Tab label="Shipping Delivery" value={SHIPPING_TAB} />}
           </TabList>
         </Box>
         <TabPanel value={REVIEW_TAB}>

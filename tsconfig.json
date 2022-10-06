@@ -5,10 +5,9 @@
     "allowJs": true,
     "target": "es5",
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true
   },
-  "files": [
-    "src/types/express.d.ts"
-  ],
+  "files": ["src/types/express.d.ts"],
   "include": ["src/**/*"]
 }

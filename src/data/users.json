@@ -1,0 +1,23 @@
+[
+  {
+    "firstName": "Jone",
+    "lastName": "Doe",
+    "email": "jone@wallet.io",
+    "password": "jone#1234",
+    "isAdmin": true
+  },
+  {
+    "firstName": "Jane",
+    "lastName": "Doe",
+    "email": "jane@wallet.io",
+    "password": "jane#1234",
+    "isAdmin": false
+  },
+  {
+    "firstName": "Elon",
+    "lastName": "Musk",
+    "email": "elon@wallet.io",
+    "password": "elon#1234",
+    "isAdmin": true
+  }
+]

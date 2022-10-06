@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { register } from "../actions/user";
-import MainNavbar from "../components/HomeScreen/MainNavbar";
 import { Button, CircularProgress, Alert, AlertTitle } from "@mui/material";
 import {
   EMAIL_ERR,
@@ -14,7 +12,8 @@ import {
   PASSWORD_ERR,
 } from "../utils/validation";
 import Input from "../components/common/Input";
-import { RootState, useAppDispatch } from "../store";
+import { useAppDispatch, useAppSelector } from "../store";
+import { ROUTES } from "../constants/routes";
 
 const validators = {
   email: isValidEmail,
@@ -53,10 +52,9 @@ const RegsiterScreen = () => {
     password: false,
   });
 
-  const { loading, error, userInfo } = useSelector<
-    RootState,
-    RootState["userRegister"]
-  >((state) => state.userRegister);
+  const { loading, error, userInfo } = useAppSelector(
+    (state) => state.userRegister
+  );
 
   const stateHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const field = e.target.name as FormField;
@@ -85,15 +83,17 @@ const RegsiterScreen = () => {
 
   useEffect(() => {
     if (userInfo) {
-      navigate("/");
+      navigate(ROUTES.ROOT);
     }
   }, [error, userInfo, navigate]);
 
   return (
     <div className="w-full py-2 max-w-md container mx-auto my-10">
-      <div className="w-full px-4 min-h-700">
+      <div className="w-full px-4 md:min-h-700">
         <div className="px-2">
-          <h1 className="font-medium text-3xl text-center my-6">Register</h1>
+          <h1 className="font-medium text-3xl text-center mb-6 md:my-6">
+            Register
+          </h1>
           {error && (
             <div className="mb-6">
               <Alert color="error">

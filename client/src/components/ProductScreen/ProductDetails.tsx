@@ -116,17 +116,19 @@ const ProductDetails: React.FC<{
           <p className="font-light   text-gray-500 ">
             Categories :{" "}
             <span className="font-bold text-gray-700">
-              {category.map((category) => (
-                <span className="mr-1 capitalize" key={category}>
-                  {category}
-                </span>
-              ))}
+              {category.length !== 0
+                ? category.map((category) => (
+                    <span className="mr-1 capitalize" key={category}>
+                      {category}
+                    </span>
+                  ))
+                : "Unknown"}
             </span>
           </p>
         </div>
       </div>
       <div>
-        <div className="flex items-center justify-start space-x-5 py-5">
+        <div className="flex items-center justify-start space-x-1 md:space-x-5 py-5">
           <Button
             id="qty-btn"
             aria-controls={open ? "qty-menu" : undefined}
@@ -135,6 +137,8 @@ const ProductDetails: React.FC<{
             onClick={handleClick}
             sx={{
               width: "100px",
+              height: "44px",
+              maxHeight: "unset",
               minWidth: "unset",
             }}
             variant="dark-outlined"

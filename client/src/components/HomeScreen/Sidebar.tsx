@@ -89,7 +89,9 @@ const Sidebar: React.FC<{}> = () => {
         <FaBars className="text-lg text-gray-500" />
       </IconButton>
       <SwipeableDrawer
-        onOpen={() => {}}
+        onOpen={() => {
+          setOpen(true);
+        }}
         anchor="left"
         open={open}
         onClose={toggleDrawer}

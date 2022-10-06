@@ -35,14 +35,21 @@ const Orders: React.FC<{}> = () => {
           <ErrorScreen />
         </div>
       ) : orders.length === 0 ? (
-        <div className="py-32 min-h-400">
+        <div className="py-32 -mt-5 md:mt-0 md:min-h-400">
           <EmptyOrder />
         </div>
       ) : (
-        <div className="grid gap-4 grid-cols-12 mb-32">
-          {orders.map((order, idx) => (
-            <OrderItem order={order} idx={idx} key={idx} payOrder={setOrder} />
-          ))}
+        <div className="min-h-700">
+          <div className="grid gap-4 grid-cols-12 mb-32">
+            {orders.map((order, idx) => (
+              <OrderItem
+                order={order}
+                idx={idx}
+                key={idx}
+                payOrder={setOrder}
+              />
+            ))}
+          </div>
         </div>
       )}
 
