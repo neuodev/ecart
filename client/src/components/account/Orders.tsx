@@ -35,7 +35,7 @@ const Orders: React.FC<{}> = () => {
           <ErrorScreen />
         </div>
       ) : orders.length === 0 ? (
-        <div className="py-32 min-h-400">
+        <div className="py-32 -mt-5 md:mt-0 md:min-h-400">
           <EmptyOrder />
         </div>
       ) : (

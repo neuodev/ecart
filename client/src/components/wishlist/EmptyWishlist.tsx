@@ -1,6 +1,5 @@
 import { Button, Typography } from "@mui/material";
 import React from "react";
-import { Link } from "react-router-dom";
 
 const EmptyWishlist: React.FC<{
   asCol?: boolean;
@@ -8,12 +7,12 @@ const EmptyWishlist: React.FC<{
 }> = ({ asCol, onClose }) => {
   return (
     <div
-      className={`w-full h-full flex items-center justify-center ${
+      className={`w-full h-full flex items-center justify-center flex-col md:flex-row ${
         asCol ? "flex-col" : "flex-row"
       }`}
     >
       <img
-        className="h-96 inline-block"
+        className="h-96 inline-block object-contain"
         src="/images/wishlist.png"
         alt="Wishlist"
       />

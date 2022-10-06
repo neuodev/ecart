@@ -27,7 +27,9 @@ const CartItem: React.FC<{
         />
       </div>
       <div className="flex items-start justify-center flex-col w-full ml-4">
-        <h1 className="font-sans font-medium mb-1">{name} </h1>
+        <h1 className="font-sans font-medium mb-1 w-40 lg:w-auto truncate">
+          {name}
+        </h1>
         <Rating value={rating} readOnly size="small" className="mb-1" />
         <p className="text-gray-600 font-light">
           {qty} x {currFormat(priceAfterDiscount)}

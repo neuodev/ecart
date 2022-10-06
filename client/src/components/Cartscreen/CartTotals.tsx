@@ -15,7 +15,7 @@ const CartTotals: React.FC<{
   );
 
   return (
-    <div className="mt-4 border rounded-lg shadow-lg py-7 px-7 w-80">
+    <div className="lg:mt-4 border rounded-lg shadow-lg py-7 px-7 w-80">
       You have{" "}
       <span className="font-bold">
         {numOfItems === 1 ? "one item" : `${numOfItems} items`}.

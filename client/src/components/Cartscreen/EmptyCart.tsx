@@ -10,7 +10,7 @@ const EmptyCart: React.FC<{ variant?: TypographyVariant }> = ({ variant }) => {
         title="Empty cart"
         className="h-80 object-contain inline-block"
       />
-      <div className="md:ml-4 flex flex-col items-center justify-center">
+      <div className="lg:ml-4 flex flex-col items-center justify-center">
         <Typography variant={variant} fontFamily="Rubik" mb="20px">
           Your cart is empty
         </Typography>

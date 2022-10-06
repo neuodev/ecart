@@ -3,7 +3,7 @@ import React from "react";
 
 const EmptyOrder: React.FC<{}> = () => {
   return (
-    <div className="flex felx-row items-center justify-center">
+    <div className="flex flex-col md:flex-row items-center justify-center">
       <img
         src="/images/empty-order.png"
         alt="Empty Cart"
