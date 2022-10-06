@@ -7,7 +7,7 @@ import { currFormat } from "../../utils/currency";
 const OrderSummaryItem: React.FC<{ product: ICartItem }> = ({ product }) => {
   const { image, price, name, qty, rating, product: id } = product;
   return (
-    <div className="flex items-center justify-between w-full mb-4">
+    <div className="flex items-start lg:items-center justify-between w-full mb-4">
       <Link className="flex-shrink-0" to={`/product/${id}`}>
         <img
           src={image}
@@ -15,13 +15,15 @@ const OrderSummaryItem: React.FC<{ product: ICartItem }> = ({ product }) => {
           alt={name}
         />
       </Link>
-      <div className="flex items-start justify-start flex-col w-full">
-        <Link className="flex-shrink-0" to={`/product/${id}`}>
-          <h1 className="mr-auto text-lg font-medium ">{name}</h1>
+      <div className="flex flex-col items-start justify-start w-44 sm:w-full">
+        <Link className="flex-shrink-0 w-full" to={`/product/${id}`}>
+          <h1 className="mr-auto text-lg font-medium truncate w-full">
+            {name}
+          </h1>
         </Link>
         <Rating value={rating} readOnly />
       </div>
-      <p className="font-medium text-gray-600 shrink-0">
+      <p className="font-medium text-gray-600 flex-shrink-0 mt-1 lg:mt-0">
         {qty} x {currFormat(price)}
       </p>
     </div>

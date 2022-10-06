@@ -47,7 +47,7 @@ const MiniNav: React.FC<{}> = () => {
   return (
     <div className="bg-gray-100">
       <div className="flex flex-col md:flex-row container mx-auto w-full md:justify-between items-center justify-center px-5 py-1 bg-gray-100">
-        <ul className="flex flex-row text-sm md:mx-auto space-x-4 font-medium items-center">
+        <ul className="flex flex-row text-sm space-x-4 font-medium items-center md:justify-start">
           {filteredLinks.map(({ title, onClick, tooltip }, idx) => {
             return (
               <Tooltip

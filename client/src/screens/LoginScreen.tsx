@@ -97,8 +97,10 @@ const LoginScreen = () => {
 
   return (
     <div className="w-full flex items-center justify-center py-2 container mx-auto">
-      <div className="px-4 relative w-96 min-h-700">
-        <h1 className="font-medium text-3xl mb-4 mt-24 text-center">Login</h1>
+      <div className="px-4 relative w-96 my-10 md:my-0 md:min-h-700">
+        <h1 className="font-medium text-3xl mb-4 md:mt-24 text-center">
+          Login
+        </h1>
         {error && (
           <div className="mb-4">
             <Alert color="error">

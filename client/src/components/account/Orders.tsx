@@ -39,10 +39,17 @@ const Orders: React.FC<{}> = () => {
           <EmptyOrder />
         </div>
       ) : (
-        <div className="grid gap-4 grid-cols-12 mb-32">
-          {orders.map((order, idx) => (
-            <OrderItem order={order} idx={idx} key={idx} payOrder={setOrder} />
-          ))}
+        <div className="min-h-700">
+          <div className="grid gap-4 grid-cols-12 mb-32">
+            {orders.map((order, idx) => (
+              <OrderItem
+                order={order}
+                idx={idx}
+                key={idx}
+                payOrder={setOrder}
+              />
+            ))}
+          </div>
         </div>
       )}
 
