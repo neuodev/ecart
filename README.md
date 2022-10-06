@@ -11,13 +11,23 @@
     <a href="https://walletecommerce.herokuapp.com/">Live Preview 👀</a>
 </h1>
 
-## Screenshots 📺
+## Preview 📺
 
-![Home Page](/client/public/images/e-commerce-1.png)
+![Home](./preview/wallet_1.png)
+![Product](./preview/wallet_2.png)
+![Wishlist](./preview/wallet_3.png)
+![Cart](./preview/wallet_4.png)
 
-![Search Page](/client/public/images/e-commerce-2.png)
+<details> 
+<summary>See more...</summary>
 
-![Checkout page](/client/public/images/e-commerce-3.png)
+![Checkout](./preview/wallet_5.png)
+![Cart Dialog](./preview/wallet_6.png)
+![Payment](./preview/wallet_7.png)
+![Payment](./preview/wallet_8.png)
+![Orders](./preview/wallet_9.png)
+
+</details>
 
 # API
 
