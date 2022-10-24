@@ -10,14 +10,16 @@ import mongoSanitize from "express-mongo-sanitize";
 import helmet from "helmet";
 import cors from "cors";
 import hpp from "hpp";
-import "dotenv/config";
+import dotenv from "dotenv";
 import "colors";
 import "./utils/toAdmin";
 import Environment from "./env";
 
+// Setup evnironment variables from .env
+dotenv.config();
+// Make MongoDB connection
 connectDB();
 const environment = new Environment();
-
 const app = express();
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
@@ -39,7 +41,6 @@ app.use("/api/v1/orders", orderRouter);
 
 if (environment.isProd()) {
   app.use(express.static(path.join(__dirname, "../client/build")));
-
   app.get("*", (_req, res) =>
     res.sendFile(path.resolve(__dirname, "..", "client", "build", "index.html"))
   );
