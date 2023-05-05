@@ -1,4 +1,4 @@
-# Wallet
+# eCart
 
 - E-commerce platform that gives the client good sopping experience
 - Shopping cart, wishlist, search, advanced filters, checkout, payment, REST API, Auth
